@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 13:56:44 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/06 11:44:06 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/06 09:15:56 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/06 09:50:13 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-
-
 typedef unsigned long size_t;
 
-int	ft_isalpha(int c);
-int	ft_isdigit(int c);
-int	ft_isalnum(int c);
-int ft_isascii(int c);
-int ft_isprint(int c);
-int ft_strlen(const char *s);
-void *ft_memset(void *s, int c, size_t n);
-void ft_bzero(void *s, size_t n);
-void *ft_memcpy(void *dest, const void *src, size_t n);
-void *ft_memmove(void *dest, const void *src, size_t n);
+void *ft_memset(void *s, int c, size_t n){
+	size_t i;
+	unsigned char *array;
+	unsigned char value_replace;
 
-#endif
+	array = (unsigned char *) s;
+	value_replace = (unsigned char) c;
+
+	i = 0;
+	while (i < n)
+	{
+		array[i] = value_replace;
+		i++;
+	}
+	return (s);
+}

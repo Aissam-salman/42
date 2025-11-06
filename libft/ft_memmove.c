@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_test.c                                        :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/06 11:44:50 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/06 11:37:25 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/06 11:44:24 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
+typedef unsigned long size_t;
 
-int main(void)
+void *ft_memmove(void *dest, const void *src, size_t n)
 {
-	// char buffer[] = "This is a test of the memset function";
-	//
-	// printf("Before:%s\n", buffer);
-	// ft_bzero(buffer, 2);
-	// printf("After:%s\n", buffer + 2);
-	// char dest[10];
-	// char *src = NULL;
-	// ft_memcpy(dest, src, 1);
-	// printf("%s", dest);
-	char dest[10];
-	char *src = NULL;
-	ft_memmove(dest, src, 1);
-	printf("%s", dest);
-	return (0);
+	return (dest);
 }

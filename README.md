@@ -6,10 +6,10 @@
     - [x] isalnum
     - [x] isascii
     - [x] isprint
-    - [ ] strlen
-    - [ ] memset
-    - [ ] bzero
-    - [ ] memcpy
+    - [x] strlen
+    - [x] memset
+    - [x] bzero
+    - [x] memcpy
     - [ ] memmove
     - [ ] strlcpy
     - [ ] strlcat
