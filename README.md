@@ -2,10 +2,10 @@
 
 - [ ] Libft
     - [x] isalpha
-    - [ ] isdigit
-    - [ ] isalnum
-    - [ ] isascii
-    - [ ] isprint
+    - [x] isdigit
+    - [x] isalnum
+    - [x] isascii
+    - [x] isprint
     - [ ] strlen
     - [ ] memset
     - [ ] bzero

@@ -1,5 +1,5 @@
 NAME = libft.a
-SRCS = $(addsuffix .c, ft_isalpha ft_isdigit)
+SRCS = $(addsuffix .c, ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint ft_strlen)
 OBJS := $(SRCS:%.c=%.o)
 CC = cc
 CCFLAGS = -Wextra -Wall -Werror
@@ -26,7 +26,7 @@ fclean: clean
 re: fclean all
 
 test: re
-	$(CC) $(CCFLAGS) -L. -lft main_test.c -o test
+	$(CC) $(CCFLAGS) main_test.c -L. -lft  -o test
 
 vide: fclean
 	rm -f test

@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_test.c                                        :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/06 09:11:19 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/06 08:49:49 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/06 08:53:45 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
-
-int main(void)
+int	ft_isascii(int c)
 {
-	int my = ft_strlen("foo");
-	printf("ft_strlen= %d\n", my);
-	int mye = ft_strlen("booboo");
-	printf("ft_strlen= %d\n", mye);
+	if (c >= 0 && c <= 127)
+		return (1);
 	return (0);
 }

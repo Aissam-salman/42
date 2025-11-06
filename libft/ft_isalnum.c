@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_test.c                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/06 09:11:19 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/06 08:16:58 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/06 08:24:36 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
-
-int main(void)
+int	ft_isalnum(int c)
 {
-	int my = ft_strlen("foo");
-	printf("ft_strlen= %d\n", my);
-	int mye = ft_strlen("booboo");
-	printf("ft_strlen= %d\n", mye);
+	if (c >= 'a' && c <= 'z' )
+		return (1);
+	if (c >= 'A' && c <= 'Z')
+		return (1);
+	else if (c >= '0' && c <= '9')
+		return (1);
 	return (0);
 }
