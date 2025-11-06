@@ -14,14 +14,14 @@ typedef unsigned long size_t;
 
 void *ft_memcpy(void *dest, const void *src, size_t n) {
   	size_t len_src;
-  	char *cpy_src;
-  	char *cpy_dest;
+  	unsigned char *cpy_src;
+  	unsigned char *cpy_dest;
   	size_t count;
 
 	if (dest == 0 || src == 0)
 		return (dest);
   	cpy_dest = dest;
-  	cpy_src = (char *) src;
+  	cpy_src = (unsigned char *) src;
   	count = 0;
   	while (cpy_src[count])
     	count++;
