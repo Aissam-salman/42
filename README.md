@@ -10,8 +10,8 @@
     - [x] memset
     - [x] bzero
     - [x] memcpy
-    - [ ] memmove
-    - [ ] strlcpy
+    - [x] memmove
+    - [x] strlcpy
     - [ ] strlcat
     - [ ] toupper
     - [ ] tolower

@@ -10,9 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef unsigned long size_t;
+#include "libft.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	return (size);
+	const char	*original_src;
+	size_t	counter;
+
+	original_src = src;
+	counter = size;
+	if (counter != 0)
+	{
+		while (--counter != 0)
+		{
+			*dst++ = *src++;
+			if (*dst == '\0' || *src == '\0')
+				break;
+		}
+	}
+	if (counter == 0)
+	{
+		if (size != 0)
+			*dst = '\0';
+		while (*src++)
+			;
+	}
+	return (src - original_src - 1);
 }
