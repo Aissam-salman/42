@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/08 14:43:30 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/08 15:18:55 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ void	data_ft_strncmp()
     test_strncmp("Chaîne vide vs non vide", "", "abc", 3);
     test_strncmp("Non vide vs vide", "abc", "", 3);
 }
-*/
 
 void print_result(const void *real, const void *mine, const char *data)
 {
@@ -195,6 +194,39 @@ void	data_test_ft_memchr()
     test_memchr("Multiples occurrences", "abcabc", 'b', 6);
     test_memchr("Octet non imprimable", "AB\xFF", 0xFF, 5);
 }
+void test_memcmp(const char *label, const void *s1, const void *s2, size_t n)
+{
+    int real = memcmp(s1, s2, n);
+    int mine = ft_memcmp(s1, s2, n);
+
+    printf("---- %s ----\n", label);
+    printf("n = %zu\n", n);
+    printf("memcmp     -> %d\n", real);
+    printf("ft_memcmp  -> %d\n", mine);
+
+    if ((real == 0 && mine == 0)
+        || (real < 0 && mine < 0)
+        || (real > 0 && mine > 0))
+        printf("✅ Résultat cohérent\n");
+    else
+        printf("❌ Différence détectée !\n");
+
+    printf("\n");
+}
+
+void data_test_ft_memcmp()
+{
+	test_memcmp("Identiques", "abc", "abc", 3);
+    test_memcmp("Diff au 3e", "abc", "abd", 3);
+    test_memcmp("Diff au 1er", "xbc", "abc", 3);
+    test_memcmp("Limite au 3e", "abc", "abd", 2);
+    test_memcmp("Avec \\0 au milieu", "ab\0c", "ab\0d", 4);
+    test_memcmp("Diff après \\0", "abc\0xx", "abc\0yy", 6);
+    test_memcmp("n = 0", "test", "fail", 0);
+    test_memcmp("Valeurs signées (unsigned test)", "AB", "A\xFF", 2);
+}
+
+*/
 
 int main(void)
 { 
@@ -203,6 +235,7 @@ int main(void)
 	// test_ft_tolower();
 	// data_strchr();
 	// data_ft_strncmp();
-	data_test_ft_memchr();
+	// data_test_ft_memchr();
+	// data_test_ft_memcmp();
 	return (0);
 }
