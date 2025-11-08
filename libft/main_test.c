@@ -6,22 +6,21 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/08 15:18:55 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/08 15:41:09 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "libft.h"
+#include <bsd/string.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 
 /*#include <bsd/string.h>
-void test_strlcat(const char *label, const char *dst_init, const char *src, size_t size)
+void test_strlcat(const char *label, const char *dst_init, const char *src,
+size_t size)
 {
     char dst_real[100];
-    char dst_ft[100];
-    size_t ret_real, ret_ft;
+    char dst_ft[100]; size_t ret_real, ret_ft;
 
     // copies initiales identiques
     memset(dst_real, 0, sizeof(dst_real));
@@ -45,37 +44,37 @@ void	data_ft_strlcat(void)
 {
     test_strlcat("size = 0", "Hello", "World", 0);
     test_strlcat("size = ft_strlen(dst)", "Hello", "World", ft_strlen("Hello"));
-    test_strlcat("size = ft_strlen(dst)+1", "Hello", "World", ft_strlen("Hello") + 1);
-    test_strlcat("size = ft_strlen(dst)+10", "Hello", "World", ft_strlen("Hello") + 10);
-    test_strlcat("src vide", "Hello", "", 20);
+    test_strlcat("size = ft_strlen(dst)+1", "Hello", "World", ft_strlen("Hello")
++ 1); test_strlcat("size = ft_strlen(dst)+10", "Hello", "World",
+ft_strlen("Hello") + 10); test_strlcat("src vide", "Hello", "", 20);
     test_strlcat("dst vide", "", "World", 20);
     test_strlcat("dst presque plein (1 libre)", "Hell", "oWorld", 6);
 }
 
 void	test_ft_toupper(void)
 {
-	printf("TOUPPER\n");
-	int c = 'C';
-	printf("'%c' avant;\n", c);
-	c = ft_toupper(c);
-	printf("'%c' rien ne change \n", c);
-	int a = 'a';
-	printf("'%c' avant;\n", a);
-	a = ft_toupper(a);
-	printf("'%c' apres;\n\n", a);
+        printf("TOUPPER\n");
+        int c = 'C';
+        printf("'%c' avant;\n", c);
+        c = ft_toupper(c);
+        printf("'%c' rien ne change \n", c);
+        int a = 'a';
+        printf("'%c' avant;\n", a);
+        a = ft_toupper(a);
+        printf("'%c' apres;\n\n", a);
 }
 
 void	test_ft_tolower(void)
 {
-	printf("TOLOWER\n");
-	int c = 'c';
-	printf("'%c' avant;\n", c);
-	c = ft_tolower(c);
-	printf("%c rien ne change \n", c);
-	int a = 'A';
-	printf("'%c' avant;\n", a);
-	a = ft_tolower(a);
-	printf("'%c' apres;\n\n", a);
+        printf("TOLOWER\n");
+        int c = 'c';
+        printf("'%c' avant;\n", c);
+        c = ft_tolower(c);
+        printf("%c rien ne change \n", c);
+        int a = 'A';
+        printf("'%c' avant;\n", a);
+        a = ft_tolower(a);
+        printf("'%c' apres;\n\n", a);
 }
 
 void test_strchr(const char *label, const char *s, int c)
@@ -84,7 +83,8 @@ void test_strchr(const char *label, const char *s, int c)
     char *ret_ft   = ft_strrchr(s, c);
 
     printf("---- %s ----\n", label);
-    printf("Chaîne : \"%s\" | Caractère : '%c' (code %d)\n", s, (c >= 32 && c < 127) ? c : '?', c);
+    printf("Chaîne : \"%s\" | Caractère : '%c' (code %d)\n", s, (c >= 32 && c <
+127) ? c : '?', c);
 
     if (ret_real)
         printf("strchr     -> \"%s\"\n", ret_real);
@@ -133,7 +133,7 @@ void test_strncmp(const char *label, const char *s1, const char *s2, size_t n)
 
 void	data_ft_strncmp()
 {
-	test_strncmp("Identiques", "Hello", "Hello", 5);
+        test_strncmp("Identiques", "Hello", "Hello", 5);
     test_strncmp("Diffère au 4e", "Hello", "Help", 4);
     test_strncmp("Diffère au 4e limité à 3", "Hello", "Help", 3);
     test_strncmp("s1 plus long", "Hello", "Hel", 5);
@@ -154,11 +154,10 @@ void print_result(const void *real, const void *mine, const char *data)
         printf("❌ L’un est NULL, l’autre non\n");
     else
     {
-        size_t offset_real = (const unsigned char *)real - (const unsigned char *)data;
-        size_t offset_mine = (const unsigned char *)mine - (const unsigned char *)data;
-        printf("strchr offset = %zu | ft offset = %zu -> %s\n",
-            offset_real, offset_mine,
-            offset_real == offset_mine ? "✅" : "❌");
+        size_t offset_real = (const unsigned char *)real - (const unsigned char
+*)data; size_t offset_mine = (const unsigned char *)mine - (const unsigned char
+*)data; printf("strchr offset = %zu | ft offset = %zu -> %s\n", offset_real,
+offset_mine, offset_real == offset_mine ? "✅" : "❌");
     }
 }
 
@@ -177,7 +176,8 @@ void test_memchr(const char *label, const char *s, int c, size_t n)
         else
             printf(".");
     }
-    printf(" | c = '%c' (%d) | n = %zu\n", (c >= 32 && c < 127) ? c : '.', c, n);
+    printf(" | c = '%c' (%d) | n = %zu\n", (c >= 32 && c < 127) ? c : '.', c,
+n);
 
     print_result(real, mine, s);
     printf("\n");
@@ -216,7 +216,7 @@ void test_memcmp(const char *label, const void *s1, const void *s2, size_t n)
 
 void data_test_ft_memcmp()
 {
-	test_memcmp("Identiques", "abc", "abc", 3);
+        test_memcmp("Identiques", "abc", "abc", 3);
     test_memcmp("Diff au 3e", "abc", "abd", 3);
     test_memcmp("Diff au 1er", "xbc", "abc", 3);
     test_memcmp("Limite au 3e", "abc", "abd", 2);
@@ -227,15 +227,44 @@ void data_test_ft_memcmp()
 }
 
 */
+void test_strnstr(const char *label, const char *s1, const char *s2, size_t n) {
+  char *real = strnstr(s1, s2, n);
+  char *mine = ft_strnstr(s1, s2, n);
 
-int main(void)
-{ 
-	// data_ft_strlcat();
-	// test_ft_toupper();
-	// test_ft_tolower();
-	// data_strchr();
-	// data_ft_strncmp();
-	// data_test_ft_memchr();
-	// data_test_ft_memcmp();
-	return (0);
+  printf("---- %s ----\n", label);
+  printf("s1 = \"%s\" | s2 = \"%s\" | n = %zu\n", s1, s2, n);
+  printf("strnstr     -> %s\n", real ? real : "(NULL)");
+  printf("ft_strnstr  -> %s\n", mine ? mine : "(NULL)");
+
+if ((real == NULL && mine == NULL)
+    || (real && mine && ft_strncmp(real, mine, ft_strlen(real)) == 0))
+    printf("✅ Résultat cohérent\n");
+else
+    printf("❌ Différence détectée !\n");
+  printf("\n");
+}
+
+void data_strnstr() {
+  test_strnstr("Sous chaine presente au debut", "Hello World", "Hello", 11);
+  test_strnstr("Sous chaine presente au milieu", "Hello World", "lo Wo", 11);
+  test_strnstr("Sous chaine presente mais apres size", "Hello World", "Word", 5);
+  test_strnstr("Sous chaine abs", "Hello", "abc", 5);
+  test_strnstr("needle vide", "Hello", "", 5);
+  test_strnstr("haystack vide", "", "a", 5);
+  test_strnstr("haystack vide", "", "a", 5);
+  test_strnstr("size = 0", "Hello", "HelloWord", 5);
+  test_strnstr("needle et haystack identiques", "Hello", "Hello", 5);
+  test_strnstr("needle partiellement en fin de size", "abcd", "cd", 3);
+}
+
+int main(void) {
+  // data_ft_strlcat();
+  // test_ft_toupper();
+  // test_ft_tolower();
+  // data_strchr();
+  // data_ft_strncmp();
+  // data_test_ft_memchr();
+  // data_test_ft_memcmp();
+  data_strnstr();
+  return (0);
 }
