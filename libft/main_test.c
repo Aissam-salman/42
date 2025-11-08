@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/08 13:32:11 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/08 14:24:36 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,41 @@ void data_strchr()
     test_strchr("Caractère non imprimable", "ABC", 0);
     test_strchr("Caractère au début", "Hello", 'H');
 }
+void test_strncmp(const char *label, const char *s1, const char *s2, size_t n)
+{
+    int real = strncmp(s1, s2, n);
+    int mine = ft_strncmp(s1, s2, n);
+
+    printf("---- %s ----\n", label);
+    printf("s1 = \"%s\" | s2 = \"%s\" | n = %zu\n", s1, s2, n);
+    printf("strncmp     -> %d\n", real);
+    printf("ft_strncmp  -> %d\n", mine);
+
+    // Pour simplifier la comparaison du résultat (même signe)
+    if ((real == 0 && mine == 0)
+        || (real < 0 && mine < 0)
+        || (real > 0 && mine > 0))
+        printf("✅ Résultat cohérent\n");
+    else
+        printf("❌ Différence détectée !\n");
+
+    printf("\n");
+}
+
+void	data_ft_strncmp()
+{
+	test_strncmp("Identiques", "Hello", "Hello", 5);
+    test_strncmp("Diffère au 4e", "Hello", "Help", 4);
+    test_strncmp("Diffère au 4e limité à 3", "Hello", "Help", 3);
+    test_strncmp("s1 plus long", "Hello", "Hel", 5);
+    test_strncmp("s2 plus long", "Hel", "Hello", 5);
+    test_strncmp("Majuscules/minuscules", "abc", "Abc", 3);
+    test_strncmp("n = 0", "abc", "xyz", 0);
+    test_strncmp("Différence en dernier", "abcd", "abce", 4);
+    test_strncmp("Comparaison vide", "", "", 3);
+    test_strncmp("Chaîne vide vs non vide", "", "abc", 3);
+    test_strncmp("Non vide vs vide", "abc", "", 3);
+}
 */
 
 int main(void)
@@ -118,6 +153,6 @@ int main(void)
 	// test_ft_toupper();
 	// test_ft_tolower();
 	// data_strchr();
-	
+	// data_ft_strncmp();
 	return (0);
 }
