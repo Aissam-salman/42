@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/08 14:24:36 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/08 14:43:30 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,55 @@ void	data_ft_strncmp()
 }
 */
 
+void print_result(const void *real, const void *mine, const char *data)
+{
+    if (real == NULL && mine == NULL)
+        printf("✅ NULL identique\n");
+    else if (real == NULL || mine == NULL)
+        printf("❌ L’un est NULL, l’autre non\n");
+    else
+    {
+        size_t offset_real = (const unsigned char *)real - (const unsigned char *)data;
+        size_t offset_mine = (const unsigned char *)mine - (const unsigned char *)data;
+        printf("strchr offset = %zu | ft offset = %zu -> %s\n",
+            offset_real, offset_mine,
+            offset_real == offset_mine ? "✅" : "❌");
+    }
+}
+
+void test_memchr(const char *label, const char *s, int c, size_t n)
+{
+    const void *real = memchr(s, c, n);
+    const void *mine = ft_memchr(s, c, n);
+
+    printf("---- %s ----\n", label);
+    printf("Chaîne : ");
+    for (size_t i = 0; i < n; i++)
+    {
+        unsigned char ch = ((unsigned char *)s)[i];
+        if (ch >= 32 && ch < 127)
+            printf("%c", ch);
+        else
+            printf(".");
+    }
+    printf(" | c = '%c' (%d) | n = %zu\n", (c >= 32 && c < 127) ? c : '.', c, n);
+
+    print_result(real, mine, s);
+    printf("\n");
+}
+
+void	data_test_ft_memchr()
+{
+    test_memchr("Caractère présent", "Hello", 'e', 5);
+    test_memchr("Caractère absent", "Hello", 'z', 5);
+    test_memchr("Caractère au début", "Hello", 'H', 5);
+    test_memchr("Caractère à la fin", "Hello", 'o', 5);
+    test_memchr("Caractère après \\0", "He\0llo", 'l', 5);
+    test_memchr("n = 0", "Hello", 'H', 0);
+    test_memchr("Multiples occurrences", "abcabc", 'b', 6);
+    test_memchr("Octet non imprimable", "AB\xFF", 0xFF, 5);
+}
+
 int main(void)
 { 
 	// data_ft_strlcat();
@@ -154,5 +203,6 @@ int main(void)
 	// test_ft_tolower();
 	// data_strchr();
 	// data_ft_strncmp();
+	data_test_ft_memchr();
 	return (0);
 }

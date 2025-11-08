@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 13:56:44 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/08 13:34:56 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/08 14:27:07 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ int	ft_tolower(int c);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
-
+void	*ft_memchr(const void *s, int c, size_t n);
 #endif
