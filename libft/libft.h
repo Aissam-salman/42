@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 13:56:44 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/08 20:09:56 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/08 20:45:16 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ char	*ft_strnstr(const char *s1, const char *s2, size_t n);
 int	ft_atoi(const char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
 char *ft_strdup(const char *s);
+char *ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif
