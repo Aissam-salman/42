@@ -6,13 +6,17 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/08 13:10:53 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/08 13:32:11 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-/*#include <bsd/string.h>
+#include "libft.h"
+#include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
+
+/*#include <bsd/string.h>
 void test_strlcat(const char *label, const char *dst_init, const char *src, size_t size)
 {
     char dst_real[100];
@@ -73,15 +77,11 @@ void	test_ft_tolower(void)
 	a = ft_tolower(a);
 	printf("'%c' apres;\n\n", a);
 }
-*/
 
-#include "libft.h"
-#include <stdio.h>
-#include <string.h>
 void test_strchr(const char *label, const char *s, int c)
 {
-    char *ret_real = strchr(s, c);
-    char *ret_ft   = ft_strchr(s, c);
+    char *ret_real = strrchr(s, c);
+    char *ret_ft   = ft_strrchr(s, c);
 
     printf("---- %s ----\n", label);
     printf("Chaîne : \"%s\" | Caractère : '%c' (code %d)\n", s, (c >= 32 && c < 127) ? c : '?', c);
@@ -110,12 +110,14 @@ void data_strchr()
     test_strchr("Caractère non imprimable", "ABC", 0);
     test_strchr("Caractère au début", "Hello", 'H');
 }
+*/
 
 int main(void)
 { 
 	// data_ft_strlcat();
 	// test_ft_toupper();
 	// test_ft_tolower();
-	data_strchr();
+	// data_strchr();
+	
 	return (0);
 }
