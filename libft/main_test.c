@@ -6,12 +6,11 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/08 15:41:09 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/08 19:59:44 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <bsd/string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -226,7 +225,6 @@ void data_test_ft_memcmp()
     test_memcmp("Valeurs signées (unsigned test)", "AB", "A\xFF", 2);
 }
 
-*/
 void test_strnstr(const char *label, const char *s1, const char *s2, size_t n) {
   char *real = strnstr(s1, s2, n);
   char *mine = ft_strnstr(s1, s2, n);
@@ -257,6 +255,106 @@ void data_strnstr() {
   test_strnstr("needle partiellement en fin de size", "abcd", "cd", 3);
 }
 
+
+void test_atoi(char *label, char *str) {
+  int real = atoi(str);
+  int mine = ft_atoi(str);
+
+  printf("---- %s ----\n", label);
+  printf("str = \"%s\" \n", str);
+  printf("atoi     -> %d\n", real);
+  printf("ft_atoi  -> %d\n", mine);
+
+if (real == mine)
+    printf("✅ Résultat cohérent\n");
+else
+    printf("❌ Différence détectée !\n");
+  printf("\n");
+}
+
+void data_test_atoi()
+{
+	test_atoi("Normal", "123");
+	test_atoi("Negative value", "-213");
+	test_atoi("INT_MIN", "-2147483648");
+	test_atoi("INT_MAX", "2147483647");
+	test_atoi("With space before", "    2147");
+	test_atoi("With space before and after", "    2147   ");
+	test_atoi("With space after", "2147   ");
+	test_atoi("With caracter before", "asd2147");
+	test_atoi("With multiple sign", "--+2147");
+	test_atoi("With one + sign", "+2147");
+	test_atoi("With caracter after", "2147asd");
+	test_atoi("With sign - and caracter after", "-2147asd");
+	test_atoi("Empty str", "");
+	test_atoi("Zero", "0");
+	test_atoi("Zero terminator \\0", "\0");
+	test_atoi("Just space", "      ");
+}
+*/
+#include <string.h>
+void print_bytes(const void *ptr, size_t n)
+{
+    const unsigned char *p = ptr;
+    for (size_t i = 0; i < n; i++)
+        printf("%02X ", p[i]);
+    printf("\n");
+}
+
+void test_calloc(const char *label, size_t nmemb, size_t size)
+{
+    void *real = calloc(nmemb, size);
+    void *mine = ft_calloc(nmemb, size);
+
+    printf("---- %s ----\n", label);
+    printf("nmemb = %zu | size = %zu | total = %zu\n",
+           nmemb, size, nmemb * size);
+
+    if (!real && !mine)
+    {
+        printf("✅ Les deux ont retourné NULL\n\n");
+        return;
+    }
+
+    if ((!real && mine) || (real && !mine))
+    {
+        printf("❌ Différence de retour (NULL / non NULL)\n\n");
+        free(real);
+        free(mine);
+        return;
+    }
+
+    int diff = memcmp(real, mine, nmemb * size);
+    int all_zero_real = 1;
+    int all_zero_mine = 1;
+    for (size_t i = 0; i < nmemb * size; i++)
+    {
+        if (((unsigned char *)real)[i] != 0)
+            all_zero_real = 0;
+        if (((unsigned char *)mine)[i] != 0)
+            all_zero_mine = 0;
+    }
+
+    printf("calloc     -> %s\n", all_zero_real ? "tout à 0 ✅" : "pas tout à 0 ❌");
+    printf("ft_calloc  -> %s\n", all_zero_mine ? "tout à 0 ✅" : "pas tout à 0 ❌");
+    printf("memcmp(real, mine) = %d -> %s\n",
+           diff, diff == 0 ? "zones identiques ✅" : "différences ❌");
+
+    free(real);
+    free(mine);
+    printf("\n");
+}
+
+void data_test_calloc()
+{
+	test_calloc("Allocation simple", 5, sizeof(int));
+    test_calloc("Un seul élément", 1, 10);
+    test_calloc("nmemb = 0", 0, 10);
+    test_calloc("size = 0", 10, 0);
+    test_calloc("Gros buffer (raisonnable)", 1000, 1000);
+    test_calloc("Overflow volontaire", SIZE_MAX / 2 + 1, 2);
+}
+
 int main(void) {
   // data_ft_strlcat();
   // test_ft_toupper();
@@ -265,6 +363,8 @@ int main(void) {
   // data_ft_strncmp();
   // data_test_ft_memchr();
   // data_test_ft_memcmp();
-  data_strnstr();
-  return (0);
+  // data_strnstr();
+	// data_test_atoi();
+	data_test_calloc();
+  	return (0);
 }
