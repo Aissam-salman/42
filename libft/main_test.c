@@ -6,12 +6,10 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/07 19:11:08 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/08 13:10:53 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
 
 /*#include <bsd/string.h>
 #include <stdlib.h>
@@ -76,10 +74,48 @@ void	test_ft_tolower(void)
 	printf("'%c' apres;\n\n", a);
 }
 */
+
+#include "libft.h"
+#include <stdio.h>
+#include <string.h>
+void test_strchr(const char *label, const char *s, int c)
+{
+    char *ret_real = strchr(s, c);
+    char *ret_ft   = ft_strchr(s, c);
+
+    printf("---- %s ----\n", label);
+    printf("Chaîne : \"%s\" | Caractère : '%c' (code %d)\n", s, (c >= 32 && c < 127) ? c : '?', c);
+
+    if (ret_real)
+        printf("strchr     -> \"%s\"\n", ret_real);
+    else
+        printf("strchr     -> NULL\n");
+
+    if (ret_ft)
+        printf("ft_strchr  -> \"%s\"\n", ret_ft);
+    else
+        printf("ft_strchr  -> NULL\n");
+
+    printf("\n");
+}
+
+void data_strchr()
+{
+    test_strchr("Caractère présent (simple)", "Hello", 'e');
+    test_strchr("Plusieurs occurrences", "Hello", 'l');
+    test_strchr("Caractère absent", "Hello", 'z');
+    test_strchr("Recherche du '\\0'", "Hello", '\0');
+    test_strchr("Chaîne vide", "", 'a');
+    test_strchr("Chaîne vide + '\\0'", "", '\0');
+    test_strchr("Caractère non imprimable", "ABC", 0);
+    test_strchr("Caractère au début", "Hello", 'H');
+}
+
 int main(void)
 { 
 	// data_ft_strlcat();
 	// test_ft_toupper();
 	// test_ft_tolower();
+	data_strchr();
 	return (0);
 }
