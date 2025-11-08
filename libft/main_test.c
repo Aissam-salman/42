@@ -6,13 +6,14 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/08 19:59:44 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/08 20:36:50 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /*#include <bsd/string.h>
 void test_strlcat(const char *label, const char *dst_init, const char *src,
@@ -291,7 +292,6 @@ void data_test_atoi()
 	test_atoi("Zero terminator \\0", "\0");
 	test_atoi("Just space", "      ");
 }
-*/
 #include <string.h>
 void print_bytes(const void *ptr, size_t n)
 {
@@ -355,6 +355,55 @@ void data_test_calloc()
     test_calloc("Overflow volontaire", SIZE_MAX / 2 + 1, 2);
 }
 
+*/
+void test_strdup(const char *label, const char *src)
+{
+    char *real = strdup(src);
+    char *mine = ft_strdup(src);
+
+    printf("---- %s ----\n", label);
+    printf("src = \"%s\"\n", src);
+
+    /* Vérifie NULL */
+    if (!real && !mine)
+    {
+        printf("✅ Les deux ont retourné NULL\n\n");
+        return;
+    }
+    if ((real == NULL) != (mine == NULL))
+    {
+        printf("❌ Différence de retour (NULL / non-NULL)\n\n");
+        free(real);
+        free(mine);
+        return;
+    }
+
+    /* Compare contenu */
+    if (strcmp(real, mine) == 0)
+        printf("✅ Contenu identique\n");
+    else
+        printf("❌ Contenu différent\n");
+
+    /* Vérifie que les adresses sont distinctes */
+    if (real != mine)
+        printf("✅ Pointeurs différents (bonne duplication)\n");
+    else
+        printf("❌ Même adresse — copie non indépendante\n");
+
+    printf("\n");
+    free(real);
+    free(mine);
+}
+
+void data_test_strdup()
+{
+	test_strdup("Chaîne simple", "Hello");
+    test_strdup("Chaîne vide", "");
+    test_strdup("Avec espaces", "   Salut 42   ");
+    test_strdup("Caractères spéciaux", "Line1\nLine2\tEnd");
+    test_strdup("Longue chaîne", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+}
+
 int main(void) {
   // data_ft_strlcat();
   // test_ft_toupper();
@@ -365,6 +414,7 @@ int main(void) {
   // data_test_ft_memcmp();
   // data_strnstr();
 	// data_test_atoi();
-	data_test_calloc();
+	// data_test_calloc();
+	data_test_strdup();
   	return (0);
 }
