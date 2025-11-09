@@ -3,34 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 10:34:32 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/06 11:17:40 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/09 15:12:13 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef unsigned long size_t;
+#include "libft.h"
 
-void *ft_memcpy(void *dest, const void *src, size_t n) {
-  	size_t len_src;
-  	unsigned char *cpy_src;
-  	unsigned char *cpy_dest;
-  	size_t count;
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	 size_t			 i;
+	 unsigned char	 *d;
+	 unsigned char	 *s;
 
-	if (dest == 0 || src == 0)
-		return (dest);
-  	cpy_dest = dest;
-  	cpy_src = (unsigned char *) src;
-  	count = 0;
-  	while (cpy_src[count])
-    	count++;
-  	len_src = (size_t)count;
-  	count = 0;
-  	while (cpy_src[count] && count < n) {
-    	cpy_dest[count] = cpy_src[count];
-    	count++;
-  	}
-  	cpy_dest[count] = '\0';
-  	return (dest);
+	 if (dest == src)
+	 	return (dest);
+	 if (!dest && !src)
+	 	return (0);
+	 d = (unsigned char *)dest;
+	 s = (unsigned char *)src;
+	 i = 0;
+	 while (i < n)
+	 {
+	 	d[i] = s[i];
+	 	i++;
+	 }
+	 return (dest);
 }
