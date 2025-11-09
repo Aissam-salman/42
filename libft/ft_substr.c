@@ -11,40 +11,30 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-/*
-* Allocates memory (using malloc(3)) and returns a
-substring from the string ’s’.
-The substring starts at index ’start’ and has a
-maximum length of ’len’
 
-Parameters
-s: The original string from which to create the substring.
-start: The starting index of the substring within ’s’.
-len: The maximum length of the substring.
+static char *ft_strndup(const char *s, size_t len) {
+  size_t i;
+  char *dup;
 
-Return Value The substring.
-NULL if the allocation fails.
+  dup = malloc(len + 1);
+  if (!dup)
+    return (NULL);
+  i = 0;
+  while (*s && i < len)
+    dup[i++] = *s++;
+  dup[i] = '\0';
+  return (dup);
+}
 
-*/
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	 size_t	 s_len;
-	 size_t	 max_len;
-	 char	 *out;
+char *ft_substr(char const *s, unsigned int start, size_t len) {
+  size_t len_s;
+  char *out;
 
-	 if (!s)
-	 	return (NULL);
-	 s_len = ft_strlen(s);
-	 if (start >= s_len)
-	 	return (ft_strdup(""));
-	 max_len = s_len - start;
-	 if (len > max_len)
-	 	len = max_len;
-	 out = (char *)malloc(len + 1);
-	 if (!out)
-	 	return (NULL);
-	 for (size_t i = 0; i < len; i++)
-	 	out[i] = s[start + i];
-	 out[len] = '\0';
-	 return (out);
+  if (!s)
+    return (NULL);
+  len_s = ft_strlen(s);
+  if (start >= len_s)
+    return (ft_strdup(""));
+  out = ft_strndup(s + start, len);
+  return (out);
 }

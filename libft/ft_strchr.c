@@ -12,9 +12,9 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	unsigned char *cpy_s;
+	char *cpy_s;
 
-	cpy_s = (unsigned char *) s;
+	cpy_s = (char *) s;
 	while (*cpy_s != '\0')
 	{		
 		if (*cpy_s == c)

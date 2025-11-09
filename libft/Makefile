@@ -31,7 +31,6 @@ re: fclean all
 test: re
 	$(CC) $(CCFLAGS) main_test.c -L. -lft -o test
 	@echo "Compile sucess !"
-	./test
 
 vide: fclean
 	rm -f test a.out
