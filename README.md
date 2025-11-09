@@ -15,19 +15,19 @@
     - [x] strlcat
     - [x] toupper
     - [x] tolower
-    - [ ] strchr
-    - [ ] strrchr
-    - [ ] strncmp
-    - [ ] memchr
-    - [ ] memcmp
-    - [ ] strnstr
-    - [ ] atoi
+    - [x] strchr
+    - [x] strrchr
+    - [x] strncmp
+    - [x] memchr
+    - [x] memcmp
+    - [x] strnstr
+    - [x] atoi
     "use malloc()"
-    - [ ] calloc
-    - [ ] strdup
+    - [x] calloc
+    - [x] strdup
     
     **Additional functions**
-    - [ ] ft_substr
+    - [x] ft_substr
     - [ ] ft_strjoin
     - [ ] ft_strtrim
     - [ ] ft_split
