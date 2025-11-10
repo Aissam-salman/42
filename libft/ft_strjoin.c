@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:41:18 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/10 11:53:22 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/10 16:48:18 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 char *ft_strjoin(char const *s1, char const *s2)
 {
+	//TODO: refactor
 	size_t	lens1;
 	size_t	lens2;
 	size_t	i;
