@@ -6,13 +6,14 @@
 /*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/10 13:42:59 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/11 12:54:51 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 //
 // void print_substr(const char *label, const char *s, unsigned int start, size_t len, const char *expected)
 // {
@@ -125,8 +126,7 @@
 // 	print_strtrim("Cara mix", "abcHelloabc", "abc", "Hello");
 // 	print_strtrim("Cara spe", "$$Hell#o$$", "$#", "Hell#o");
 // 	print_strtrim("Trim space and tab", "  \tHello\t  ", " \t", "Hello");
-// 	print_strtrim("s1 = NULL", NULL, " ", NULL);
-// 	print_strtrim("set = NULL", "Hello", NULL, NULL);
+// 	print_strtrim("s1 = NULL", NULL, " ", NULL); print_strtrim("set = NULL", "Hello", NULL, NULL);
 // 	print_strtrim("Unicode", "ééBonjouré", "é", "Bonjour");
 // 	print_strtrim("non printable", "\nHello\t", "\n\t", "Hello");
 // 	print_strtrim("set= 'Hello'", "HelloHello", "Hello", "");
@@ -134,50 +134,81 @@
 // 	print_strtrim("Trim after", "Hello    ", " ", "Hello");
 // }
 
-void print_split(const char *label, const char *s, char c, int size, char **expected)
+// void print_split(const char *label, const char *s, char c, int size, char **expected)
+// {
+//     char **res = ft_split(s, c);
+//
+//     printf("---------- %s --------------\n", label);
+//     printf("s = \"%s\" | c = \"%c\" \n", s ? s : "(NULL)", c ? c : 'N');
+// 	for (int i = 0; i < size ; i++) {
+// 		printf("ft_split [%d] --> \"%s\"\n", i,  res[i] ? res[i] : "(NULL)");
+// 	}
+// 	for (int i = 0; i < size ; i++) {
+// 		printf("expected  [%d] --> \"%s\"\n",i,  expected[i] ? expected[i] : "(NULL)");
+// 	}
+// 	printf("\n");
+//     free(res);
+// }
+//
+// void    test_split()
+// {
+// 	char *expect[] = {"Hello", "World"};
+// 	print_split("Base", "Hello World", ' ', 2,  expect);
+// 	char *expect1[] = {"Hello", "World"};
+// 	print_split("Base", "   Hello World    ", ' ', 2,  expect1);
+// 	char *expect2[] = {"Hello", "World"};
+// 	print_split("Tab", "\tHello\tWorld\t", '\t', 2,  expect2);
+// 	char *expect3[] = {"He","llo", "World"};
+// 	print_split("Mixed set ", "***He*llo**World***", '*', 3,  expect3);
+// 	char *expect4[] = {"Hello-World"};
+// 	print_split("No split", "Hello-World", ' ', 1,  expect4);
+// 	char *expect5[] = {"(NULL)"};
+// 	print_split("S empty", "", ' ', 1,  expect5);
+// 	char *expect6[] = {"(NULL)"};
+// 	print_split("all in delimiter", "aaaa", 'a', 1,  expect6);
+// 	char *expect7[] = {"S", "lut c", " v"};
+// 	print_split("Cara mix", "Salut ca va", 'a', 3,  expect7);
+// 	char *expect8[] = {"Salut", "c*a*v", "a"};
+// 	print_split("Cara spe", "Salut#c*a*v#a", '#', 3,  expect8);
+// 	char *expect9[] = {"NULL"};
+// 	print_split("s = NULL", "NULL", '#', 1,  expect9);
+// 	char *expect10[] = {"hello"};
+// 	print_split("c = NULL", "hello", '\0', 1,  expect10);
+// }
+
+void print_itoa(const char *label, int n, char *expected)
 {
-    char **res = ft_split(s, c);
+    char *res = ft_itoa(n);
 
     printf("---------- %s --------------\n", label);
-    printf("s = \"%s\" | c = \"%c\" \n", s ? s : "(NULL)", c ? c : 'N');
-	for (int i = 0; i < size ; i++) {
-		printf("ft_split [%d] --> \"%s\"\n", i,  res[i] ? res[i] : "(NULL)");
-	}
-	for (int i = 0; i < size ; i++) {
-		printf("expected  [%d] --> \"%s\"\n",i,  expected[i] ? expected[i] : "(NULL)");
-	}
+    printf("n = \"%d\" \n", n);
+	printf("ft_itoa   --> \"%s\"\n", res ? res : "(NULL)");
+	printf("expected  --> \"%s\"\n", expected ? expected : "(NULL)");
+	printf("\n");
+    int ok;
+    if (expected == NULL && res == NULL)
+        ok = 1;
+    else if (expected == NULL || res == NULL)
+        ok = 0;
+    else
+        ok = strcmp(res, expected) == 0;
+    printf("Result: %s\n\n", ok ? "✅ OK" : "❌ FAIL");
 	printf("\n");
     free(res);
 }
 
-void    test_split()
+void	test_itoa()
 {
-	char *expect[] = {"Hello", "World"};
-	print_split("Base", "Hello World", ' ', 2,  expect);
-	char *expect1[] = {"Hello", "World"};
-	print_split("Base", "   Hello World    ", ' ', 2,  expect1);
-	char *expect2[] = {"Hello", "World"};
-	print_split("Tab", "\tHello\tWorld\t", '\t', 2,  expect2);
-	char *expect3[] = {"He","llo", "World"};
-	print_split("Mixed set ", "***He*llo**World***", '*', 3,  expect3);
-	char *expect4[] = {"Hello-World"};
-	print_split("No split", "Hello-World", ' ', 1,  expect4);
-	char *expect5[] = {"(NULL)"};
-	print_split("S empty", "", ' ', 1,  expect5);
-	char *expect6[] = {"(NULL)"};
-	print_split("all in delimiter", "aaaa", 'a', 1,  expect6);
-	char *expect7[] = {"S", "lut c", " v"};
-	print_split("Cara mix", "Salut ca va", 'a', 3,  expect7);
-	char *expect8[] = {"Salut", "c*a*v", "a"};
-	print_split("Cara spe", "Salut#c*a*v#a", '#', 3,  expect8);
-	char *expect9[] = {"NULL"};
-	print_split("s = NULL", "NULL", '#', 1,  expect9);
-	char *expect10[] = {"hello"};
-	print_split("c = NULL", "hello", '\0', 1,  expect10);
+	print_itoa("Base case", 123, "123");
+	print_itoa("Base case", -12, "-12");
+	print_itoa("INT_MIN", -2147483648, "-2147483648");
+	print_itoa("INT_MAX", 2147483647, "2147483647");
+	print_itoa("Zero", 0, "0");
 }
+
 
 int main(void)
 {
-    test_split();
+    test_itoa();
     return (0);
 }
