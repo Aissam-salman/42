@@ -12,15 +12,24 @@
 
 #include "libft.h"
 
+static void	*free_array(char **arr, size_t len)
+{
+	while (len-- > 0)
+		free(arr[len]);
+	free(arr);
+	return (NULL);
+}
+
 static size_t	count_words(char const *s, char c)
 {
 	size_t	count;
-
+	
+	count = 0;
 	while (*s)
 	{
 		while(*s && *s == c)
 			s++;
-		if (*s != c)
+		if (*s && *s != c)
 			count++;
 		while (*s && *s != c)
 			s++;
@@ -46,41 +55,50 @@ static char	*fill_word(char *s, char c)
 		i++;
 	}
 	word[i] = '\0';
-	//FIX: possible error with s
-	s += i;
 	return (word);
 }
 
-static void	*free_array(char **arr, size_t len)
+
+static void	ft_cutstr(char const *s, char c, char **out)
 {
-	while (len-- > 0)
-		free(arr[len]);
-	free(arr);
-	return (NULL);
+	size_t	i;
+	size_t	k;
+
+	i = 0;
+	k = 0;
+	while (s[i])
+	{
+		while(s[i] && s[i] == c)
+			i++;
+		if (s[i] != c)
+		{
+			out[k] = fill_word((char *)&s[i], c);
+			if (!out[k])
+				free_array(out, i);
+			while (s[i] && s[i] != c)
+				i++;
+			k++;
+		}
+		else 
+			i++;
+	}
+	out[k] = NULL;
 }
 
 char **ft_split(char const *s, char c)
 {
 	size_t	nb_words;
-	size_t	i;
 	char	**out;
 
+	if (!s)
+		return (NULL);
 	nb_words = count_words(s, c);
 	out = malloc(sizeof(char *) * nb_words + 1);
 	if (!out)
 		return (NULL);
-	i = 0;
-	while (*s)
-	{
-		while(*s && *s == c)
-			s++;
-		if (*s != c)
-		{
-			out[i] = fill_word((char *) s, c);
-			if (!out[i])
-				free_array(out, i);
-		}
-		i++;
-	}
+	if (nb_words == 0)
+		out[0] = NULL;
+	else 
+		ft_cutstr(s, c, out);
 	return (out);
 }

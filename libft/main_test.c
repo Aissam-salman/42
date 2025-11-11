@@ -13,7 +13,6 @@
 #include "libft.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 //
 // void print_substr(const char *label, const char *s, unsigned int start, size_t len, const char *expected)
 // {
@@ -92,51 +91,93 @@
 // 	print_strjoin("Caracter non printable", "foo \n", "B\roo", "foo \nB\roo");
 // }
 
-void print_strtrim(const char *label, const char *s1, const char *set, const char *expected)
+// void print_strtrim(const char *label, const char *s1, const char *set, const char *expected)
+// {
+//     char *res = ft_strtrim(s1, set);
+//
+//     printf("---------- %s --------------\n", label);
+//     printf("s1 = \"%s\" | set = \"%s\" \n", s1 ? s1 : "(NULL)", set ? set : "(NULL)");
+//     printf("ft_strtrim  --> \"%s\"\n", res ? res : "(NULL)");
+//     printf("expected   --> \"%s\"\n", expected ? expected : "(NULL)");
+//
+//     // ✅ Vérification automatique
+//     int ok;
+//     if (expected == NULL && res == NULL)
+//         ok = 1;
+//     else if (expected == NULL || res == NULL)
+//         ok = 0;
+//     else
+//         ok = strcmp(res, expected) == 0;
+//     printf("Result: %s\n\n", ok ? "✅ OK" : "❌ FAIL");
+//     free(res);
+// }
+//
+// void    test_strtrim()
+// {
+// 	print_strtrim("Base", "   Hello World   ", " ", "Hello World");
+// 	print_strtrim("Tab & newline", "\t\nHello\n\t", "\n\t", "Hello");
+// 	print_strtrim("Mixed set", "***Hello***", "*", "Hello");
+// 	print_strtrim("Mix debut et fin", "--Hello--World--", "-", "Hello--World");
+// 	print_strtrim("No trim", "Hello", " ", "Hello");
+// 	print_strtrim("Set empty", "Hello", "", "Hello");
+// 	print_strtrim("S1 empty", "", " ", "");
+// 	print_strtrim("All trim", "aaaaa", "a", "");
+// 	print_strtrim("Cara mix", "abcHelloabc", "abc", "Hello");
+// 	print_strtrim("Cara spe", "$$Hell#o$$", "$#", "Hell#o");
+// 	print_strtrim("Trim space and tab", "  \tHello\t  ", " \t", "Hello");
+// 	print_strtrim("s1 = NULL", NULL, " ", NULL);
+// 	print_strtrim("set = NULL", "Hello", NULL, NULL);
+// 	print_strtrim("Unicode", "ééBonjouré", "é", "Bonjour");
+// 	print_strtrim("non printable", "\nHello\t", "\n\t", "Hello");
+// 	print_strtrim("set= 'Hello'", "HelloHello", "Hello", "");
+// 	print_strtrim("Trim before", "    Hello", " ", "Hello");
+// 	print_strtrim("Trim after", "Hello    ", " ", "Hello");
+// }
+
+void print_split(const char *label, const char *s, char c, int size, char **expected)
 {
-    char *res = ft_strtrim(s1, set);
+    char **res = ft_split(s, c);
 
     printf("---------- %s --------------\n", label);
-    printf("s1 = \"%s\" | set = \"%s\" \n", s1 ? s1 : "(NULL)", set ? set : "(NULL)");
-    printf("ft_strtrim  --> \"%s\"\n", res ? res : "(NULL)");
-    printf("expected   --> \"%s\"\n", expected ? expected : "(NULL)");
-
-    // ✅ Vérification automatique
-    int ok;
-    if (expected == NULL && res == NULL)
-        ok = 1;
-    else if (expected == NULL || res == NULL)
-        ok = 0;
-    else
-        ok = strcmp(res, expected) == 0;
-    printf("Result: %s\n\n", ok ? "✅ OK" : "❌ FAIL");
+    printf("s = \"%s\" | c = \"%c\" \n", s ? s : "(NULL)", c ? c : 'N');
+	for (int i = 0; i < size ; i++) {
+		printf("ft_split [%d] --> \"%s\"\n", i,  res[i] ? res[i] : "(NULL)");
+	}
+	for (int i = 0; i < size ; i++) {
+		printf("expected  [%d] --> \"%s\"\n",i,  expected[i] ? expected[i] : "(NULL)");
+	}
+	printf("\n");
     free(res);
 }
 
-void    test_strtrim()
+void    test_split()
 {
-	print_strtrim("Base", "   Hello World   ", " ", "Hello World");
-	print_strtrim("Tab & newline", "\t\nHello\n\t", "\n\t", "Hello");
-	print_strtrim("Mixed set", "***Hello***", "*", "Hello");
-	print_strtrim("Mix debut et fin", "--Hello--World--", "-", "Hello--World");
-	print_strtrim("No trim", "Hello", " ", "Hello");
-	print_strtrim("Set empty", "Hello", "", "Hello");
-	print_strtrim("S1 empty", "", " ", "");
-	print_strtrim("All trim", "aaaaa", "a", "");
-	print_strtrim("Cara mix", "abcHelloabc", "abc", "Hello");
-	print_strtrim("Cara spe", "$$Hell#o$$", "$#", "Hell#o");
-	print_strtrim("Trim space and tab", "  \tHello\t  ", " \t", "Hello");
-	print_strtrim("s1 = NULL", NULL, " ", NULL);
-	print_strtrim("set = NULL", "Hello", NULL, NULL);
-	print_strtrim("Unicode", "ééBonjouré", "é", "Bonjour");
-	print_strtrim("non printable", "\nHello\t", "\n\t", "Hello");
-	print_strtrim("set= 'Hello'", "HelloHello", "Hello", "");
-	print_strtrim("Trim before", "    Hello", " ", "Hello");
-	print_strtrim("Trim after", "Hello    ", " ", "Hello");
+	char *expect[] = {"Hello", "World"};
+	print_split("Base", "Hello World", ' ', 2,  expect);
+	char *expect1[] = {"Hello", "World"};
+	print_split("Base", "   Hello World    ", ' ', 2,  expect1);
+	char *expect2[] = {"Hello", "World"};
+	print_split("Tab", "\tHello\tWorld\t", '\t', 2,  expect2);
+	char *expect3[] = {"He","llo", "World"};
+	print_split("Mixed set ", "***He*llo**World***", '*', 3,  expect3);
+	char *expect4[] = {"Hello-World"};
+	print_split("No split", "Hello-World", ' ', 1,  expect4);
+	char *expect5[] = {"(NULL)"};
+	print_split("S empty", "", ' ', 1,  expect5);
+	char *expect6[] = {"(NULL)"};
+	print_split("all in delimiter", "aaaa", 'a', 1,  expect6);
+	char *expect7[] = {"S", "lut c", " v"};
+	print_split("Cara mix", "Salut ca va", 'a', 3,  expect7);
+	char *expect8[] = {"Salut", "c*a*v", "a"};
+	print_split("Cara spe", "Salut#c*a*v#a", '#', 3,  expect8);
+	char *expect9[] = {"NULL"};
+	print_split("s = NULL", "NULL", '#', 1,  expect9);
+	char *expect10[] = {"hello"};
+	print_split("c = NULL", "hello", '\0', 1,  expect10);
 }
 
 int main(void)
 {
-    test_strtrim();
-    return (1);
+    test_split();
+    return (0);
 }
