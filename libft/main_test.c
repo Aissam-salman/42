@@ -6,14 +6,16 @@
 /*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/11 17:13:49 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:52:25 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 //
 // void print_substr(const char *label, const char *s, unsigned int start, size_t len, const char *expected)
 // {
@@ -249,60 +251,89 @@
 // 	print_strmapi("f play with index", "Hello", ft_test_index, "Hfnos");
 // }
 
-void	ft_test_upper(unsigned int i, char *c)
-{
-	(void)i;
-	*c = ft_toupper(*c);
-}
-
-void	ft_same(unsigned int i, char *c) {(void)i; (void)c;}
-void	ft_test_index(unsigned int i, char *c) {*c += i;}
-
-void print_striteri(const char *label, char *s, void (*f)(unsigned int, char *), char *expected)
-{
-    printf("---------- %s --------------\n", label);
-    printf("s = \"%s\" \n", s);
-	printf("BEFORE ft_striteri   --> \"%s\"\n", s ? s : "(NULL)");
-	ft_striteri((char *)s, f);
-	printf("AFTER ft_striteri   --> \"%s\"\n", s ? s : "(NULL)");
-	printf("expected  --> \"%s\"\n", expected ? expected : "(NULL)");
-	printf("\n");
-	int ok;
-	if (expected == NULL && s == NULL)
-		ok = 1;
-	else if (expected == NULL || s == NULL)
-		ok = 0;
-	else
-		ok = strcmp(s, expected) == 0;
-	printf("Result: %s\n\n", ok ? "✅ OK" : "❌ FAIL");
-	printf("\n");
-	printf("\n");
-}
-
-void	test_striteri()
-{
-	char s[] = "Hello";
-	print_striteri("Base case", s, ft_test_index, "Hfnos");
-	char s1[] = "Hello";
-	print_striteri("f play with index", s1, ft_test_upper, "HELLO");
-	char s2[] = "";
-	print_striteri("Empty S", s2, ft_test_upper, "");
-	print_striteri("NULL S", NULL, ft_test_upper, NULL);
-	char s4[] = "hello";
-	print_striteri("NULL f", s4, NULL, "hello");
-	print_striteri("NULL f and S", NULL, NULL, NULL);
-	char s5[] = "Hello, 42! $$";
-	print_striteri("Caracter spe", s5, ft_test_upper, "HELLO, 42! $$");
-	char s6[] = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-	print_striteri("Long", s6, ft_test_upper, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-	char s7[] = "Hello";
-	print_striteri("f with same return c", s7, ft_same, "Hello");
-	char s8[] = "Hello";
-	print_striteri("f with same r", s8, ft_same, "Hello");
-}
+// void	ft_test_upper(unsigned int i, char *c)
+// {
+// 	(void)i;
+// 	*c = ft_toupper(*c);
+// }
+//
+// void	ft_same(unsigned int i, char *c) {(void)i; (void)c;}
+// void	ft_test_index(unsigned int i, char *c) {*c += i;}
+//
+// void print_striteri(const char *label, char *s, void (*f)(unsigned int, char *), char *expected)
+// {
+//     printf("---------- %s --------------\n", label);
+//     printf("s = \"%s\" \n", s);
+// 	printf("BEFORE ft_striteri   --> \"%s\"\n", s ? s : "(NULL)");
+// 	ft_striteri((char *)s, f);
+// 	printf("AFTER ft_striteri   --> \"%s\"\n", s ? s : "(NULL)");
+// 	printf("expected  --> \"%s\"\n", expected ? expected : "(NULL)");
+// 	printf("\n");
+// 	int ok;
+// 	if (expected == NULL && s == NULL)
+// 		ok = 1;
+// 	else if (expected == NULL || s == NULL)
+// 		ok = 0;
+// 	else
+// 		ok = strcmp(s, expected) == 0;
+// 	printf("Result: %s\n\n", ok ? "✅ OK" : "❌ FAIL");
+// 	printf("\n");
+// 	printf("\n");
+// }
+//
+// void	test_striteri()
+// {
+// 	char s[] = "Hello";
+// 	print_striteri("Base case", s, ft_test_index, "Hfnos");
+// 	char s1[] = "Hello";
+// 	print_striteri("f play with index", s1, ft_test_upper, "HELLO");
+// 	char s2[] = "";
+// 	print_striteri("Empty S", s2, ft_test_upper, "");
+// 	print_striteri("NULL S", NULL, ft_test_upper, NULL);
+// 	char s4[] = "hello";
+// 	print_striteri("NULL f", s4, NULL, "hello");
+// 	print_striteri("NULL f and S", NULL, NULL, NULL);
+// 	char s5[] = "Hello, 42! $$";
+// 	print_striteri("Caracter spe", s5, ft_test_upper, "HELLO, 42! $$");
+// 	char s6[] = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+// 	print_striteri("Long", s6, ft_test_upper, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+// 	char s7[] = "Hello";
+// 	print_striteri("f with same return c", s7, ft_same, "Hello");
+// 	char s8[] = "Hello";
+// 	print_striteri("f with same r", s8, ft_same, "Hello");
+// }
+//
+// void	test_putchar_fd()
+// {
+// 	int pipefd[2];
+//     int filefd;
+//     char c;
+//
+//     // 1. Test avec stdout
+//     ft_putchar_fd('A', 1); // doit s'afficher à l'écran
+//     write(1, "\n", 1);
+//
+//     // 2. Test avec stderr
+//     ft_putchar_fd('B', 2); // doit s'afficher comme message d'erreur
+//     write(2, "\n", 1);
+//
+//     filefd = open("test_fd.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+//     if (filefd != -1) {
+//         ft_putchar_fd('C', filefd);
+//         close(filefd);
+//         printf("Vérifie 'test_fd.txt' pour voir 'C'\n");
+//     }
+//
+//     // 4. Test avec un pipe
+//     pipe(pipefd);
+//     ft_putchar_fd('D', pipefd[1]);
+//     read(pipefd[0], &c, 1);
+//     printf("Pipe a lu : '%c'\n", c);
+//     close(pipefd[0]);
+//     close(pipefd[1]);
+// }
 
 int main(void)
 {
-	test_striteri();
     return (0);
 }
