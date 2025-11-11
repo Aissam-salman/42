@@ -6,7 +6,7 @@
 /*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/11 17:52:25 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:58:44 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,6 +333,25 @@
 //     close(pipefd[1]);
 // }
 
+// void	test_putstr_fd()
+// {
+// 	int pipefd[2];
+//     int filefd;
+//     char *str = NULL;
+//
+//     ft_putstr_fd("Hello", 1); 
+//     write(1, "\n", 1);
+//
+//     ft_putstr_fd("Hello", 2);
+//     write(2, "\n", 1);
+//
+//     filefd = open("test_fd.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+//     if (filefd != -1) {
+//         ft_putstr_fd("Hello", filefd);
+//         close(filefd);
+//         printf("Vérifie 'test_fd.txt' pour voir \"Hello\"\n");
+//     }
+// }
 int main(void)
 {
     return (0);
