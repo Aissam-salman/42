@@ -6,7 +6,7 @@
 /*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/11 15:08:17 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:13:49 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,51 +206,103 @@
 // 	print_itoa("Zero", 0, "0");
 // }
 
-char ft_test(unsigned int index, char c)
+// char ft_test(unsigned int index, char c)
+// {
+// 	(void)index;
+// 	return (ft_toupper(c));
+// }
+//
+// char ft_same(unsigned int i, char c) {(void)i; return (c);}
+// char ft_test_index(unsigned int i, char c) { return (c + i);}
+//
+// void print_strmapi(const char *label, char const *s, char (*f)(unsigned int, char), char *expected)
+// {
+//     char *res = ft_strmapi(s, f);
+//
+//     printf("---------- %s --------------\n", label);
+//     printf("s = \"%s\" \n", s);
+// 	printf("ft_strmapi   --> \"%s\"\n", res ? res : "(NULL)");
+// 	printf("expected  --> \"%s\"\n", expected ? expected : "(NULL)");
+// 	printf("\n");
+//     int ok;
+//     if (expected == NULL && res == NULL)
+//         ok = 1;
+//     else if (expected == NULL || res == NULL)
+//         ok = 0;
+//     else
+//         ok = strcmp(res, expected) == 0;
+//     printf("Result: %s\n\n", ok ? "✅ OK" : "❌ FAIL");
+// 	printf("\n");
+//     free(res);
+// }
+//
+// void	test_strmapi()
+// {
+// 	print_strmapi("Base case", "hello", ft_test, "HELLO");
+// 	print_strmapi("Empty S", "", ft_test, "");
+// 	print_strmapi("NULL S", NULL, ft_test, NULL);
+// 	print_strmapi("NULL f", "hello", NULL, "hello");
+// 	print_strmapi("NULL f et S", NULL, NULL, NULL);
+// 	print_strmapi("Car spe", "Hello, 42! $$", ft_test, "HELLO, 42! $$");
+// 	print_strmapi("Long", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", ft_test, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+// 	print_strmapi("f with same return c", "Hello", ft_same, "Hello");
+// 	print_strmapi("f play with index", "Hello", ft_test_index, "Hfnos");
+// }
+
+void	ft_test_upper(unsigned int i, char *c)
 {
-	(void)index;
-	return (ft_toupper(c));
+	(void)i;
+	*c = ft_toupper(*c);
 }
 
-char ft_same(unsigned int i, char c) {(void)i; return (c);}
-char ft_test_index(unsigned int i, char c) { return (c + i);}
+void	ft_same(unsigned int i, char *c) {(void)i; (void)c;}
+void	ft_test_index(unsigned int i, char *c) {*c += i;}
 
-void print_strmapi(const char *label, char const *s, char (*f)(unsigned int, char), char *expected)
+void print_striteri(const char *label, char *s, void (*f)(unsigned int, char *), char *expected)
 {
-    char *res = ft_strmapi(s, f);
-
     printf("---------- %s --------------\n", label);
     printf("s = \"%s\" \n", s);
-	printf("ft_strmapi   --> \"%s\"\n", res ? res : "(NULL)");
+	printf("BEFORE ft_striteri   --> \"%s\"\n", s ? s : "(NULL)");
+	ft_striteri((char *)s, f);
+	printf("AFTER ft_striteri   --> \"%s\"\n", s ? s : "(NULL)");
 	printf("expected  --> \"%s\"\n", expected ? expected : "(NULL)");
 	printf("\n");
-    int ok;
-    if (expected == NULL && res == NULL)
-        ok = 1;
-    else if (expected == NULL || res == NULL)
-        ok = 0;
-    else
-        ok = strcmp(res, expected) == 0;
-    printf("Result: %s\n\n", ok ? "✅ OK" : "❌ FAIL");
+	int ok;
+	if (expected == NULL && s == NULL)
+		ok = 1;
+	else if (expected == NULL || s == NULL)
+		ok = 0;
+	else
+		ok = strcmp(s, expected) == 0;
+	printf("Result: %s\n\n", ok ? "✅ OK" : "❌ FAIL");
 	printf("\n");
-    free(res);
+	printf("\n");
 }
 
-void	test_strmapi()
+void	test_striteri()
 {
-	print_strmapi("Base case", "hello", ft_test, "HELLO");
-	print_strmapi("Empty S", "", ft_test, "");
-	print_strmapi("NULL S", NULL, ft_test, NULL);
-	print_strmapi("NULL f", "hello", NULL, "hello");
-	print_strmapi("NULL f et S", NULL, NULL, NULL);
-	print_strmapi("Car spe", "Hello, 42! $$", ft_test, "HELLO, 42! $$");
-	print_strmapi("Long", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", ft_test, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-	print_strmapi("f with same return c", "Hello", ft_same, "Hello");
-	print_strmapi("f play with index", "Hello", ft_test_index, "Hfnos");
+	char s[] = "Hello";
+	print_striteri("Base case", s, ft_test_index, "Hfnos");
+	char s1[] = "Hello";
+	print_striteri("f play with index", s1, ft_test_upper, "HELLO");
+	char s2[] = "";
+	print_striteri("Empty S", s2, ft_test_upper, "");
+	print_striteri("NULL S", NULL, ft_test_upper, NULL);
+	char s4[] = "hello";
+	print_striteri("NULL f", s4, NULL, "hello");
+	print_striteri("NULL f and S", NULL, NULL, NULL);
+	char s5[] = "Hello, 42! $$";
+	print_striteri("Caracter spe", s5, ft_test_upper, "HELLO, 42! $$");
+	char s6[] = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+	print_striteri("Long", s6, ft_test_upper, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	char s7[] = "Hello";
+	print_striteri("f with same return c", s7, ft_same, "Hello");
+	char s8[] = "Hello";
+	print_striteri("f with same r", s8, ft_same, "Hello");
 }
 
 int main(void)
 {
-    test_strmapi();
+	test_striteri();
     return (0);
 }
