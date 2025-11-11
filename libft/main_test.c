@@ -6,7 +6,7 @@
 /*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/11 12:54:51 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/11 15:08:17 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,13 +176,52 @@
 // 	print_split("c = NULL", "hello", '\0', 1,  expect10);
 // }
 
-void print_itoa(const char *label, int n, char *expected)
+// void print_itoa(const char *label, int n, char *expected)
+// {
+//     char *res = ft_itoa(n);
+//
+//     printf("---------- %s --------------\n", label);
+//     printf("n = \"%d\" \n", n);
+// 	printf("ft_itoa   --> \"%s\"\n", res ? res : "(NULL)");
+// 	printf("expected  --> \"%s\"\n", expected ? expected : "(NULL)");
+// 	printf("\n");
+//     int ok;
+//     if (expected == NULL && res == NULL)
+//         ok = 1;
+//     else if (expected == NULL || res == NULL)
+//         ok = 0;
+//     else
+//         ok = strcmp(res, expected) == 0;
+//     printf("Result: %s\n\n", ok ? "✅ OK" : "❌ FAIL");
+// 	printf("\n");
+//     free(res);
+// }
+//
+// void	test_itoa()
+// {
+// 	print_itoa("Base case", 123, "123");
+// 	print_itoa("Base case", -12, "-12");
+// 	print_itoa("INT_MIN", -2147483648, "-2147483648");
+// 	print_itoa("INT_MAX", 2147483647, "2147483647");
+// 	print_itoa("Zero", 0, "0");
+// }
+
+char ft_test(unsigned int index, char c)
 {
-    char *res = ft_itoa(n);
+	(void)index;
+	return (ft_toupper(c));
+}
+
+char ft_same(unsigned int i, char c) {(void)i; return (c);}
+char ft_test_index(unsigned int i, char c) { return (c + i);}
+
+void print_strmapi(const char *label, char const *s, char (*f)(unsigned int, char), char *expected)
+{
+    char *res = ft_strmapi(s, f);
 
     printf("---------- %s --------------\n", label);
-    printf("n = \"%d\" \n", n);
-	printf("ft_itoa   --> \"%s\"\n", res ? res : "(NULL)");
+    printf("s = \"%s\" \n", s);
+	printf("ft_strmapi   --> \"%s\"\n", res ? res : "(NULL)");
 	printf("expected  --> \"%s\"\n", expected ? expected : "(NULL)");
 	printf("\n");
     int ok;
@@ -197,18 +236,21 @@ void print_itoa(const char *label, int n, char *expected)
     free(res);
 }
 
-void	test_itoa()
+void	test_strmapi()
 {
-	print_itoa("Base case", 123, "123");
-	print_itoa("Base case", -12, "-12");
-	print_itoa("INT_MIN", -2147483648, "-2147483648");
-	print_itoa("INT_MAX", 2147483647, "2147483647");
-	print_itoa("Zero", 0, "0");
+	print_strmapi("Base case", "hello", ft_test, "HELLO");
+	print_strmapi("Empty S", "", ft_test, "");
+	print_strmapi("NULL S", NULL, ft_test, NULL);
+	print_strmapi("NULL f", "hello", NULL, "hello");
+	print_strmapi("NULL f et S", NULL, NULL, NULL);
+	print_strmapi("Car spe", "Hello, 42! $$", ft_test, "HELLO, 42! $$");
+	print_strmapi("Long", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", ft_test, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	print_strmapi("f with same return c", "Hello", ft_same, "Hello");
+	print_strmapi("f play with index", "Hello", ft_test_index, "Hfnos");
 }
-
 
 int main(void)
 {
-    test_itoa();
+    test_strmapi();
     return (0);
 }
