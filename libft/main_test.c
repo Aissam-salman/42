@@ -6,16 +6,14 @@
 /*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:01:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/11 17:58:44 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/11 20:29:57 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <fcntl.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+// #include <string.h>
 //
 // void print_substr(const char *label, const char *s, unsigned int start, size_t len, const char *expected)
 // {
@@ -351,6 +349,36 @@
 //         close(filefd);
 //         printf("Vérifie 'test_fd.txt' pour voir \"Hello\"\n");
 //     }
+// }
+// void	test_putendl_fd()
+// {
+//     int filefd;
+//
+//     ft_putendl_fd("Hello", 1); 
+//     ft_putendl_fd("Hello", 2); 
+//     filefd = open("test_fd.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+//     if (filefd != -1) {
+//         ft_putendl_fd("Hello", filefd);
+//         close(filefd);
+//         printf("Vérifie 'test_fd.txt' pour voir \"Hello\"\n");
+//     }
+// }
+
+// void	test_putnbr_fd()
+// {
+//     int filefd;
+//
+//     ft_putnbr_fd(120, 1); 
+// 	printf("\n");
+//     ft_putnbr_fd(2147483647, 2); 
+// 	printf("\n");
+//     filefd = open("test_fd.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+//     if (filefd != -1) {
+//         ft_putnbr_fd(-2147483648, filefd);
+//         close(filefd);
+//         printf("Vérifie 'test_fd.txt' pour voir \"-2147483648 \"\n");
+//     }
+// 	printf("\n");
 // }
 int main(void)
 {
