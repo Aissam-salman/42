@@ -30,7 +30,7 @@ $(NAME): $(OBJS)
 	$(CC) $(CPPFLAGS) $(CCFLAGS) -o $@ -c $<
 
 clean:
-	rm -f $(OBJS_ALL)
+	rm -f $(OBJS_ALL) 
 
 fclean: clean
 	rm -f $(NAME)
