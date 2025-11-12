@@ -28,8 +28,8 @@
     
     **Additional functions**
     - [x] ft_substr
-    - [ ] ft_strjoin
-    - [ ] ft_strtrim
+    - [x] ft_strjoin
+    - [x] ft_strtrim
     - [ ] ft_split
     - [ ] ft_itoa
     - [ ] ft_strmapi

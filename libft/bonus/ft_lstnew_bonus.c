@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 12:28:14 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/12 16:14:26 by salman           ###   ########.fr       */
+/*   Created: 2025/11/12 16:41:12 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/12 19:15:18 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft_bonus.h"
 
-char	*ft_strchr(const char *s, int c)
+t_list  *ft_lstnew(void *content)
 {
-	unsigned char ch;
+    t_list  *new_node;
 
-	ch = (unsigned char) c;
-	while (*s)
-	{
-		if ((unsigned char)*s == ch)
-			return ((char *) s);
-		s++;
-	}
-	if (ch == '\0')
-		return ((char *) s);
-	return (NULL);
+    new_node = malloc(sizeof(t_list));
+    if (!new_node)
+        return (NULL);
+    new_node->next = NULL;
+    new_node->content = content;
+    return (new_node);
 }

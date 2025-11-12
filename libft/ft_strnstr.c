@@ -3,45 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:21:09 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/08 21:02:24 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/12 15:30:19 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/*
- 
-       haystack
-	   The string to be searched
 
-       needle
-	   The string to search for
-
-       n
-	   the maximum number of characters to search
-*/
 char	*ft_strnstr(const char *haystack, const char *needle, size_t n)
 {
-	char	*h;
-	char	*ne;
+	size_t ne_len;
 	size_t	i;
 	size_t	j;
 
-	if (needle == 0)
+
+	ne_len = ft_strlen(needle);
+	if (ne_len == 0)
 		return ((char *) haystack);
-	ne = (char *) needle;
-	h = (char *) haystack;
 	i = 0;
-	while (h[i] && i < n)
+	while (haystack[i] && i < n)
 	{
+		if (i + ne_len > n)
+            break ;
 		j = 0;
-		while (ne[j] == h[i + j])
+		while (j < ne_len && needle[j] == haystack[i + j])
 			j++;
-		if (j  == (size_t) ft_strlen(ne))
-			return (h + i);
+		if (j  == ne_len)
+			return ((char *) haystack + i);
 		i++;
 	}
-	return (0);
+	return (NULL);
 }

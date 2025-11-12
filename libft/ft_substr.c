@@ -6,7 +6,7 @@
 /*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 20:51:13 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/09 15:13:17 by salman           ###   ########.fr       */
+/*   Updated: 2025/11/12 16:19:31 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static char *ft_strndup(const char *s, size_t len) {
 char *ft_substr(char const *s, unsigned int start, size_t len) {
   size_t len_s;
   char *out;
+  size_t real_len;
 
 	if (!s)
 		return (NULL);
@@ -37,6 +38,9 @@ char *ft_substr(char const *s, unsigned int start, size_t len) {
 	len_s = ft_strlen(s);
 	if (start >= len_s)
 		return (ft_strdup(""));
-	out = ft_strndup(s + start, len);
+	real_len = len;
+	if (start + len > len_s)
+		real_len = len_s - start;
+	out = ft_strndup(s + start, real_len);
 	return (out);
 }

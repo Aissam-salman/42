@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 12:09:17 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/10 14:58:01 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/12 15:54:03 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 
 static int	in_set(char c, char const *set)
 {
@@ -26,10 +25,10 @@ static int	in_set(char c, char const *set)
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*out = NULL;
+	char	*out;
 	size_t	start;
 	size_t	end;
-	
+
 	if (!s1 || !set)
 		return (NULL);
 	if (!ft_strlen(s1))

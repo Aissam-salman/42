@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 12:28:14 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/12 16:14:26 by salman           ###   ########.fr       */
+/*   Created: 2025/11/12 20:18:11 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/12 20:27:15 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft_bonus.h"
 
-char	*ft_strchr(const char *s, int c)
+void    ft_lstadd_front(t_list **lst, t_list *new_node)
 {
-	unsigned char ch;
-
-	ch = (unsigned char) c;
-	while (*s)
-	{
-		if ((unsigned char)*s == ch)
-			return ((char *) s);
-		s++;
-	}
-	if (ch == '\0')
-		return ((char *) s);
-	return (NULL);
+    new_node->next = *lst;
 }
