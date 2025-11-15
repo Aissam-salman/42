@@ -6,19 +6,19 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 18:02:27 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/11 18:04:41 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:39:58 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void ft_putendl_fd(char *s, int fd)
+void	ft_putendl_fd(char *s, int fd)
 {
 	int	i;
 
 	i = 0;
-	while (s[i]) 
+	while (s[i])
 		i++;
 	write(fd, s, i);
-	write(fd,"\n", 1);
+	write(fd, "\n", 1);
 }

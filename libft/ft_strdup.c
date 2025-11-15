@@ -6,13 +6,13 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 20:10:19 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/08 20:42:23 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:42:57 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_strdup(const char *s)
+char	*ft_strdup(const char *s)
 {
 	size_t	i;
 	char	*dup;

@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/12 20:18:11 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/12 20:27:15 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/12 21:27:48 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/14 16:51:20 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_bonus.h"
+#include "libft.h"
 
-void    ft_lstadd_front(t_list **lst, t_list *new_node)
+t_list	*ft_lstlast(t_list *lst)
 {
-    new_node->next = *lst;
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
 }

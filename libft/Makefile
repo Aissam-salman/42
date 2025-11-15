@@ -8,8 +8,8 @@ ft_strtrim ft_split ft_itoa ft_strmapi ft_striteri ft_putchar_fd \
 ft_putstr_fd ft_putendl_fd ft_putnbr_fd)
 OBJS := $(SRCS:%.c=%.o)
 
-BONUS_SRC = $(addprefix bonus/, $(addsuffix _bonus.c, ft_lstnew ft_lstadd_front \
-ft_lstsize))
+BONUS_SRC = $(addsuffix _bonus.c, ft_lstnew ft_lstadd_front \
+ft_lstsize ft_lstlast ft_lstadd_back ft_lstdelone ft_lstclear ft_lstiter ft_lstmap)
 BONUS_OBJS := $(BONUS_SRC:%.c=%.o)
 
 CC = cc
@@ -40,18 +40,3 @@ re: fclean all
 bonus: $(BONUS_OBJS)
 	$(ARNAME) $(BONUS_OBJS)
 	$(RANNAME)
-
-everything: $(OBJS_ALL)
-	$(ARNAME) $(OBJS_ALL)
-	$(RANNAME)
-
-bonus_test: clean bonus
-	$(CC) $(CCFLAGS) main_test.c -L. -lft -o test_bonus
-	@echo "Compile sucess ! 👾"
-
-test: re
-	$(CC) $(CCFLAGS) main_test.c -L. -lft -o test
-	@echo "Compile sucess ! 👾"
-
-vide: fclean
-	rm -f test a.out

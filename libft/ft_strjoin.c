@@ -6,29 +6,19 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:41:18 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/10 16:48:18 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/14 17:05:35 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_strjoin(char const *s1, char const *s2)
+static char	*fill_out(const char *s1, const char *s2, size_t lens1,
+		size_t lens2)
 {
-	//TODO: refactor
-	size_t	lens1;
-	size_t	lens2;
+	char	*out;
 	size_t	i;
 	size_t	j;
-	char	*out;
 
-	if (!s1 && !s2)
-		return (NULL);
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
-	lens1 = ft_strlen(s1);
-	lens2 = ft_strlen(s2);
 	out = malloc(lens1 + lens2 + 1);
 	if (!out)
 		return (NULL);
@@ -40,5 +30,24 @@ char *ft_strjoin(char const *s1, char const *s2)
 	while (s2[i] && i < lens2)
 		out[j++] = s2[i++];
 	out[j] = '\0';
+	return (out);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*out;
+	size_t	lens1;
+	size_t	lens2;
+
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
+	out = NULL;
+	lens1 = ft_strlen(s1);
+	lens2 = ft_strlen(s2);
+	out = fill_out(s1, s2, lens1, lens2);
 	return (out);
 }

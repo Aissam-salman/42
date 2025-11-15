@@ -6,20 +6,20 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 14:27:20 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/08 14:45:09 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:38:44 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void *ft_memchr(const void *s, int c, size_t n)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
 	unsigned char	*scpy;
 	unsigned char	ccpy;
-	size_t	i;
+	size_t			i;
 
-	scpy = (unsigned char *) s;
-	ccpy = (unsigned char) c;
+	scpy = (unsigned char *)s;
+	ccpy = (unsigned char)c;
 	i = 0;
 	while (i < n)
 	{

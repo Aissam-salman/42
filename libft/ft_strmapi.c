@@ -6,14 +6,15 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 14:30:22 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/11 15:05:06 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:59:08 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char	*out;
+	char			*out;
 	unsigned int	i;
 
 	if (!f && !s)

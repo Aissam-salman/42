@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 09:08:11 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/14 16:59:04 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/14 11:31:17 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/14 22:46:17 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	size_t	i;
+	t_list	*new_lst;
+	t_list	*node;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	if (!lst || !f)
+		return (NULL);
+	new_lst = NULL;
+	while (lst)
+	{
+		node = ft_lstnew(f(lst->content));
+		if (!node)
+		{
+			ft_lstclear(&new_lst, del);
+			return (NULL);
+		}
+		ft_lstadd_back(&new_lst, node);
+		lst = lst->next;
+	}
+	return (new_lst);
 }

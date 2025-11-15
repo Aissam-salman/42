@@ -30,14 +30,14 @@
     - [x] ft_substr
     - [x] ft_strjoin
     - [x] ft_strtrim
-    - [ ] ft_split
-    - [ ] ft_itoa
-    - [ ] ft_strmapi
-    - [ ] ft_striteri
-    - [ ] ft_putchar_fd
-    - [ ] ft_putstr_fd
-    - [ ] ft_putendl_fd
-    - [ ] ft_putnbr_fd
+    - [x] ft_split
+    - [x] ft_itoa
+    - [x] ft_strmapi
+    - [x] ft_striteri
+    - [x] ft_putchar_fd
+    - [x] ft_putstr_fd
+    - [x] ft_putendl_fd
+    - [x] ft_putnbr_fd
     - [x] ft_strjoin
     - [x] ft_strtrim
     - [x] ft_split
@@ -50,12 +50,12 @@
     - [x] ft_putnbr_fd
 
     **Bonus**
-    - [ ] ft_lstnew
-    - [ ] ft_lstadd_front
-    - [ ] ft_lstsize
-    - [ ] ft_lstlast
-    - [ ] ft_lstadd_back
-    - [ ] ft_lstdelone
-    - [ ] ft_lstclear
-    - [ ] ft_lstiter
-    - [ ] ft_lstmap
+    - [x] ft_lstnew
+    - [x] ft_lstadd_front
+    - [x] ft_lstsize
+    - [x] ft_lstlast
+    - [x] ft_lstadd_back
+    - [x] ft_lstdelone
+    - [x] ft_lstclear
+    - [x] ft_lstiter
+    - [x] ft_lstmap

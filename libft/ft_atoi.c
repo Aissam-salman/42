@@ -33,5 +33,5 @@ int	ft_atoi(const char *nptr)
 	}
 	while (ft_isdigit((int)*p))
 		nbr = nbr * 10 + (*p++ - '0');
-	return ((int) (nbr * sign));
+	return ((int)(nbr * sign));
 }

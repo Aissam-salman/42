@@ -6,13 +6,13 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 08:16:58 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/06 08:24:36 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:31:32 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isalnum(int c)
 {
-	if (c >= 'a' && c <= 'z' )
+	if (c >= 'a' && c <= 'z')
 		return (1);
 	if (c >= 'A' && c <= 'Z')
 		return (1);

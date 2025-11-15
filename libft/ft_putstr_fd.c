@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 17:54:16 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/11 17:55:11 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:40:08 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
-	
+
 	i = 0;
 	while (s[i])
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 16:44:24 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/12 16:04:59 by salman           ###   ########.fr       */
+/*   Updated: 2025/11/14 16:54:31 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,15 @@ static void	free_array(char **arr, size_t len)
 	free(arr);
 }
 
-static size_t word_len(char const *s, char c)
+static size_t	word_len(char const *s, char c)
 {
-    size_t len;
+	size_t	len;
 
-    len = 0;
-    while (s[len] && s[len] != c)
-        len++;
-    return (len);
+	len = 0;
+	while (s[len] && s[len] != c)
+		len++;
+	return (len);
 }
-
 
 static size_t	count_words(char const *s, char c)
 {
@@ -40,7 +39,7 @@ static size_t	count_words(char const *s, char c)
 	count = 0;
 	while (*s)
 	{
-		while(*s && *s == c)
+		while (*s && *s == c)
 			s++;
 		if (*s && *s != c)
 			count++;
@@ -50,16 +49,12 @@ static size_t	count_words(char const *s, char c)
 	return (count);
 }
 
-static char	**ft_cutstr(char const *s, char c)
+static int	ft_cutstr(char **out, char const *s, char c)
 {
 	size_t	i;
 	size_t	len;
-	char	**out;
 
 	i = 0;
-	out = malloc(sizeof(char *) * (count_words(s, c) + 1));
-	if (!out)
-		return (NULL);
 	while (*s)
 	{
 		while (*s && *s == c)
@@ -71,17 +66,17 @@ static char	**ft_cutstr(char const *s, char c)
 			if (!out[i])
 			{
 				free_array(out, i);
-				return (NULL);
+				return (0);
 			}
 			s += len;
 			i++;
 		}
 	}
 	out[i] = NULL;
-	return (out);
+	return (1);
 }
 
-char **ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	size_t	nb_words;
 	char	**out;
@@ -92,6 +87,7 @@ char **ft_split(char const *s, char c)
 	out = malloc(sizeof(char *) * (nb_words + 1));
 	if (!out)
 		return (NULL);
-	out = ft_cutstr(s, c);
+	if (!ft_cutstr(out, s, c))
+		return (NULL);
 	return (out);
 }

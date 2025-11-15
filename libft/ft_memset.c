@@ -6,20 +6,20 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 09:15:56 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/06 09:50:13 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/14 22:10:13 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef unsigned long size_t;
+#include "libft.h"
 
-void *ft_memset(void *s, int c, size_t n){
-	size_t i;
-	unsigned char *array;
-	unsigned char value_replace;
+void	*ft_memset(void *s, int c, size_t n)
+{
+	size_t			i;
+	unsigned char	*array;
+	unsigned char	value_replace;
 
-	array = (unsigned char *) s;
-	value_replace = (unsigned char) c;
-
+	array = (unsigned char *)s;
+	value_replace = (unsigned char)c;
 	i = 0;
 	while (i < n)
 	{
