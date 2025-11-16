@@ -3,12 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 14:28:14 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/16 14:28:39 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/16 18:46:04 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void    ft_printf(int nb, ...)
-{}
+#include "libftprintf.h"
+
+int ft_printf(const char *, ...)
+{
+    ft_putstr_fd(str, 1);
+}

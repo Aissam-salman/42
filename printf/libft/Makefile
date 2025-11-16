@@ -17,14 +17,12 @@ CCFLAGS = -Wextra -Wall -Werror
 INC_DIR = .
 CPPFLAGS = -I $(INC_DIR)
 ARNAME = ar rcs $(NAME)
-RANNAME = ranlib $(NAME)
 OBJS_ALL = $(OBJS) $(BONUS_OBJS)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(ARNAME) $(OBJS)
-	$(RANNAME)
 
 %.o: %.c
 	$(CC) $(CPPFLAGS) $(CCFLAGS) -o $@ -c $<

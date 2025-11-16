@@ -1,36 +1,53 @@
+##
+# targets
+# #
+# # # # #
 NAME = libftprintf.a
+DIR_LIB = libft
+LIB_NAME = libft.a
+LIBFT = $(DIR_LIB)/$(LIB_NAME)
 
 SRCS = $(addsuffix .c, ft_printf)
 OBJS := $(SRCS:%.c=%.o)
 
-# BONUS_SRC = $(addsuffix _bonus.c)
-# BONUS_OBJS := $(BONUS_SRC:%.c=%.o)
-
-
 CC = cc
 CCFLAGS = -Wextra -Wall -Werror
-INC_DIR = .
-CPPFLAGS = -I $(INC_DIR)
-ARNAME = ar rcs $(NAME)
-# OBJS_ALL = $(OBJS) $(BONUS_OBJS)
+INCLUDES = $(addprefix -I, . $(DIR_LIB))
+AR = ar rcs
+RM = rm -f
 
+# Test variables
+TEST_NAME = test_printf
+TEST_SRC = main.c
+
+.PHONY: all clean fclean re test $(DIR_LIB)
+
+#ACTIONS
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	make -C $(LIBFT)
-	$(ARNAME) $(OBJS)
+$(LIBFT):
+	make -C $(DIR_LIB)
+
+$(NAME): $(OBJS) $(LIBFT)
+	make -C $(DIR_LIB)
+	cp $(LIBFT) $(NAME)
+	$(AR) $(NAME) $(OBJS)
 
 %.o: %.c
-	$(CC) $(CPPFLAGS) $(CCFLAGS) -o $@ -c $<
+	$(CC) $(CCFLAGS) $(INCLUDES) -o $@ -c $<
 
 clean:
-	rm -f $(OBJS) 
+	$(RM) $(OBJS)
+	make -C $(DIR_LIB) clean
 
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
+	$(RM) $(TEST_NAME)
+	make -C $(DIR_LIB) fclean
 
 re: fclean all
 
-# bonus: $(BONUS_OBJS)
-# 	$(ARNAME) $(BONUS_OBJS)
-# 	$(RANNAME)
+test: $(NAME)
+	$(CC) $(CCFLAGS) $(INCLUDES) $(TEST_SRC) -L. -lftprintf -o $(TEST_NAME)
+	./$(TEST_NAME)
+
