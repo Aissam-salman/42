@@ -47,7 +47,7 @@ fclean: clean
 
 re: fclean all
 
-test: $(NAME)
+test: re $(NAME)
 	$(CC) $(CCFLAGS) $(INCLUDES) $(TEST_SRC) -L. -lftprintf -o $(TEST_NAME)
 	./$(TEST_NAME)
 
