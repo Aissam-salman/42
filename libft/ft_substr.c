@@ -30,19 +30,18 @@ static char	*ft_strndup(const char *s, size_t len)
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	len_s;
-	char	*out;
+	size_t	available;
 	size_t	real_len;
 
 	if (!s)
 		return (NULL);
-	if ((int)len < 0)
-		return (ft_strdup(""));
 	len_s = ft_strlen(s);
 	if (start >= len_s)
 		return (ft_strdup(""));
-	real_len = len;
-	if (start + len > len_s)
-		real_len = len_s - start;
-	out = ft_strndup(s + start, real_len);
-	return (out);
+	available = len_s - start;
+	if (len > available)
+		real_len = available;
+	else
+		real_len = len;
+	return (ft_strndup(s + start, real_len));
 }
