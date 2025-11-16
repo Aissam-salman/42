@@ -1,6 +1,6 @@
 # Projects 42
 
-- [ ] Libft
+## Libft
     - [x] isalpha
     - [x] isdigit
     - [x] isalnum
@@ -59,3 +59,5 @@
     - [x] ft_lstclear
     - [x] ft_lstiter
     - [x] ft_lstmap
+
+## Printf
