@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/16 18:49:52 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/16 19:15:06 by salman           ###   ########.fr       */
+/*   Created: 2025/11/16 14:27:30 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/17 18:12:16 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#ifndef LIBFTPRINTF_H
+# define LIBFTPRINTF_H
 
-int main()
-{
-    ft_printf("Hello, world!\n", "totally ignored");
-    return (0);
-}
+#include "libft.h"
+#include <stdarg.h>
+
+int ft_printf(const char *format, ...);
+char *ft_itoa_base(long nb, char *base_to);
+
+#endif
