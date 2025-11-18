@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 14:28:14 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/18 18:29:00 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/18 21:02:07 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	ft_isset(char c, const char *set)
 		i++; }
 	return (0);
 }
-
 static size_t count_nb_formater(const char *format, const char prefix, const char *set)
 {
 
@@ -68,6 +67,33 @@ int ft_puthexa_p_fd(unsigned long p, int fd)
 	while (i--)
 		ft_putchar_fd(buffer[i], fd);
 	return (len + 2);
+}
+
+int ft_puthexa(unsigned long p, int fd, char *base)
+{
+	int len;
+	size_t i;
+	const char *hexa_digits;
+	char buffer[20];
+
+	if (p == 0)
+	{
+		ft_putstr_fd("0", fd);
+		return (1);
+	}
+	hexa_digits = base;
+	len = 0;
+	i = 0;
+	while (p > 0)
+	{
+		buffer[i] = hexa_digits[p % 16];
+		p = p / 16;
+		i++;
+	}
+	len = i;
+	while (i--)
+		ft_putchar_fd(buffer[i], fd);
+	return (len);
 }
 
 int ft_print_nbr(int nb)
@@ -119,7 +145,7 @@ int	ft_printf(const char *format, ...)
 					ft_putstr_fd("(null)", 1);
 					total_len += 6;
 				}
-				else 
+				else
 				{
 					ft_putstr_fd(val, 1);
 					total_len += ft_strlen(val);
@@ -131,6 +157,17 @@ int	ft_printf(const char *format, ...)
 				total_len += ft_print_nbr(va_arg(args, int));
 			else if (*format == 'u')
 				total_len += ft_print_nbr_u((unsigned int)va_arg(args, unsigned int));
+			else if (*format == 'x')
+				total_len += ft_puthexa((unsigned long)va_arg(args, unsigned int), 1, "0123456789abcdef");
+			else if (*format == 'X')
+				total_len += ft_puthexa((unsigned long)va_arg(args, unsigned int), 1, "0123456789ABCDEF");
+			else if (*format == '%')
+			{
+				ft_putchar_fd('%', 1);
+				total_len++;
+			}
+			else
+				return (-1);
 		}
 		else
 		{

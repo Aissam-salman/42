@@ -6,13 +6,13 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 16:37:57 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/18 15:49:03 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/18 20:35:41 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-size_t	ft_nbrlen(long nb, size_t base_len)
+size_t	ft_nbrlen(unsigned int nb, size_t base_len)
 {
 	size_t	nbr_len;
 
@@ -25,7 +25,7 @@ size_t	ft_nbrlen(long nb, size_t base_len)
 	return (nbr_len);
 }
 
-static char *ft_tobase(long nb, char *base_to, size_t base_len, int sign)
+static char *ft_tobase(unsigned int nb, char *base_to, size_t base_len, int sign)
 {
 	size_t i;
 	char *nbr;
@@ -53,11 +53,20 @@ static char *ft_tobase(long nb, char *base_to, size_t base_len, int sign)
 	return (nbr);
 
 }
-char *ft_itoa_base(long nb, char *base_to)
+
+
+char *ft_itoa_base(unsigned int nb, char *base_to)
 {
 	size_t	base_len;
 	int 	sign;
 
+	if (nb == 0)
+	{
+		char *nbr = malloc(2);
+		nbr[0] = '0';
+		nbr[1] = '\0';
+		return nbr;
+	}
 	sign = 1;
 	base_len = ft_strlen(base_to);
 	if (nb < 0)

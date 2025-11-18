@@ -6,7 +6,7 @@
 /*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 14:27:30 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/17 18:12:16 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/18 20:24:41 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdarg.h>
 
 int ft_printf(const char *format, ...);
-char *ft_itoa_base(long nb, char *base_to);
+char *ft_itoa_base(unsigned int nb, char *base_to);
 char *ft_itoa_u(unsigned int nb);
 
 #endif
