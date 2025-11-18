@@ -6,7 +6,7 @@ LIBFT = $(DIR_LIB)/$(LIB_NAME)
 LIBFT_ABS = $(abspath $(LIBFT))
 TMPDIR = .libtmp
 
-SRCS = $(addsuffix .c, ft_printf ft_itoa_base)
+SRCS = $(addsuffix .c, ft_printf ft_itoa_base ft_itoa_u)
 OBJS := $(SRCS:%.c=%.o)
 
 CC = cc
@@ -55,7 +55,7 @@ re: fclean all
 
 # debug: compile a small runner linking libft directly (useful for local debugging)
 debug: $(LIBFT)
-	$(CC) $(CCFLAGS) -I. -I$(DIR_LIB) debug_main.c ft_printf.c ft_itoa_base.c $(LIBFT) -o debug_printf
+	$(CC) $(CCFLAGS) -I. -I$(DIR_LIB) debug_main.c $(SRCS) $(LIBFT) -o debug_printf
 
 # test: re $(NAME)
 # 	$(CC) $(CCFLAGS) $(INCLUDES) $(TEST_SRC) -L. -lftprintf -L$(DIR_LIB) -lft -o $(TEST_NAME)

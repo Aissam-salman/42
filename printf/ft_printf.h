@@ -18,5 +18,6 @@
 
 int ft_printf(const char *format, ...);
 char *ft_itoa_base(long nb, char *base_to);
+char *ft_itoa_u(unsigned int nb);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 14:28:14 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/17 20:21:11 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/18 18:29:00 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,109 +42,102 @@ static size_t count_nb_formater(const char *format, const char prefix, const cha
 	return (nb_formater);
 }
 
-void ft_puthexap_fd(void *p, int fd)
+int ft_puthexa_p_fd(unsigned long p, int fd)
 {
-	char *out;
-	char *hex_digits;
-	unsigned char i;
-	unsigned long val;
-	int reminder;
+	int len;
+	size_t i;
+	const char *hexa_digits;
+	char buffer[20];
 
-	out = malloc(17);
-	if (!out)
-		return ;
-	val = (unsigned long)p;
-	hex_digits = "0123456789abcdef";
-	out[16] = '\0';
-	i = 15;
-	while (i >= 0)
+	if (!p)
 	{
-		reminder = val % 16;
-		out[i] = hex_digits[reminder];
-		val = val / 16;
-		i--;
+		ft_putstr_fd("(nil)", fd);
+		return (5);
 	}
+	hexa_digits = "0123456789abcdef";
 	ft_putstr_fd("0x", fd);
-	ft_putstr_fd(out, fd);
+	len = 0;
+	i = 0;
+	while (p > 0)
+	{
+		buffer[i] = hexa_digits[p % 16];
+		p = p / 16;
+		i++;
+	}
+	len = i;
+	while (i--)
+		ft_putchar_fd(buffer[i], fd);
+	return (len + 2);
 }
 
-int ft_printf(const char *format, ...)
+int ft_print_nbr(int nb)
 {
-	const char *CONVERSION = "cspdiuxX%";
-	const char formater_prefix = '%';
-	// const char *flags = "-0.# +";
-	va_list args;
-	size_t	nb_formater;
-	size_t total_len;
+	char *res;
 
-	nb_formater = count_nb_formater(format, formater_prefix, CONVERSION);
-	if (nb_formater == 0)
+	res = ft_itoa(nb);
+	ft_putstr_fd(res, 1);
+	return (ft_strlen(res));
+
+}
+
+int ft_print_nbr_u(unsigned int nb)
+{
+	char *res;
+
+	res = ft_itoa_u(nb);
+	ft_putstr_fd(res, 1);
+	return (ft_strlen(res));
+}
+
+int	ft_printf(const char *format, ...)
+{
+	va_list		args;
+	size_t	total_len;
+
+	if (count_nb_formater(format, '%', "cspdiuxX%") == 0)
 	{
-		ft_putendl_fd("No conversion present", 1);
 		ft_putstr_fd((char *)format, 1);
 		return (ft_strlen(format));
 	}
 	va_start(args, format);
-	size_t i = 0;
-	size_t stop = 1;
 	total_len = 0;
 	while (*format)
 	{
-		if (*format == formater_prefix && stop)
+		if (*format == '%')
 		{
 			format++;
 			if (*format == 'c')
 			{
-				unsigned char val = va_arg(args, int);
-				ft_putchar_fd(val, 1);
+				ft_putchar_fd((unsigned char)va_arg(args, int), 1);
 				total_len++;
 			}
 			else if (*format == 's')
 			{
 				char *val = va_arg(args, char *);
-				ft_putstr_fd(val, 1);
-				total_len += ft_strlen(val);
+				if (!val)
+				{
+					ft_putstr_fd("(null)", 1);
+					total_len += 6;
+				}
+				else 
+				{
+					ft_putstr_fd(val, 1);
+					total_len += ft_strlen(val);
+				}
 			}
 			else if (*format == 'p')
-			{
-				void *val = va_arg(args, void *);
-				ft_puthexap_fd(val, 1);
-				total_len += 18;
-			}
+				total_len += ft_puthexa_p_fd(va_arg(args, unsigned long), 1);
 			else if (*format == 'd' || *format == 'i')
-			{
-				signed int val = va_arg(args,  signed int);
-				ft_putnbr_fd(val, 1);
-			}
-			else if (*format == 'u' )
-			{
-				unsigned int val = va_arg(args,  unsigned int);
-				ft_putnbr_fd(val, 1);
-			}
-			else if (*format == 'x')
-			{
-				unsigned int val = va_arg(args,  unsigned int);
-				ft_putstr_fd(ft_itoa_base(val, "0123456789abcdef"), 1);
-			}
-			else if (*format == 'X' )
-			{
-				unsigned int val = va_arg(args,  unsigned int);
-				ft_putstr_fd(ft_itoa_base(val, "0123456789ABCDEF"), 1);
-			}
-			else
-				return (-1);
-			i++;
-			format++;
+				total_len += ft_print_nbr(va_arg(args, int));
+			else if (*format == 'u')
+				total_len += ft_print_nbr_u((unsigned int)va_arg(args, unsigned int));
 		}
 		else
 		{
 			ft_putchar_fd(*format, 1);
 			total_len++;
-			format++;
 		}
-		if (i == nb_formater)
-			stop = 0;
+		format++;
 	}
-	va_end(args);
-    return  (nb_formater);
+	return (total_len);
 }
