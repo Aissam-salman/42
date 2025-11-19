@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# fichier temporaire
+CMD_FILE=$(mktemp)
+
+cat > "$CMD_FILE" <<EOF
+b main
+r
+EOF
+
+# lance LLDB en mode interactif + execute nos commandes, puis on retombe dans un vrai terminal
+lldb a.out -s "$CMD_FILE"
