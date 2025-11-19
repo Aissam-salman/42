@@ -6,15 +6,15 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 11:31:47 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/18 18:30:41 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/19 08:39:51 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
 static size_t	find_nblen(unsigned long n)
 {
-	size_t		count;
+	size_t			count;
 	unsigned int	nbr;
 
 	nbr = (unsigned int)n;
@@ -34,7 +34,7 @@ static size_t	find_nblen(unsigned long n)
 static char	*fill_nbr(char *out, unsigned long n, size_t len)
 {
 	unsigned long	nbr;
-	size_t		i;
+	size_t			i;
 
 	nbr = (unsigned long)n;
 	i = 0;

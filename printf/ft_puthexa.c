@@ -1,28 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_puthexa.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/16 14:27:30 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/19 08:42:32 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/19 08:23:00 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/19 08:47:47 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "ft_printf.h"
 
-# include "libft.h"
-# include <stdarg.h>
+int	ft_puthexa(unsigned long p, int fd, char *base)
+{
+	int		len;
+	size_t	i;
+	char	*hexa_digits;
+	char	buffer[20];
 
-int		ft_printf(const char *format, ...);
-char	*ft_itoa_u(unsigned int nb);
-int		ft_puthexa(unsigned long p, int fd, char *base);
-int		ft_puthexa_p_fd(unsigned long p, int fd);
-int		ft_print_str(char *str);
-int		ft_print_nbr(int nb);
-int		ft_print_nbr_u(unsigned int nb);
-int		ft_putchar_len(char c, int fd);
-
-#endif
+	if (p == 0)
+	{
+		ft_putstr_fd("0", fd);
+		return (1);
+	}
+	hexa_digits = base;
+	len = 0;
+	i = 0;
+	while (p > 0)
+	{
+		buffer[i] = hexa_digits[p % 16];
+		p = p / 16;
+		i++;
+	}
+	len = i;
+	while (i--)
+		ft_putchar_fd(buffer[i], fd);
+	return (len);
+}
