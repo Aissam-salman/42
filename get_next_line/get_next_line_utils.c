@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 10:21:23 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/19 10:21:26 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/11/20 21:03:28 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ char	*ft_strndup(const char *s, size_t len)
 	size_t	i;
 	char	*dup;
 
-	dup = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (!s)
+		return (NULL);
+	dup = malloc(len + 1);
 	if (!dup)
 		return (NULL);
 	i = 0;
@@ -61,22 +63,17 @@ static char	*fill_out(const char *s1, const char *s2, size_t lens1,
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*out;
-	size_t	lens1;
-	size_t	lens2;
 
 	if (!s1 && !s2)
 		return (NULL);
-	lens1 = ft_strlen(s1);
-	lens2 = ft_strlen(s2);
 	if (!s1)
-		return (ft_strndup(s2, lens2));
+		return (ft_strndup(s2, ft_strlen(s2)));
 	if (!s2)
-		return (ft_strndup(s1, lens1));
+		return (ft_strndup(s1, ft_strlen(s1)));
 	out = NULL;
-	out = fill_out(s1, s2, lens1, lens2);
+	out = fill_out(s1, s2, ft_strlen(s1), ft_strlen(s2));
 	return (out);
 }
-
 
 char *append(char *stash, char *buffer)
 {

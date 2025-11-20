@@ -21,9 +21,7 @@ static int	have_endl(char *stash)
 	size_t	i;
 
 	i = 0;
-	while (stash[i])
-	{
-		if (stash[i] == '\n')
+	while (stash[i]) { if (stash[i] == '\n')
 			return (1);
 		i++;
 	}
