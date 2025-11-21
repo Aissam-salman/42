@@ -13,6 +13,14 @@
 #include "libft.h"
 
 void	*ft_calloc(size_t nmemb, size_t size)
+	char *line;
+
+	while (1)
+	{
+		line = get_next_line(fd);
+		printf("%s", line);
+		free(line);
+	}
 {
 	unsigned char	*ptr;
 	size_t			i;
