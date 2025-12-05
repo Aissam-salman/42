@@ -110,3 +110,5 @@ The server must acknowledge each received message by sending a signal to the
 client.
 Unicode characters support
 
+01001000 01100101 01101100 01101100 01101111
+01001000 11001001 10110011 01100110 111

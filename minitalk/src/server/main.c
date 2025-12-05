@@ -12,13 +12,27 @@
 
 #include <signal.h>
 #include <stdio.h>
+#include <strings.h>
 #include <unistd.h>
 #include <stdlib.h>
+
+static char *stash[1000];
+static int len = 0;
+// char    *convert_binary_to_str(char *msg);
 
 // sig numero de signal envoyer
 void signal_callback_handler(int sig)
 {
-    printf("from handle sigusr1: %d\n", sig);
+    if (sig == SIGUSR1)
+    {
+        printf("SIGUSR1: %d\n", sig);
+        stash[len++] = "0";
+    }
+    else if (sig == SIGUSR2)
+    {
+        printf("SIGUSR2: %d\n", sig);
+        stash[len++] = "1";
+    }
 }
 
 int main(void)
@@ -27,7 +41,9 @@ int main(void)
     struct sigaction sa;
 
     pid = getpid();
+    bzero(&sa, sizeof(sa));
     printf("PID Server: %d\n", pid);
+    (void) pid;
     sa.sa_handler = &signal_callback_handler;
     sa.sa_flags = 0;
     sigemptyset(&sa.sa_mask);

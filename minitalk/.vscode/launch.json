@@ -1,0 +1,40 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Server",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceRoot}/server",
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": "build"
+        },
+        {
+            "name": "Debug Client",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceRoot}/client",
+            "args": ["${input:serverPID}", "${input:message}"],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": "build"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "serverPID",
+            "type": "promptString",
+            "description": "Enter the server PID:",
+            "default": "0"
+        },
+        {
+            "id": "message",
+            "type": "promptString",
+            "description": "Enter the message to send:",
+            "default": "Hello World!"
+        }
+    ]
+}
