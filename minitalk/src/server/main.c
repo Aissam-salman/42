@@ -35,6 +35,24 @@ void signal_callback_handler(int sig)
     }
 }
 
+int  binary_to_decimal(int n)
+{
+	int last_digit;
+	int dec = 0;
+	int base = 1;
+
+	dec = 0;
+	base = 1;
+	while (n)
+	{
+		last_digit = n % 10;
+		n = n / 10;
+		dec += last_digit * base;
+		base = base * 2;
+	}
+	return (dec);
+}
+
 int main(void)
 {
     pid_t pid;

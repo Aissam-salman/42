@@ -96,7 +96,7 @@ char    *str_to_binary(char *msg)
 
     if (!msg)
         return (NULL);
-    binary = malloc(strlen(msg) * 8 + 1);
+    binary = malloc(strlen(msg) * 8 + 1 + 5);
     if (!binary)
         return (NULL);
     i = 0;
@@ -121,10 +121,7 @@ void handler_client(pid_t pid_server, char *msg)
     printf("PID Client: %d\n", pid);
     printf("Message a envoye: \"%s\"\n", msg);
     printf("pidS: %d\n", pid_server);
-
     binary = str_to_binary(msg);
-
-    printf("binary: %s\n", binary);
     i = 0;
     while (binary[i])
     {
