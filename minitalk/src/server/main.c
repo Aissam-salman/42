@@ -13,31 +13,26 @@
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
-// #include <stdlib.h>
-//
+#include <stdlib.h>
 
-void handle_sigusr1(int sig)
+// sig numero de signal envoyer
+void signal_callback_handler(int sig)
 {
-    printf("from handle sigusr1: %d", sig);
-}
-
-
-void    init_server(void)
-{
-    pid_t pid;
-    struct sigaction sa = {0};
-    pid = getpid();
-    printf("PID Server: %d\n", pid);
-
-    sa.sa_handler = &handle_sigusr1;
-    sigaction(SIGUSR1, &sa, NULL);
-    // listen the signals
-   // two signals: SIGUSR1 and SIGUSR2.
-    // handle it with, printf or other fn
+    printf("from handle sigusr1: %d\n", sig);
 }
 
 int main(void)
 {
-    init_server();
+    pid_t pid;
+    struct sigaction sa;
+
+    pid = getpid();
+    printf("PID Server: %d\n", pid);
+    sa.sa_handler = &signal_callback_handler;
+    sa.sa_flags = 0;
+    sigemptyset(&sa.sa_mask);
+    sigaction(SIGUSR1, &sa, NULL);
+    sigaction(SIGUSR2, &sa, NULL);
+    while(1);
     return (0);
 }

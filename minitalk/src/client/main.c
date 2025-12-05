@@ -20,14 +20,11 @@ void handler_client(pid_t pid_server, char *msg)
     pid_t pid;
 
     pid = getpid();
-    if (pid == -1)
-        exit(EXIT_FAILURE);
     printf("PID Client: %d\n", pid);
     printf("Message a envoye: \"%s\"\n", msg);
+    printf("pidS: %d", pid_server);
 
-    // send signal to server 
-    //check pids
-    kill(pid_server, SIGUSR1);
+    kill((pid_t)pid_server, SIGUSR1);
 }
 
 int main(int ac, char **av)
