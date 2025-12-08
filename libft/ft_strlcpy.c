@@ -6,11 +6,22 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:48:47 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/14 16:59:01 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:26:12 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+/**
+ * @brief Copies up to size - 1 characters from the NUL-terminated string src
+ * to dst, NUL-terminating the result.
+ *
+ * @param dst The destination string.
+ * @param src The source string.
+ * @param size The total size of the destination buffer.
+ * @return The total length of the string it tried to create: the length of
+ * src.
+ */
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {

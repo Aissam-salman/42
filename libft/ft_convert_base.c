@@ -1,0 +1,90 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_convert_base.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/08 16:49:00 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 17:11:28 by alamjada         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+#include <stdio.h>
+
+static int check_nbr_base_from(char *nbr, char *base_from)
+{
+	size_t i;
+
+	i = 0;
+	while (nbr[i])
+	{
+		if (!ft_strchr(base_from, nbr[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static int	check_base(char *base)
+{
+	size_t	lenb;
+	size_t	i;
+	size_t	j;
+
+	if (!base || !*base)
+		return (0);
+	lenb = ft_strlen(base);
+	if (lenb < 2)
+		return (0);
+	i = 0;
+	while (base[i])
+	{
+		if (!ft_isprint(base[i]) || base[i] == '+' || base[i] == '-')
+			return (0);
+		j = i + 1;
+		while (base[i] && base[j])
+		{
+			if (base[i] == base[j])
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+
+char *itoa_base(int nb, char *base_to)
+{
+	(void)nb;
+	(void)base_to;
+	return (NULL);
+}
+
+int	atoi_base(char *nbr, char *base_from)
+{
+	(void)nbr;
+	(void)base_from;
+	size_t	lenb;
+
+	lenb = ft_strlen(base_from);
+	
+	return (0);
+}
+
+char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
+{
+	int n;
+	char *res;
+
+	if (!check_base(base_from) || !check_base(base_to))
+		return (NULL);
+	if (!check_nbr_base_from(nbr, base_from))
+		return (NULL);
+	// conversion to base_from to base 10
+	n = atoi_base(nbr, base_from);
+	// conversion from base 10 to base_to
+	res = itoa_base(n, base_to);
+	return (res);
+}

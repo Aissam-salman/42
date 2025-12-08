@@ -6,11 +6,21 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 09:15:56 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/14 22:10:13 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:22:24 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+/**
+ * @brief Fills the first n bytes of the memory area pointed to by s with the
+ * constant byte c.
+ *
+ * @param s The memory area to fill.
+ * @param c The byte to fill with.
+ * @param n The number of bytes to fill.
+ * @return A pointer to the memory area s.
+ */
 
 void	*ft_memset(void *s, int c, size_t n)
 {

@@ -6,11 +6,22 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 17:35:23 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/14 17:07:27 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:26:12 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+/**
+ * @brief Appends the NUL-terminated string src to the end of dst. It will
+ * append at most size - strlen(dst) - 1 bytes, NUL-terminating the result.
+ *
+ * @param dst The destination string.
+ * @param src The source string.
+ * @param size The total size of the destination buffer.
+ * @return The total length of the string it tried to create: the initial
+ * length of dst plus the length of src.
+ */
 
 static size_t	ft_strnlen(const char *dst, size_t size_max)
 {

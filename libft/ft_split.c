@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 16:44:24 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/14 16:54:31 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:24:27 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,17 @@ static int	ft_cutstr(char **out, char const *s, char c)
 	out[i] = NULL;
 	return (1);
 }
+
+/**
+ * @brief Allocates and returns an array of strings obtained by splitting 's'
+ * using the character 'c' as a delimiter. The array must be ended by a NULL
+ * pointer.
+ *
+ * @param s The string to be split.
+ * @param c The delimiter character.
+ * @return The array of new strings resulting from the split. NULL if the
+ * allocation fails.
+ */
 
 char	**ft_split(char const *s, char c)
 {

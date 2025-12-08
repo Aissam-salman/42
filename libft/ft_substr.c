@@ -6,11 +6,21 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 20:51:13 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/14 16:59:30 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:29:53 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+/**
+ * @brief Allocates and returns a substring from the string 's'.
+ * The substring begins at index 'start' and is of maximum size 'len'.
+ *
+ * @param s The string from which to create the substring.
+ * @param start The start index of the substring in the string 's'.
+ * @param len The maximum length of the substring.
+ * @return The substring. NULL if the allocation fails.
+ */
 
 static char	*ft_strndup(const char *s, size_t len)
 {

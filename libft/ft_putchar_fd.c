@@ -6,11 +6,18 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 17:15:43 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/14 16:39:47 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:24:25 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+/**
+ * @brief Outputs the character 'c' to the given file descriptor.
+ *
+ * @param c The character to output.
+ * @param fd The file descriptor on which to write.
+ */
 
 void	ft_putchar_fd(char c, int fd)
 {

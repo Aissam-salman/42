@@ -6,11 +6,18 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 11:31:47 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/14 16:34:33 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:19:38 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+/**
+ * @brief Converts an integer to a string.
+ *
+ * @param n The integer to convert.
+ * @return The string representation of the integer.
+ */
 
 static size_t	find_nblen(int n)
 {

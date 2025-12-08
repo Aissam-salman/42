@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 18:07:50 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/16 13:51:24 by salman           ###   ########.fr       */
+/*   Updated: 2025/12/08 15:46:10 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+/**
+ * @brief Converts the initial portion of the string pointed to by nptr to int.
+ *
+ * @param nptr The string to convert.
+ * @return The converted integer.
+ */
 
 static int	ft_isspace(unsigned char c)
 {

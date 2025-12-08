@@ -6,11 +6,23 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 13:33:46 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/14 16:59:13 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:27:00 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+/**
+ * @brief Compares not more than n characters. Because ft_strncmp() is designed
+ * for comparing strings rather than binary data, characters that appear after
+ * a '\\0' character are not compared.
+ *
+ * @param s1 The first string to compare.
+ * @param s2 The second string to compare.
+ * @param n The maximum number of characters to compare.
+ * @return An integer greater than, equal to, or less than 0, according as the
+ * string s1 is greater than, equal to, or less than the string s2.
+ */
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

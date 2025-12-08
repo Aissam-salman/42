@@ -6,11 +6,20 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 10:41:18 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/14 17:05:35 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:26:12 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+/**
+ * @brief Allocates and returns a new string, which is the result of the
+ * concatenation of 's1' and 's2'.
+ *
+ * @param s1 The prefix string.
+ * @param s2 The suffix string.
+ * @return The new string. NULL if the allocation fails.
+ */
 
 static char	*fill_out(const char *s1, const char *s2, size_t lens1,
 		size_t lens2)

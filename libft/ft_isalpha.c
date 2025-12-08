@@ -3,18 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamjada <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 13:33:49 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/05 14:09:56 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:19:21 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @brief Checks for an alphabetic character.
+ *
+ * @param c The character to check.
+ * @return 1 if the character is alphabetic, 0 otherwise.
+ */
+
 int	ft_isalpha(int c)
 {
-	if (c >= 'A' && c <= 'Z')
-		return (1);
-	if (c >= 'a' && c <= 'z')
-		return (1);
-	return (0);
+	return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
 }
