@@ -62,6 +62,20 @@ char *itoa_base(int nb, char *base_to)
 	return (NULL);
 }
 
+static int ft_find_index(char c, char *base_from)
+{
+	(void)c;
+	(void)base_from;
+	return (0);
+}
+
+int ft_power(int nb, int power)
+{
+	(void)nb;
+	(void)power;
+	return (0);
+}
+
 int	atoi_base(char *nbr, char *base_from)
 {
 	size_t	lenb;
@@ -72,6 +86,7 @@ int	atoi_base(char *nbr, char *base_from)
 	i = 0;
 	while (nbr[i])
 	{
+		//TODO: handle the calculation of this 
 		rs += ft_find_index(nbr[i], base_from) * ft_power(lenb, lenn);
 		i++;
 	}
