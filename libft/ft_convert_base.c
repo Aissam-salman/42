@@ -64,13 +64,18 @@ char *itoa_base(int nb, char *base_to)
 
 int	atoi_base(char *nbr, char *base_from)
 {
-	(void)nbr;
-	(void)base_from;
 	size_t	lenb;
+	size_t i;
+	int rs;
 
 	lenb = ft_strlen(base_from);
-	
-	return (0);
+	i = 0;
+	while (nbr[i])
+	{
+		rs += ft_find_index(nbr[i], base_from) * ft_power(lenb, lenn);
+		i++;
+	}
+	return (rs);
 }
 
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
