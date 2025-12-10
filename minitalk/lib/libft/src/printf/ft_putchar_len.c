@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   ft_putchar_len.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 18:05:49 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 19:05:41 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/19 08:27:14 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/19 08:50:43 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#include "ft_printf.h"
 
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "../lib/libft/includes/libft.h"
-#include "../lib/libft/includes/ft_printf.h"
-#include <stdlib.h>
-
-#endif
+int	ft_putchar_len(char c, int fd)
+{
+	write(fd, &c, 1);
+	return (1);
+}

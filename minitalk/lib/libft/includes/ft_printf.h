@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 18:05:49 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 19:05:41 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/16 14:27:30 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/10 19:04:59 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "../lib/libft/includes/libft.h"
-#include "../lib/libft/includes/ft_printf.h"
-#include <stdlib.h>
+# include "libft.h"
+# include <stdarg.h>
+
+int		ft_printf(const char *format, ...);
+char	*ft_itoa_u(unsigned int nb);
+int		ft_puthexa(unsigned long p, int fd, char *base);
+int		ft_puthexa_p_fd(unsigned long p, int fd);
+int		ft_print_str(char *str);
+int		ft_print_nbr(int nb);
+int		ft_print_nbr_u(unsigned int nb);
+int		ft_putchar_len(char c, int fd);
 
 #endif

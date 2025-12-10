@@ -6,13 +6,11 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 17:57:51 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 17:48:36 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/10 19:04:08 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/client.h"
-#include <signal.h>
-#include <unistd.h>
 
 static char *ft_convert_char_to_binary(unsigned char c)
 {
@@ -26,20 +24,20 @@ static char *ft_convert_char_to_binary(unsigned char c)
         return (NULL);
     nbyte = 7;
     i = 0;
-    while (nbyte >= 0)
+    while (nbyte-- >= 0)
     {
         tmp[i++] = c % 2 + '0';
         c = c / 2;
-        nbyte--;
     }
     tmp[i] = '\0';
     rev = malloc(9);
     if (!rev)
-        return (NULL);
+        return (free(tmp),NULL);
     nbyte = 0;
     while (i > 0)
         rev[nbyte++] = tmp[--i];
     rev[nbyte] = '\0';
+	free(tmp);
     return (rev);
 }
 
@@ -47,22 +45,27 @@ static char    *ft_str_to_binary(char *msg)
 {
     char    *binary;
     char    *tmp;
+	char	*old;
     size_t  i;
 
     if (!msg)
         return (NULL);
-    binary = malloc(ft_strlen(msg) * 8 + 1);
+    binary = ft_strdup("");
     if (!binary)
         return (NULL);
     i = 0;
     while (msg[i])
     {
         tmp = ft_convert_char_to_binary(msg[i]);
+		if (!tmp)
+			return (free(binary), NULL);
+		old = binary;
         binary = ft_strjoin(binary, tmp);
+		free(old);
+		free(tmp);
         tmp = NULL;
         i++;
     }
-    free(tmp);
     return (binary);
 }
 
@@ -88,13 +91,12 @@ void	ft_end_msg(pid_t pid_server)
 
 void handler_client(pid_t pid_server, char *msg)
 {
-    pid_t pid;
     char    *binary;
     size_t  i;
 
-    pid = getpid();
-    printf("PID Client: %d\n", pid);
     binary = ft_str_to_binary(msg);
+	if (!binary)
+		return (ft_end_msg(pid_server));
     i = 0;
     while (binary[i])
     {
@@ -114,12 +116,11 @@ void handler_client(pid_t pid_server, char *msg)
 	ft_end_msg(pid_server);
 }
 
-
 int main(int ac, char **av)
 {
     if (ac != 3)
     {
-        printf("Need TWO params only: ./client PID \"message\"\n");
+        ft_printf("Need TWO params only: ./client PID \"message\"\n");
         return (-1);
     }
     handler_client(ft_atoi(av[1]), av[2]);

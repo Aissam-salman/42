@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   ft_print_nbr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 18:05:49 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 19:05:41 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/19 08:19:51 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/19 08:43:16 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#include "ft_printf.h"
 
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "../lib/libft/includes/libft.h"
-#include "../lib/libft/includes/ft_printf.h"
-#include <stdlib.h>
+int	ft_print_nbr(int nb)
+{
+	char	*res;
+	int		len;
 
-#endif
+	res = ft_itoa(nb);
+	ft_putstr_fd(res, 1);
+	len = ft_strlen(res);
+	free(res);
+	return (len);
+}

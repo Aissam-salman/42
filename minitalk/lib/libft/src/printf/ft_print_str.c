@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_print_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/08 17:19:41 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/08 17:26:01 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/19 08:24:50 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/19 08:51:08 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
+#include "ft_printf.h"
 
-int	main(void)
+int	ft_print_str(char *str)
 {
-	char *str = ft_convert_base("15", "0123456789", "0123456789abcdef");
-	printf("%s", str);
-	return (0);
+	if (!str)
+	{
+		ft_putstr_fd("(null)", 1);
+		return (6);
+	}
+	ft_putstr_fd(str, 1);
+	return (ft_strlen(str));
 }

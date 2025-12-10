@@ -1,23 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   ft_puthexa.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 18:05:49 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 19:05:41 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/19 08:23:00 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/19 08:47:47 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#include "ft_printf.h"
 
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "../lib/libft/includes/libft.h"
-#include "../lib/libft/includes/ft_printf.h"
-#include <stdlib.h>
+int	ft_puthexa(unsigned long p, int fd, char *base)
+{
+	int		len;
+	size_t	i;
+	char	*hexa_digits;
+	char	buffer[20];
 
-#endif
+	if (p == 0)
+	{
+		ft_putstr_fd("0", fd);
+		return (1);
+	}
+	hexa_digits = base;
+	len = 0;
+	i = 0;
+	while (p > 0)
+	{
+		buffer[i] = hexa_digits[p % 16];
+		p = p / 16;
+		i++;
+	}
+	len = i;
+	while (i--)
+		ft_putchar_fd(buffer[i], fd);
+	return (len);
+}
