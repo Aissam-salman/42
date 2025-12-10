@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 18:05:03 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 15:06:43 by alamjada         ###   ########.fr       */
+/*   Created: 2025/12/10 13:15:24 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/10 13:39:17 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
+void	ft_swap(char *s1, char *s2)
+{
+	char *tmp;
 
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "../lib/libft/libft.h"
-#include <stdlib.h>
-
-#endif
+	tmp = s1;
+	*s1 = *s2;
+	*s2 = *tmp;
+}

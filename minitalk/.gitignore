@@ -1,0 +1,32 @@
+# Fichiers objets
+*.o
+*.obj
+
+# Executables
+a.out
+*.exe
+*.out
+
+# Bibliothèques compilées
+*.so
+*.a
+*.dll
+*.dylib
+
+# Dossiers de build
+build/
+dist/
+
+# Fichiers générés par make
+*.dSYM/
+*.dep
+
+# Éditeurs / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Autres fichiers temporaires
+.DS_Store

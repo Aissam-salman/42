@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   ft_power.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 18:05:03 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 15:06:43 by alamjada         ###   ########.fr       */
+/*   Created: 2025/12/10 13:11:21 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/10 13:11:29 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
-
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "../lib/libft/libft.h"
-#include <stdlib.h>
-
-#endif
+int	ft_power(int n, int power)
+{
+	if (power == 0 || (n == 0 && power == 0))
+		return (1);
+	if (power < 0)
+		return (0);
+	return (n * ft_power(n, power - 1));
+}

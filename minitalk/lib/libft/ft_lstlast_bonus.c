@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 18:05:03 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 15:06:43 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/12 21:27:48 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 16:20:36 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
+#include "libft.h"
 
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "../lib/libft/libft.h"
-#include <stdlib.h>
+/**
+ * @brief Returns the last element of the list.
+ *
+ * @param lst The beginning of the list.
+ * @return The last element of the list.
+ */
 
-#endif
+t_list	*ft_lstlast(t_list *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}

@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   ft_reverse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 18:05:03 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 15:06:43 by alamjada         ###   ########.fr       */
+/*   Created: 2025/12/10 13:23:30 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/10 13:23:43 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
+#include "libft.h"
 
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "../lib/libft/libft.h"
-#include <stdlib.h>
+char	*ft_reverse(char *s)
+{
+	size_t	index;
+	size_t	counter;
 
-#endif
+	counter = 0;
+	index = ft_strlen(s) - 1;
+	while (s[index])
+		ft_swap(&s[index--], &s[counter++]);
+	return (s);
+}

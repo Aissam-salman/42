@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   ft_lstadd_front_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 18:05:03 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 15:06:43 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/12 20:18:11 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 16:20:36 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
+#include "libft.h"
 
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "../lib/libft/libft.h"
-#include <stdlib.h>
+/**
+ * @brief Adds the element 'new_node' at the beginning of the list.
+ *
+ * @param lst The address of a pointer to the first link of a list.
+ * @param new_node The address of a pointer to the element to be added to the
+ * list.
+ */
 
-#endif
+void	ft_lstadd_front(t_list **lst, t_list *new_node)
+{
+	if (!lst || !new_node)
+		return ;
+	new_node->next = *lst;
+	*lst = new_node;
+}

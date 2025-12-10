@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 18:05:03 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 15:06:43 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/06 09:53:53 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 15:46:29 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
+#include "libft.h"
 
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "../lib/libft/libft.h"
-#include <stdlib.h>
+/**
+ * @brief Writes n zeroed bytes to the string s.
+ *
+ * @param s The string to write to.
+ * @param n The number of bytes to write.
+ */
 
-#endif
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*p_cpy;
+
+	p_cpy = (unsigned char *) s;
+	while (n > 0)
+	{
+		*p_cpy = '\0';
+		p_cpy++;
+		n--;
+	}
+}

@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 18:05:49 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/04 18:06:32 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/10 15:06:53 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
+#include "../lib/libft/libft.h"
+#include <stdlib.h>
 
 #endif

@@ -3,62 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 17:57:51 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/05 14:31:03 by salman           ###   ########.fr       */
+/*   Updated: 2025/12/10 15:08:19 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/client.h"
 #include <signal.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <string.h>
 #include <unistd.h>
-#include <stdlib.h>
 
-
-static char	*fill_out(const char *s1, const char *s2, size_t lens1,
-		size_t lens2)
-{
-	char	*out;
-	size_t	i;
-	size_t	j;
-
-	out = malloc(lens1 + lens2 + 1);
-	if (!out)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (s1[i] && i < lens1)
-		out[j++] = s1[i++];
-	i = 0;
-	while (s2[i] && i < lens2)
-		out[j++] = s2[i++];
-	out[j] = '\0';
-	return (out);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*out;
-	size_t	lens1;
-	size_t	lens2;
-
-	if (!s1 && !s2)
-		return (NULL);
-	if (!s1)
-		return (strdup(s2));
-	if (!s2)
-		return (strdup(s1));
-	out = NULL;
-	lens1 = strlen(s1);
-	lens2 = strlen(s2);
-	out = fill_out(s1, s2, lens1, lens2);
-	return (out);
-}
-
-char *ft_convert_char_to_binary(unsigned char c)
+static char *ft_convert_char_to_binary(unsigned char c)
 {
     char    *tmp;
     char    *rev;
@@ -84,11 +40,10 @@ char *ft_convert_char_to_binary(unsigned char c)
     while (i > 0)
         rev[nbyte++] = tmp[--i];
     rev[nbyte] = '\0';
-    printf("char b: %s\n", rev);
     return (rev);
 }
 
-char    *str_to_binary(char *msg)
+static char    *ft_str_to_binary(char *msg)
 {
     char    *binary;
     char    *tmp;
@@ -96,7 +51,7 @@ char    *str_to_binary(char *msg)
 
     if (!msg)
         return (NULL);
-    binary = malloc(strlen(msg) * 8 + 1 + 5);
+    binary = malloc(ft_strlen(msg) * 8 + 1);
     if (!binary)
         return (NULL);
     i = 0;
@@ -111,6 +66,19 @@ char    *str_to_binary(char *msg)
     return (binary);
 }
 
+void	ft_end_msg(pid_t pid_server)
+{
+	int 	i;
+
+	i = 0;
+	while (i < 8)
+	{
+		kill(pid_server, SIGUSR1);
+		usleep(5);
+		i++;
+	}
+}
+
 void handler_client(pid_t pid_server, char *msg)
 {
     pid_t pid;
@@ -119,9 +87,7 @@ void handler_client(pid_t pid_server, char *msg)
 
     pid = getpid();
     printf("PID Client: %d\n", pid);
-    printf("Message a envoye: \"%s\"\n", msg);
-    printf("pidS: %d\n", pid_server);
-    binary = str_to_binary(msg);
+    binary = ft_str_to_binary(msg);
     i = 0;
     while (binary[i])
     {
@@ -138,7 +104,9 @@ void handler_client(pid_t pid_server, char *msg)
         i++;
     }
     free(binary);
+	ft_end_msg(pid_server);
 }
+
 
 int main(int ac, char **av)
 {
@@ -147,6 +115,6 @@ int main(int ac, char **av)
         printf("Need TWO params only: ./client PID \"message\"\n");
         return (-1);
     }
-    handler_client(atoi(av[1]), av[2]);
+    handler_client(ft_atoi(av[1]), av[2]);
     return (0);
 }
