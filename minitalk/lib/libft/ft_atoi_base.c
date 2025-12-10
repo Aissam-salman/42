@@ -42,13 +42,12 @@ int	ft_atoi_base(char *nbr, char *base_from)
 	{
 		i++;
 		sign = -1;
-		// lenn--;
+		lenn--;
 	}
 	while (nbr[i])
 	{
-		// rs += ft_find_index(nbr[i], base_from) * ft_power(lenb, lenn);
-		rs = rs * lenb + ft_find_index(nbr[i], base_from);
-		// lenn--;
+		rs += ft_find_index(nbr[i], base_from) * ft_power(lenb, lenn);
+		lenn--;
 		i++;
 	}
 	return (rs * sign);

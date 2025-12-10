@@ -10,7 +10,7 @@ OBJS_C := $(SRC_C:%.c=%.o)
 OBJS_S := $(SRC_S:%.c=%.o)
 
 CC = cc
-CCFLAGS = -Wextra -Wall -Werror
+CCFLAGS = -Wextra -Wall -Werror -g
 CPPFLAGS = -Iincludes -Ilib/libft
 
 all: $(LIBFT) $(NAME_S) $(NAME_C)

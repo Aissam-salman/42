@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 17:57:51 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 15:08:19 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/10 17:48:36 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,13 @@ void	ft_end_msg(pid_t pid_server)
 		usleep(5);
 		i++;
 	}
+	i = 0;
+	while (i < 8)
+	{
+		kill(pid_server, SIGUSR2);
+		usleep(5);
+		i++;
+	}
 }
 
 void handler_client(pid_t pid_server, char *msg)
@@ -94,12 +101,12 @@ void handler_client(pid_t pid_server, char *msg)
         if (binary[i] == '0')
         {
             kill((pid_t)pid_server, SIGUSR1);
-            usleep(10);
+            usleep(5);
         }
         else if (binary[i] == '1')
         {
             kill((pid_t)pid_server, SIGUSR2);
-            usleep(10);
+            usleep(5);
         }
         i++;
     }
