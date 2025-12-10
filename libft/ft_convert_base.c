@@ -6,18 +6,20 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 16:49:00 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/08 17:11:28 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/10 13:17:43 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 
-static int check_nbr_base_from(char *nbr, char *base_from)
+static int	check_nbr_base_from(char *nbr, char *base_from)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
+	if (nbr[0] == '-')
+		i++;
 	while (nbr[i])
 	{
 		if (!ft_strchr(base_from, nbr[i]))
@@ -55,56 +57,28 @@ static int	check_base(char *base)
 	return (1);
 }
 
-char *itoa_base(int nb, char *base_to)
-{
-	(void)nb;
-	(void)base_to;
-	return (NULL);
-}
-
-static int ft_find_index(char c, char *base_from)
-{
-	(void)c;
-	(void)base_from;
-	return (0);
-}
-
-int ft_power(int nb, int power)
-{
-	(void)nb;
-	(void)power;
-	return (0);
-}
-
-int	atoi_base(char *nbr, char *base_from)
-{
-	size_t	lenb;
-	size_t i;
-	int rs;
-
-	lenb = ft_strlen(base_from);
-	i = 0;
-	while (nbr[i])
-	{
-		//TODO: handle the calculation of this 
-		rs += ft_find_index(nbr[i], base_from) * ft_power(lenb, lenn);
-		i++;
-	}
-	return (rs);
-}
-
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 {
-	int n;
-	char *res;
+	int		n;
+	char	*res;
 
 	if (!check_base(base_from) || !check_base(base_to))
 		return (NULL);
 	if (!check_nbr_base_from(nbr, base_from))
 		return (NULL);
-	// conversion to base_from to base 10
-	n = atoi_base(nbr, base_from);
-	// conversion from base 10 to base_to
-	res = itoa_base(n, base_to);
+	n = ft_atoi_base(nbr, base_from);
+	res = ft_itoa_base(n, base_to);
 	return (res);
+}
+
+#include <stdio.h>
+
+int	main(void)
+{
+	char	*str;
+
+	str = ft_convert_base("-15", "0123456789", "0123456789abcdef");
+	printf("%s", str);
+	free(str);
+	return (0);
 }
