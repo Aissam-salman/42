@@ -6,13 +6,13 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 13:15:24 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 13:39:17 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/11 08:56:20 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void	ft_swap(char *s1, char *s2)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = s1;
 	*s1 = *s2;

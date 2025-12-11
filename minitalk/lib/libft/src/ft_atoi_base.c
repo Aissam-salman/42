@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 13:03:24 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 13:28:27 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/11 08:58:59 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ static int	ft_find_index(char c, char *base)
 	}
 	return (0);
 }
+
 int	ft_atoi_base(char *nbr, char *base_from)
 {
-	size_t lenb;
-	size_t lenn;
-	size_t i;
-	int rs;
-	int sign;
+	size_t	lenb;
+	size_t	lenn;
+	size_t	i;
+	int		rs;
+	int		sign;
 
 	lenb = ft_strlen(base_from);
 	lenn = ft_strlen(nbr) - 1;

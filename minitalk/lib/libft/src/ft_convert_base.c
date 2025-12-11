@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 16:49:00 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 13:17:43 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/11 08:58:29 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,4 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 	n = ft_atoi_base(nbr, base_from);
 	res = ft_itoa_base(n, base_to);
 	return (res);
-}
-
-#include <stdio.h>
-
-int	main(void)
-{
-	char	*str;
-
-	str = ft_convert_base("-15", "0123456789", "0123456789abcdef");
-	printf("%s", str);
-	free(str);
-	return (0);
 }

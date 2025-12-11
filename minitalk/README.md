@@ -14,7 +14,7 @@ malloc
 free
 #include <stdlib.h>
 
---- 
+---
 
 signal
 #include <signal.h>
@@ -39,14 +39,14 @@ initializes the signal set pointed to by set
 
 sigaddset
 #include <signal.h>
-int sigaddset(sigset_t *set, int signo); 
+int sigaddset(sigset_t *set, int signo);
 adds the individual signo specified by signo to the set pointed to by set
 
 ---
 
 kill
 #include <signal.h>  system call can be used to send any signla to any process group or process
-int kill(pid_t pid, int sig)   
+int kill(pid_t pid, int sig)
 
 ---
 
@@ -58,7 +58,7 @@ return the process ID of the calling  process
 
 pause
 #include <unistd.h> int pause(void);
-suspend the calling thread until delibery of a signal whose action is 
+suspend the calling thread until delibery of a signal whose action is
 either to execute a signal-catching function or to terminate the process.
 
 ---
@@ -84,7 +84,7 @@ normal process termination and the least significant byte of status is returned 
 ```
 
 
-## Mandatory 
+## Mandatory
 Create a communication program in the form of a client and a server
 
 The server must be started first, print its PID in launch
@@ -105,10 +105,7 @@ You can only use these two signals: SIGUSR1 and SIGUSR2.
 SIGUSR1      P1990      Term    User-defined signal 1      10
 SIGUSR2      P1990      Term    User-defined signal 2      12
 
-## Bonus 
+## Bonus
 The server must acknowledge each received message by sending a signal to the
 client.
 Unicode characters support
-
-01001000 01100101 01101100 01101100 01101111
-01001000 11001001 10110011 01100110 111

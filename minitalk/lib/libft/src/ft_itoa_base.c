@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 13:09:55 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 13:38:26 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/11 08:57:21 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	ft_lennbr(long nb, int len_base)
 	}
 	return (len);
 }
+
 char	*ft_itoa_base(int nb, char *base_to)
 {
 	int		len_base;
