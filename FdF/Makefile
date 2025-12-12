@@ -2,7 +2,7 @@ NAME = fdf
 LIBFT = libft.a
 DIR_LIBFT = lib/libft/
 
-SRC = $(addprefix src/, $(addsuffix .c, main))
+SRC = $(addprefix src/, $(addsuffix .c, main ft_linked_list))
 OBJS := $(SRC:%.c=%.o)
 
 CC = cc

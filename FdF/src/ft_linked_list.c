@@ -6,14 +6,14 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 16:21:10 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/12 16:43:21 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:20:35 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 #include <stdlib.h>
 
-t_point	*ft_node_new(float x, float y, float z)
+t_point	*ft_node_new(int x, int y, int z, int color)
 {
 	t_point	*new_node;
 
@@ -23,10 +23,11 @@ t_point	*ft_node_new(float x, float y, float z)
 		ft_printf("Error allocation memory %s\n", strerror(errno));
 		return (NULL);
 	}
-	new_node->next = NULL;
 	new_node->x = x;
 	new_node->y = y;
 	new_node->z = z;
+	new_node->color = color;
+	new_node->next = NULL;
 	return (new_node);
 }
 

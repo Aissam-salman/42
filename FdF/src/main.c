@@ -6,31 +6,27 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:36:17 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/12 16:31:22 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:22:24 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-#include <errno.h>
-#include <fcntl.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 // create data struct for storing coordinates (x,y,z, color, xp, yp)
 // render mini : isometric projection 
-
-
-
 
 int main(int ac, char **av)
 {
 	int fd;
 	size_t x;
 	size_t	y;
+	int z;
+	int color;
 	char	*line;
-	t_point **head;
+	t_point *head;
 	t_point	*point;
+	t_point	*tmp;
 
 	if (ac != 2)
 	{
@@ -56,25 +52,35 @@ int main(int ac, char **av)
 		x = 0;
 		while (splited[x])
 		{
-
-			point = malloc(sizeof(t_point));
-			point->x = x;
-			point->y = y;
-			point->z = y;
-			// 0 0 0 0
+			// 4,0xff
+			ft_printf("splited[%d]: %s\n", x, splited[x]);
+			char **data = ft_split(splited[x], ',');
+			z = ft_atoi(data[0]);
+			color = 0xFFFFFF;
+			if (data[1])
+			{
+			 color = ft_atoi_base(data[1], "0123456789abcdef");
+			}
+			point = ft_node_new(x, y, z, color);
+			ft_printf("x= %d, y= %d, z= %d, color= %x\n", point->x, point->y, point->z, 		point->color);
+			x++;
 		}
-		ft_lstadd_back(head, point);
-		 // 0 2 3 0
-		 // 0 0 0 0  
+		pause();
+		tmp = point;
+		ft_node_add_back(&head, point);
+		ft_node_delone(tmp);
 		free(line);
 		y++;
     }
 
-// parse it
-	// gnl 
-	// take the line,
-	// stock to tab[n]
-	// end file
+		// 0 0 0 0
+		// 0 2 3 0
+		// 0 0 0 0  
+	while (head->next)
+	{
+		ft_printf("x= %f, y= %f, z= %f\n", head->x, head->y, head->z);
+		head = head->next;
+	}
 	// parcours tab > |  extract x, y, z
 
 	close(fd);
