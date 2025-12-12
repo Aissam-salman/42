@@ -6,11 +6,12 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:36:17 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/12 16:31:22 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/12 10:36:23 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
+#include "../lib/libft/includes/ft_printf.h"
+#include "../lib/libft/includes/get_next_line.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -20,16 +21,20 @@
 // create data struct for storing coordinates (x,y,z, color, xp, yp)
 // render mini : isometric projection 
 
-
-
+typedef struct s_point {
+	float	x;
+	float	y;
+	float	z;
+	float	color;
+	float	xp;
+	float	yp;
+} t_point;
 
 int main(int ac, char **av)
 {
 	int fd;
-	size_t x;
-	size_t	y;
+	size_t	i;
 	char	*line;
-	t_point **head;
 	t_point	*point;
 
 	if (ac != 2)
@@ -43,31 +48,21 @@ int main(int ac, char **av)
 		printf("Error opening file: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
-	y = 0;
+	i = 0;
 	while ((line = get_next_line(fd)) != NULL)
 	{
-		ft_printf("Line %d: %s", y, line);
-		char **splited = ft_split(line, ' ');
+		i++;
+		ft_printf("Line %d: %s", i, line);
+		char **splited = ft_split(line, " ");
 		if (!splited || !*splited)
 		{
 			perror("Error parsing file");
-			exit(EXIT_FAILURE);
+		  exit(EXIT_FAILURe);
 		}
-		x = 0;
-		while (splited[x])
-		{
-
-			point = malloc(sizeof(t_point));
-			point->x = x;
-			point->y = y;
-			point->z = y;
-			// 0 0 0 0
-		}
-		ft_lstadd_back(head, point);
+		 // 0 0 0 0
 		 // 0 2 3 0
 		 // 0 0 0 0  
 		free(line);
-		y++;
     }
 
 // parse it
