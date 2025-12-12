@@ -1,0 +1,11 @@
+*.o
+*.out
+*.log
+*.tmp
+*.bak
+.DS_Store
+*.a
+.vscode/
+.idea/
+*.swp
+TODO.md
