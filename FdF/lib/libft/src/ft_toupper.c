@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 10:36:17 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/12 10:36:23 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/07 18:52:47 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 16:30:31 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib/libft/includes/ft_printf.h"
+/**
+ * @brief Converts a lowercase letter to an uppercase letter.
+ *
+ * @param c The character to convert.
+ * @return The uppercase letter.
+ */
 
-int main(void)
+int	ft_toupper(int c)
 {
-	// open file 
-	// parse it
-	// create data struct for storing coordinates (x,y,z, color, xp, yp)
-	// render mini : isometric projection 
-	ft_printf("Hello from FdF");
-    return 0;
+	if (c >= 'a' && c <= 'z')
+		c -= 32;
+	return (c);
 }

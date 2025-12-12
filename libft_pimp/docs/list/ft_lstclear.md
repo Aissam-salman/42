@@ -1,0 +1,49 @@
+# ft_lstclear
+
+## Description
+
+Supprime et libère tous les éléments de la liste
+
+## Prototype
+
+```c
+void ft_lstclear(t_list **lst, void (*del)(void *));
+```
+
+## Paramètres
+
+| Paramètre | Type | Description |
+|-----------|------|-------------|
+| `lst` | `t_list **` | Adresse du pointeur vers le premier élément |
+| `del` | `void (*)(void *)` | Fonction de suppression |
+
+
+## Valeur de retour
+
+Aucune (void)
+
+## Description détaillée
+
+La fonction `ft_lstclear` supprime et libère tous les éléments de la liste
+
+## Exemple d'utilisation
+
+```c
+#include "includes/libft.h"
+#include <stdio.h>
+
+int main(void)
+{
+    // Exemple d'utilisation de ft_lstclear
+    // TODO: Ajoutez votre code ici
+    return 0;
+}
+```
+
+## Notes importantes
+
+⚠️ **Attention** : Consultez la section paramètres pour les préconditions.
+
+## Voir aussi
+
+Consultez les autres fonctions de la catégorie dans la barre latérale.

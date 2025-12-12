@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putchar_len.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 10:36:17 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/12 10:36:23 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/19 08:27:14 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/19 08:50:43 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib/libft/includes/ft_printf.h"
+#include "../../includes/ft_printf.h"
 
-int main(void)
+int	ft_putchar_len(char c, int fd)
 {
-	// open file 
-	// parse it
-	// create data struct for storing coordinates (x,y,z, color, xp, yp)
-	// render mini : isometric projection 
-	ft_printf("Hello from FdF");
-    return 0;
+	write(fd, &c, 1);
+	return (1);
 }

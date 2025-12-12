@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 10:36:17 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/12 10:36:23 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/19 10:19:04 by alamjada          #+#    #+#             */
+/*   Updated: 2025/11/24 13:41:26 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib/libft/includes/ft_printf.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-int main(void)
-{
-	// open file 
-	// parse it
-	// create data struct for storing coordinates (x,y,z, color, xp, yp)
-	// render mini : isometric projection 
-	ft_printf("Hello from FdF");
-    return 0;
-}
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
+# include <stdlib.h>
+# include <unistd.h>
+
+char	*get_next_line(int fd);
+size_t	ft_strlen(const char *s);
+char	*ft_strndup(const char *s, size_t len);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+
+#endif

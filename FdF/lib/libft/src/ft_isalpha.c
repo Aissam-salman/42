@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 10:36:17 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/12 10:36:23 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/05 13:33:49 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/12 11:47:56 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib/libft/includes/ft_printf.h"
+/**
+ * @brief Checks for an alphabetic character.
+ *
+ * @param c The character to check.
+ * @return 1 if the character is alphabetic, 0 otherwise.
+ */
 
-int main(void)
+int	ft_isalpha(int c)
 {
-	// open file 
-	// parse it
-	// create data struct for storing coordinates (x,y,z, color, xp, yp)
-	// render mini : isometric projection 
-	ft_printf("Hello from FdF");
-    return 0;
+	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }

@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_power.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 10:36:17 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/12 10:36:23 by alamjada         ###   ########.fr       */
+/*   Created: 2025/12/10 13:11:21 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/12 11:47:56 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib/libft/includes/ft_printf.h"
-
-int main(void)
+int	ft_power(int n, int power)
 {
-	// open file 
-	// parse it
-	// create data struct for storing coordinates (x,y,z, color, xp, yp)
-	// render mini : isometric projection 
-	ft_printf("Hello from FdF");
-    return 0;
+	if (power == 0 || (n == 0 && power == 0))
+		return (1);
+	if (power < 0)
+		return (0);
+	return (n * ft_power(n, power - 1));
 }

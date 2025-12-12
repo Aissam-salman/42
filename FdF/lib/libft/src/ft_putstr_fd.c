@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 10:36:17 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/12 10:36:23 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/11 17:54:16 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 16:24:27 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib/libft/includes/ft_printf.h"
+#include "../includes/libft.h"
 
-int main(void)
+/**
+ * @brief Outputs the string 's' to the given file descriptor.
+ *
+ * @param s The string to output.
+ * @param fd The file descriptor on which to write.
+ */
+
+void	ft_putstr_fd(char *s, int fd)
 {
-	// open file 
-	// parse it
-	// create data struct for storing coordinates (x,y,z, color, xp, yp)
-	// render mini : isometric projection 
-	ft_printf("Hello from FdF");
-    return 0;
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	write(fd, s, i);
 }
