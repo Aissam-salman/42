@@ -11,18 +11,28 @@
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct	s_data {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_data;
+
 typedef struct s_mlx {
 	void	*ptr;
-	void	*window;
+	void	*win;
+	t_data  img;
 	int	fd;
 	t_point *head;
 } t_mlx;
 
-void free_array(char **data)
+void free_array(char **data)  
 {
 	size_t i;
 
@@ -32,31 +42,72 @@ void free_array(char **data)
 	free(data);
 }
 
-void draw_line()
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
+	char	*dst;
 
-	// y = mx + b
+	dst = data->addr + (y * data->line_length) + (x * (data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
+void draw_line(int x0, int y0, int x1, int y1, t_data *data)
+{
+	int dx;
+	int dy;
+	int x;
+	int y;
+	int err;
+	int tmp;
+	int right;
+	int down;
+
+	dx = abs(x1 - x0);
+	right = dx > 0;
+	if (!right)
+		dx = -dx;
+	dy = abs(y1 - y0);
+	down = dy > 0;
+	if (down)
+		dy = -dy;
+	err = dx + dy;
+	x = x0;
+	y = y0;
+
+	while(1)
+	{
+		my_mlx_pixel_put(data, x, y, 0xFFFFFF);
+		if  (x == x1 && y == y1)
+			break;
+		tmp = err << 1;
+		if (tmp > dy)
+		{
+			err += dy;
+			if (right)
+				x++;
+			else
+				x--;
+		}
+		if (tmp < dx)
+		{
+			err += dx;
+			if (down)
+				y++;
+			else
+				y--;
+		}
+	}
+
+
 }
 
 
 void draw_map()
 {}
 
-int print_fdf(t_mlx *mlx)
-{
-	t_point *tmp;
-	tmp = mlx->head;
-	while (tmp != NULL)
-	{
-		mlx_pixel_put(mlx->ptr, mlx->window, tmp->xp / 2, tmp->yp /2, tmp->color);
-		tmp = tmp->next;
-	}
-	return (0);
-}
 
 int close_window(t_mlx *mlx)
 {
-	mlx_destroy_window(mlx->ptr, mlx->window);
+	mlx_destroy_window(mlx->ptr, mlx->win);
 	mlx_destroy_display(mlx->ptr);
 	free(mlx->ptr);
 	ft_node_clear(&mlx->head);
@@ -68,8 +119,6 @@ int handle_input_callback(int keycode, t_mlx *mlx)
 {
 	if (keycode == 65307) //ESC
 		close_window(mlx);
-	else if (keycode == 100) //D
-		print_fdf(mlx);
 	else 
 		printf("KEY: %d\n", keycode);
 	return (0);
@@ -87,6 +136,7 @@ int main(int ac, char **av) {
 	char **data;
 	char **splited;
 	t_mlx mlx;
+	t_point *tmp;
 
 	if (ac != 2) 
 	{
@@ -147,37 +197,33 @@ int main(int ac, char **av) {
 	// MINILIX
 
 	mlx.ptr = mlx_init();
-	if (!mlx.ptr)
-	{
-		printf("Error with minilibx init: %s\n", strerror(errno));
-		exit(EXIT_FAILURE);
-	}
-	mlx.window = mlx_new_window(mlx.ptr, 1980, 1080, "FDF");
-	if (!mlx.window)
-	{
-		printf("Error with minilibx new window: %s\n", strerror(errno));
-		mlx_destroy_display(mlx.ptr);
-		free(mlx.ptr);
-		exit(EXIT_FAILURE);
-	}
+	// if (!mlx.ptr)
+	// {
+	// 	printf("Error with minilibx init: %s\n", strerror(errno));
+	// 	exit(EXIT_FAILURE);
+	// }
+	mlx.win = mlx_new_window(mlx.ptr, 1980, 1080, "FDF");
+	// if (!mlx.win)
+	// {
+	// 	printf("Error with minilibx new img: %s\n", strerror(errno));
+	// 	mlx_destroy_display(mlx.ptr);
+	// 	free(mlx.ptr);
+	// 	exit(EXIT_FAILURE);
+	// }
+	mlx.img.img = mlx_new_image(mlx.ptr, 1980, 1080);
+	mlx.img.addr = mlx_get_data_addr(mlx.img.img, &mlx.img.bits_per_pixel, &mlx.img.line_length, &mlx.img.endian);
 	mlx.fd = fd;
 	mlx.head = head;
-	//handle keycode
-	mlx_key_hook(mlx.window, handle_input_callback, &mlx);
-	mlx_hook(mlx.window, 33, 1L<<17, close_window, &mlx);
 
-	//handle exit btn
-	// mlx_pixel_put(mlx.ptr, mlx.window, 1980/2, 1080/2, 0xFFFFFF);
-	t_point *tmp;
 	tmp = head;
 	while (tmp != NULL)
 	{
-		int offset_x = 400;
-		int offset_y = 300;
-		printf("x=%d y=%d\n", tmp->xp, tmp->yp);
-		mlx_pixel_put(mlx.ptr, mlx.window, tmp->xp + offset_x, tmp->yp + offset_y, 0xFFFFFF);
+		my_mlx_pixel_put(&mlx.img, tmp->xp + 30, tmp->yp + 40, tmp->color);
 		tmp = tmp->next;
 	}
+	mlx_put_image_to_window(mlx.ptr, mlx.win, mlx.img.img, 0, 0);
+	mlx_key_hook(mlx.win, handle_input_callback, &mlx);
+	mlx_hook(mlx.win, 33, 1L<<17, close_window, &mlx);
 	mlx_loop(mlx.ptr);
 
 	// ft_node_clear(head);
