@@ -16,19 +16,22 @@
 #include "../lib/libft/includes/ft_printf.h"
 #include "../lib/libft/includes/libft.h"
 #include "../lib/libft/includes/get_next_line.h"
+#include "../lib/minilibx-linux/mlx.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
+
 
 typedef struct s_point {
 	int	x;
 	int	y;
 	int z;
-	float	color;
-	float	xp;
-	float	yp;
+	int	color;
+	int	xp;
+	int	yp;
 	struct s_point *next; 
 } t_point;
 
