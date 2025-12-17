@@ -33,6 +33,11 @@ typedef struct s_point {
 	int	xp;
 	int	yp;
 	struct s_point *next; 
+	struct s_point *down;
+	struct s_point *right;
+	// int scale;
+	// int offset_x;
+	// int offset_y;
 } t_point;
 
 

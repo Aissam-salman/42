@@ -27,6 +27,10 @@ t_point	*ft_node_new(int x, int y, int z, int color)
 	new_node->y = y;
 	new_node->z = z;
 	new_node->color = color;
+	new_node->xp = 0;
+	new_node->yp = 0;
+	new_node->down = NULL;
+	new_node->right = NULL;
 	new_node->next = NULL;
 	return (new_node);
 }

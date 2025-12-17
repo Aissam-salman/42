@@ -49,7 +49,7 @@ int close_window(t_mlx *mlx)
 	mlx_destroy_display(mlx->ptr);
 	free(mlx->ptr);
 	ft_node_clear(&mlx->head);
-	free(mlx->head);
+	// free(mlx->head);
 	close(mlx->fd);
 	free(mlx);
 	exit(EXIT_SUCCESS);
@@ -65,7 +65,9 @@ int handle_input_callback(int keycode, t_mlx *mlx)
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
+{	
+	if (x < 0 || y < 0 || x >= 1980 || y >= 1080)
+		return;
 	char	*dst;
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
@@ -74,31 +76,61 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 void draw_line(int x1, int y1, int x2, int y2, int color, t_data *img)
 {
-	int dx;
-	int dy;
-	int step;
-	int xin;
-	int yin;
-	int i;
-	int x, y;
+	double dx = x2 - x1;
+	double dy = y2 - y1;
+	int step = fabs(dx) > fabs(dy) ? fabs(dx) : fabs(dy);
 
-	dx = x2 - x1;
-	dy = y2 - y1;
-	if (dx >= dy)
-		step = dx;
-	else 
-		step = dy;
-	xin = dx / step;
-	yin = dy / step;
-	x = x1 + 0.5;
-	y = y1 + 0.4;
-	i = 0;
-	while (i < step)
-	{ x = x + xin;
-		y = y + yin;
-		my_mlx_pixel_put(img, x, y, color);
+	dx /= step;
+	dy /= step;
+	double x = x1;
+	double y = y1;
+
+	for (int i = 0; i <= step; i++)
+	{
+		my_mlx_pixel_put(img, (int)x, (int)y, color);
+		x += dx;
+		y += dy;
+	}
+}
+
+t_point *get_point(t_point *head, int index)
+{
+	int i = 0;
+	while (head && i < index)
+	{
+		head = head->next;
 		i++;
 	}
+	return head;
+}
+
+void draw_map(t_point *head, t_data *img)
+{
+	while (head)
+	{
+		my_mlx_pixel_put(img, head->xp, head->yp, head->color);
+		if (head->right)
+			draw_line(head->xp, head->yp,
+				head->right->xp, head->right->yp,
+				head->color, img);
+		if (head->down)
+			draw_line(head->xp, head->yp,
+				head->down->xp, head->down->yp,
+				head->color, img);
+		head = head->next;
+	}
+}
+
+
+void project_iso(t_point *p)
+{
+	double angle = 30.0 * M_PI / 180.0;
+	int scale = 20;
+	int ox = 990;
+	int oy = 540;
+
+	p->xp = (p->x - p->y) * cos(angle) * scale + ox;
+	p->yp = ((p->x + p->y) * sin(angle) - p->z) * scale + oy;
 }
 
 int main(int ac, char **av) {
@@ -113,9 +145,15 @@ int main(int ac, char **av) {
 	char **data;
 	char **splited;
 	t_mlx *mlx;
-	// t_point *tmp;
+	int width;
 
 	mlx = malloc(sizeof(t_mlx));
+	if (!mlx)
+		exit(EXIT_FAILURE);
+	mlx->ptr = NULL;
+	mlx->win = NULL;
+	mlx->head = NULL;
+	mlx->fd = -1;
 	if (ac != 2) 
 	{
 		ft_printf("Error number args!\nUsage: %s \"filename\"\n", av[0]);
@@ -137,6 +175,12 @@ int main(int ac, char **av) {
 			perror("Error parsing file");
 			exit(EXIT_FAILURE);
 		}
+		if (y == 0)
+		{
+			width = 0;
+			while (splited[width])
+				width++;
+		}
 		free(line);
 		x = 0;
 		while (splited[x]) 
@@ -148,32 +192,29 @@ int main(int ac, char **av) {
 				color = ft_atoi_base(data[1], "0123456789abcdef");
 			free_array(data);
 			node = ft_node_new(x, y, z, color);
+			if (x > 0)
+			{
+				t_point *prev = get_point(head, y * width + x - 1);
+				prev->right = node;
+			}
+			if (y > 0)
+			{
+				t_point *up = get_point(head, (y - 1) * width + x);
+				up->down = node;
+			}
 			ft_node_add_back(&head, node);
 			x++;
 		}
 		free_array(splited);
 		y++;
 	}
-
 	t_point *lst;
 	lst = head;
 	while (lst != NULL)
 	{
-		lst->xp = lst->x * cos(120.0) + lst->y * cos(120.0 + 2) + lst->z * cos(120.0 - 2);
-		lst->yp = lst->x * sin(120.0) + lst->y * sin(120.0 + 2) + lst->z * sin(120.0 - 2);
+		project_iso(lst);
 		lst = lst->next;
 	}
-	/*
-	 * isometric projection
-		x’ = (x - y) × cos(30°)
-		y’ = (x + y) × sin(30°) - z**
-
-		x − y → rotation de 45°
-		x + y → rotation de 45° (autre composante)
-		− z → gestion de la hauteur (élévation vers le haut de l’écran)
-	*/
-	// MINILIX
-
 	mlx->ptr = mlx_init();
 	if (!mlx->ptr)
 	{
@@ -193,15 +234,8 @@ int main(int ac, char **av) {
 	mlx->fd = fd;
 	mlx->head = head;
 
-	while (head)
-	{
+	draw_map(mlx->head, &mlx->img);
 
-		t_point *p = head;
-		if (head->next)
-			head = head->next;
-		if (head)
-			draw_line(p->xp, p->yp, head->xp, head->yp,head->color, &mlx->img);
-	}
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.img, 0, 0);
 	mlx_key_hook(mlx->win, handle_input_callback, mlx);
 	mlx_hook(mlx->win, 33, 1L<<17, close_window, mlx);
