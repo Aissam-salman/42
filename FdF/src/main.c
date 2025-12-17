@@ -17,6 +17,10 @@
 #include <string.h>
 #include <limits.h>
 
+#define WIN_W 1980
+#define WIN_H 1080
+#define MARGIN 50
+
 typedef struct	s_data {
 	void	*img;
 	char	*addr;
@@ -50,7 +54,6 @@ int close_window(t_mlx *mlx)
 	mlx_destroy_display(mlx->ptr);
 	free(mlx->ptr);
 	ft_node_clear(&mlx->head);
-	// free(mlx->head);
 	close(mlx->fd);
 	free(mlx);
 	exit(EXIT_SUCCESS);
@@ -58,7 +61,7 @@ int close_window(t_mlx *mlx)
 
 int handle_input_callback(int keycode, t_mlx *mlx)
 {
-	if (keycode == 65307) //ESC
+	if (keycode == 65307) 
 		close_window(mlx);
 	else 
 		printf("KEY: %d\n", keycode);
@@ -67,10 +70,10 @@ int handle_input_callback(int keycode, t_mlx *mlx)
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {	
-	if (x < 0 || y < 0 || x >= 1980 || y >= 1080)
-		return;
 	char	*dst;
 
+	if (x < 0 || y < 0 || x >= 1980 || y >= 1080)
+		return;
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
@@ -122,9 +125,6 @@ void draw_map(t_point *head, t_data *img)
 	}
 }
 
-#define WIN_W 1980
-#define WIN_H 1080
-#define MARGIN 50
 
 void compute_scale_and_offset(t_point *head, double *scale, int *ox, int *oy)
 {
@@ -157,7 +157,9 @@ void compute_scale_and_offset(t_point *head, double *scale, int *ox, int *oy)
 
 void project_iso(t_point *p, double scale, int ox, int oy)
 {
-    double angle = 30.0 * M_PI / 180.0;
+    double angle;
+
+	angle= 30.0 * M_PI / 180.0;
     p->xp = (p->x - p->y) * cos(angle) * scale + ox;
     p->yp = ((p->x + p->y) * sin(angle) - p->z) * scale + oy;
 }
@@ -175,8 +177,6 @@ void project_all_points(t_point *head)
         tmp = tmp->next;
     }
 }
-
-
 
 int main(int ac, char **av) {
 	int fd;

@@ -63,7 +63,7 @@ void	signal_callback_handler(int sig)
 	{
 		ft_convert_to_char(stash);
 		ft_putchar_fd('\n', 1);
-		free(stash);
+		// free(stash);
 		stash = NULL;
 	}
 }
