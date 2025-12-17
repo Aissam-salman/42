@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 typedef struct	s_data {
 	void	*img;
@@ -121,17 +122,61 @@ void draw_map(t_point *head, t_data *img)
 	}
 }
 
+#define WIN_W 1980
+#define WIN_H 1080
+#define MARGIN 50
 
-void project_iso(t_point *p)
+void compute_scale_and_offset(t_point *head, double *scale, int *ox, int *oy)
 {
-	double angle = 30.0 * M_PI / 180.0;
-	int scale = 20;
-	int ox = 990;
-	int oy = 540;
+    int min_x = INT_MAX, max_x = INT_MIN;
+    int min_y = INT_MAX, max_y = INT_MIN;
+    double angle = 30.0 * M_PI / 180.0;
 
-	p->xp = (p->x - p->y) * cos(angle) * scale + ox;
-	p->yp = ((p->x + p->y) * sin(angle) - p->z) * scale + oy;
+    // première passe : projet temporaire avec scale = 1
+    t_point *tmp = head;
+    while (tmp)
+    {
+        int xp = (tmp->x - tmp->y) * cos(angle);
+        int yp = ((tmp->x + tmp->y) * sin(angle) - tmp->z);
+        if (xp < min_x) min_x = xp;
+        if (xp > max_x) max_x = xp;
+        if (yp < min_y) min_y = yp;
+        if (yp > max_y) max_y = yp;
+        tmp = tmp->next;
+    }
+
+    // calcul du scale pour que la map rentre dans la fenêtre
+    double scale_x = (double)(WIN_W - 2 * MARGIN) / (max_x - min_x);
+    double scale_y = (double)(WIN_H - 2 * MARGIN) / (max_y - min_y);
+    *scale = fmin(scale_x, scale_y);
+
+    // calcul de l'offset pour centrer
+    *ox = WIN_W / 2 - (min_x + max_x) / 2 * (*scale);
+    *oy = WIN_H / 2 - (min_y + max_y) / 2 * (*scale);
 }
+
+void project_iso(t_point *p, double scale, int ox, int oy)
+{
+    double angle = 30.0 * M_PI / 180.0;
+    p->xp = (p->x - p->y) * cos(angle) * scale + ox;
+    p->yp = ((p->x + p->y) * sin(angle) - p->z) * scale + oy;
+}
+
+void project_all_points(t_point *head)
+{
+    double scale;
+    int ox, oy;
+
+    compute_scale_and_offset(head, &scale, &ox, &oy);
+    t_point *tmp = head;
+    while (tmp)
+    {
+        project_iso(tmp, scale, ox, oy);
+        tmp = tmp->next;
+    }
+}
+
+
 
 int main(int ac, char **av) {
 	int fd;
@@ -208,13 +253,7 @@ int main(int ac, char **av) {
 		free_array(splited);
 		y++;
 	}
-	t_point *lst;
-	lst = head;
-	while (lst != NULL)
-	{
-		project_iso(lst);
-		lst = lst->next;
-	}
+	project_all_points(head);
 	mlx->ptr = mlx_init();
 	if (!mlx->ptr)
 	{
@@ -233,9 +272,7 @@ int main(int ac, char **av) {
 	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bits_per_pixel, &mlx->img.line_length, &mlx->img.endian);
 	mlx->fd = fd;
 	mlx->head = head;
-
-	draw_map(mlx->head, &mlx->img);
-
+	draw_map(head, &mlx->img);
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.img, 0, 0);
 	mlx_key_hook(mlx->win, handle_input_callback, mlx);
 	mlx_hook(mlx->win, 33, 1L<<17, close_window, mlx);
