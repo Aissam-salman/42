@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+#include <fcntl.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,6 +21,8 @@
 #define WIN_W 1980
 #define WIN_H 1080
 #define MARGIN 50
+#define DEFAULT_COLOR 0xFFFFFF
+
 
 typedef struct	s_data {
 	void	*img;
@@ -203,6 +206,95 @@ void project_all_points(t_point *head)
     }
 }
 
+int find_width(char **splited)
+{
+    int width;
+
+    width = 0;
+    while(splited[width])
+        width++;
+    return (width);
+}
+
+t_point *extract_data(char *cor, int x, int y)
+{
+    char **data;
+    int z;
+    int color;
+    t_point  *node;
+
+    data = ft_split(cor, ',');
+    if (!data)
+        exit(EXIT_FAILURE);
+    z = ft_atoi(data[0]);
+    color = DEFAULT_COLOR;
+    if (data[1])
+        color = ft_atoi_base(data[1], "0123456789abcdef");
+    free_array(data);
+    return (ft_node_new(x, y, z, color));
+}
+
+void add_right_down(t_point **head,int  width,int  x,int  y,t_point **node)
+{
+    t_point *up;
+    t_point *prev;
+
+    if (x > 0)
+    {
+        prev = get_point(*head, y * width + x - 1);
+        prev->right = *node;
+    }
+    if (y > 0)
+    {
+        up = get_point(*head, (y - 1) * width + x);
+        up->down = *node;
+    }
+}
+
+void build_map(char **splited, t_point **head, int width, int y)
+{
+    int x;
+	t_point *node;
+
+    x = 0;
+    while (splited[x])
+    {
+        node = extract_data(splited[x], x, y);
+        add_right_down(head, width, x, y, &node);
+        ft_node_add_back(head, node);
+        x++;
+    }
+}
+
+t_point *parsing_file(int fd)
+{
+    t_point *head;
+    t_point *node;
+    int y;
+    char **splited;
+    char *line;
+    int width;
+    
+    head = NULL;
+    y = 0;
+    while ((line = get_next_line(fd)))
+    {
+        splited = ft_split(line, ' ');
+        if (!splited)
+        {
+            free(line);
+            perror("Error parsing file");
+            exit(EXIT_FAILURE);
+        }
+        free(line);
+        if (y == 0)
+            width = find_width(splited);
+        build_map(splited, &head, width, y);
+		free_array(splited);
+		y++;
+    }
+}
+
 int   extract_parsing_file(char *filename, t_mlx **mlx)
 {
     t_mlx *p_mlx;
@@ -213,9 +305,26 @@ int   extract_parsing_file(char *filename, t_mlx **mlx)
         exit(EXIT_FAILURE);
     }
     p_mlx = *mlx;
-    p_mlx->fd = -1;
+    p_mlx->fd = open(filename, O_RDONLY);
+	if (p_mlx->fd == -1) 
+	{
+		printf("Error opening file: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+    p_mlx->head = parsing_file(p_mlx->fd);
+    if (!p_mlx->head)
+    {
+        perror("Error parsing\n");
+		exit(EXIT_FAILURE);
+    }
+}
 
+void mlx_start(t_mlx **mlx)
+{
+    t_mlx *p_mlx;
 
+    p_mlx = *mlx;
+	project_all_points(p_mlx->head);
 }
 
 int main(int ac, char **av) {
@@ -233,4 +342,6 @@ int main(int ac, char **av) {
         exit(EXIT_FAILURE);
     }
     extract_parsing_file(av[1], &mlx);
+    mlx_start(&mlx);
+    exit(EXIT_SUCCESS);
 }
