@@ -325,6 +325,34 @@ void mlx_start(t_mlx **mlx)
 
     p_mlx = *mlx;
 	project_all_points(p_mlx->head);
+    p_mlx->ptr = mlx_init();
+    if (!p_mlx->ptr)
+    {
+		printf("Error with minilibx init: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+    }
+	p_mlx->win = mlx_new_window(p_mlx->ptr, 1980, 1080, "FDF");
+	if (!p_mlx->win)
+	{
+		printf("Error with minilibx new img: %s\n", strerror(errno));
+		mlx_destroy_display(p_mlx->ptr);
+		free(p_mlx->ptr);
+		exit(EXIT_FAILURE);
+	}
+	p_mlx->img.img = mlx_new_image(p_mlx->ptr, 1980, 1080);
+	p_mlx->img.addr = mlx_get_data_addr(p_mlx->img.img, &p_mlx->img.bits_per_pixel, &p_mlx->img.line_length, &p_mlx->img.endian);
+}
+
+void mlx_core(t_mlx **mlx)
+{
+    t_mlx *p_mlx;
+
+    p_mlx = *mlx;
+	draw_map(p_mlx->head, &p_mlx->img);
+	mlx_put_image_to_window(p_mlx->ptr, p_mlx->win, p_mlx->img.img, 0, 0);
+	mlx_key_hook(p_mlx->win, handle_input_callback, p_mlx);
+	mlx_hook(p_mlx->win, 33, 1L<<17, close_window, p_mlx);
+	mlx_loop(p_mlx->ptr);
 }
 
 int main(int ac, char **av) {
@@ -343,5 +371,6 @@ int main(int ac, char **av) {
     }
     extract_parsing_file(av[1], &mlx);
     mlx_start(&mlx);
+    mlx_core(&mlx);
     exit(EXIT_SUCCESS);
 }
