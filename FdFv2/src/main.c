@@ -1,12 +1,12 @@
-/* ************r************************************************************* */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:36:17 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/12 18:22:24 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/22 11:00:33 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_mlx{
 	struct s_point *head;
 } t_mlx;
 
-void free_array(char **data)  
+void free_array(char **data)
 {
 	size_t i;
 
@@ -50,8 +50,9 @@ void free_array(char **data)
 	free(data);
 }
 
-int close_window(t_mlx *mlx)
+int close_window(void *param)
 {
+	t_mlx *mlx = (t_mlx *)param;
 	mlx_destroy_image(mlx->ptr, mlx->img.img);
 	mlx_destroy_window(mlx->ptr, mlx->win);
 	mlx_destroy_display(mlx->ptr);
@@ -62,17 +63,18 @@ int close_window(t_mlx *mlx)
 	exit(EXIT_SUCCESS);
 }
 
-int handle_input_callback(int keycode, t_mlx *mlx)
+int handle_input_callback(int keycode, void *param)
 {
-	if (keycode == 65307) 
+	t_mlx *mlx = (t_mlx *)param;
+	if (keycode == 65307)
 		close_window(mlx);
-	else 
+	else
 		printf("KEY: %d\n", keycode);
 	return (0);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{	
+{
 	char	*dst;
 
 	if (x < 0 || y < 0 || x >= 1980 || y >= 1080)
@@ -80,7 +82,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
-/* Algorithm DDA 
+/* Algorithm DDA
     *si |x2-x1| >= |y2-y1| alors
             longueur := |x2-x1|
     sinon
@@ -106,11 +108,13 @@ void draw_line(int x1, int y1, int x2, int y2, int color, t_data *img)
     double y;
     int len;
     int i;
-   
+
     if (x2 - x1 >= y2 - y1)
         len = x2 - x1;
-    else 
+    else
+    {
         len = y2 - y1;
+    }
 	dx = abs((x2 - x1) / len);
 	dy = abs((y2 - y1) / len);
 	x = x1 + 0.5;
@@ -221,7 +225,6 @@ t_point *extract_data(char *cor, int x, int y)
     char **data;
     int z;
     int color;
-    t_point  *node;
 
     data = ft_split(cor, ',');
     if (!data)
@@ -269,12 +272,11 @@ void build_map(char **splited, t_point **head, int width, int y)
 t_point *parsing_file(int fd)
 {
     t_point *head;
-    t_point *node;
     int y;
     char **splited;
     char *line;
     int width;
-    
+
     head = NULL;
     y = 0;
     while ((line = get_next_line(fd)))
@@ -293,9 +295,10 @@ t_point *parsing_file(int fd)
 		free_array(splited);
 		y++;
     }
+    return (head);
 }
 
-int   extract_parsing_file(char *filename, t_mlx **mlx)
+void   extract_parsing_file(char *filename, t_mlx **mlx)
 {
     t_mlx *p_mlx;
 
@@ -306,7 +309,7 @@ int   extract_parsing_file(char *filename, t_mlx **mlx)
     }
     p_mlx = *mlx;
     p_mlx->fd = open(filename, O_RDONLY);
-	if (p_mlx->fd == -1) 
+	if (p_mlx->fd == -1)
 	{
 		printf("Error opening file: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
@@ -350,14 +353,13 @@ void mlx_core(t_mlx **mlx)
     p_mlx = *mlx;
 	draw_map(p_mlx->head, &p_mlx->img);
 	mlx_put_image_to_window(p_mlx->ptr, p_mlx->win, p_mlx->img.img, 0, 0);
-	mlx_key_hook(p_mlx->win, handle_input_callback, p_mlx);
+	mlx_key_hook(p_mlx->win, handle_input_callback, p_mlx);ww
 	mlx_hook(p_mlx->win, 33, 1L<<17, close_window, p_mlx);
 	mlx_loop(p_mlx->ptr);
 }
 
 int main(int ac, char **av) {
 	t_mlx   *mlx;
-    int is_extracted;
 
     if (ac != 2)
     {

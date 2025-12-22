@@ -10,7 +10,7 @@ SRC = $(addprefix src/, $(addsuffix .c, main ft_linked_list))
 OBJS := $(SRC:%.c=%.o)
 
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror 
+CCFLAGS = -Wall -Wextra -Werror
 INC_DIR = includes
 CCIFLAGS = -I$(INC_DIR) -I$(DIR_LIBFT) -I$(DIR_MINILIBX)
 MLX_FLAGS = -lXext -lX11 -lm -lz
@@ -31,7 +31,7 @@ $(LIBFT):
 	make -C $(DIR_LIBFT)
 
 $(MINILIBX):
-	make -C $(DIR_MINILIBX)
+	make -C $(DIR_MINILIBX) CC="gcc -std=gnu89"
 
 %.o: %.c
 	$(CC) $(CCIFLAGS) $(CCFLAGS) -o $@ -c $<
