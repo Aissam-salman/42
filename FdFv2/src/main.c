@@ -50,9 +50,8 @@ void free_array(char **data)
 	free(data);
 }
 
-int close_window(void *param)
+int close_window(t_mlx *mlx)
 {
-	t_mlx *mlx = (t_mlx *)param;
 	mlx_destroy_image(mlx->ptr, mlx->img.img);
 	mlx_destroy_window(mlx->ptr, mlx->win);
 	mlx_destroy_display(mlx->ptr);
@@ -353,7 +352,7 @@ void mlx_core(t_mlx **mlx)
     p_mlx = *mlx;
 	draw_map(p_mlx->head, &p_mlx->img);
 	mlx_put_image_to_window(p_mlx->ptr, p_mlx->win, p_mlx->img.img, 0, 0);
-	mlx_key_hook(p_mlx->win, handle_input_callback, p_mlx);ww
+	mlx_key_hook(p_mlx->win, handle_input_callback, p_mlx);
 	mlx_hook(p_mlx->win, 33, 1L<<17, close_window, p_mlx);
 	mlx_loop(p_mlx->ptr);
 }
