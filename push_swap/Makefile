@@ -8,7 +8,7 @@ OBJS := $(SRC:%.c=%.o)
 CC = cc
 CCFLAGS = -Wall -Wextra -Werror
 INC_DIR = includes
-CCIFLAGS = -I$(INC_DIR) -I$(DIR_LIBFT)
+CCIFLAGS = -I$(INC_DIR)
 #MATH flags
 RM = rm -f
 

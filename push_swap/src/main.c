@@ -31,11 +31,97 @@
 *
 */
 #include "../includes/push_swap.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+// typedef struct s_node
+// {
+//     int value;
+//     struct s_node next;
+//     struct s_node prev;
+//     int cost;
+//     int index;
+// }   t_node;
+
+void error_handler()
+{
+    ft_putstr_fd("Error", 2);
+    exit(EXIT_FAILURE);
+}
+
+char *ft_join_w_space(char *tmp, char *str)
+{
+    size_t len_t;
+    size_t len_s;
+    char *out;
+    size_t i;
+    size_t j;
+
+    if (!tmp && !str)
+        return (NULL);
+    if (!tmp)
+        return (ft_strdup(str));
+    if (!str)
+        return (ft_strdup(tmp));
+    len_t = ft_strlen(tmp);
+    len_s = ft_strlen(str);
+    out = malloc(len_t + len_s + 1);
+    if (!out)
+        return (NULL);
+    i = 0;
+    while (i < len_t)
+    {
+        if (i == 0 || i == len_t - 1)
+            out[j++] = ' ';
+        out[j++] = tmp[i];
+        i++;
+    }
+    i = 0;
+    while (i < len_s)
+    {
+        if (i == 0 || i == len_s - 1)
+            out[j++] = ' ';
+        out[j++] = str[i];
+        i++;
+    }
+    return (out);
+}
 
 int main(int ac, char **av)
 {
+    char **set;
+    // t_node *head;
+    size_t i;
+    char *tmp;
+
     if (ac < 2)
-        return (0);
+        error_handler();
+    if (ac == 2)
+    {
+        if (!av[1][0])
+            error_handler();
+        set = ft_split(av[1], ' ');
+    }
+    else
+    {
+        i = 0;
+        tmp = NULL;
+        while (av[i] && av[i][0])
+        {
+            tmp = ft_join_w_space(tmp, av[1]);
+            i++;
+        }
+        set = ft_split(tmp, ' ');
+        free(tmp);
+    }
+
+    for (int i = 0; set[i]; i++) {
+        printf("set[%d] = %s", i, set[i]);
+    }
+
+    // t_node *stack_a = init_stack(set);
+    // t_node *stack_b = init_stack(0);
+    
 
     // parsing args take only alpha number, no duplicate, not exceeed int max or int min
     // convert to int

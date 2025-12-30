@@ -7,10 +7,9 @@ ft_strlcat ft_toupper ft_tolower ft_strchr ft_strrchr ft_strncmp ft_memchr\
 ft_memcmp ft_strnstr ft_atoi ft_calloc ft_strdup ft_substr ft_strjoin \
 ft_strtrim ft_split ft_itoa ft_strmapi ft_striteri ft_putchar_fd \
 ft_putstr_fd ft_putendl_fd ft_putnbr_fd ft_convert_base ft_atoi_base ft_itoa_base \
-ft_swap ft_power ft_reverse))
+ft_swap ft_power ft_reverse ft_strndup get_next_line))
 
-# GET_NEXT_LINE AND PRINTF SOURCES
-SRCS += $(addprefix src/get_next_line/, $(addsuffix .c, get_next_line get_next_line_utils))
+# PRINTF SOURCES
 SRCS += $(addprefix src/printf/, $(addsuffix .c, ft_printf ft_itoa_u \
 ft_print_nbr ft_print_str ft_putchar_len ft_puthexa_p_fd ft_puthexa ft_print_nbr_u))
 

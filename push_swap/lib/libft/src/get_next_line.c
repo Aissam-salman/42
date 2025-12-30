@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 13:54:07 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/24 13:54:13 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/30 11:42:47 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/get_next_line.h"
-
-static char	*ft_strchr(const char *s, int c)
-{
-	unsigned char	ch;
-
-	ch = (unsigned char)c;
-	while (*s)
-	{
-		if ((unsigned char)*s == ch)
-			return ((char *)s);
-		s++;
-	}
-	if (ch == '\0')
-		return ((char *)s);
-	return (NULL);
-}
+#include "../includes/libft.h"
 
 static char	*extract_line(char **item)
 {

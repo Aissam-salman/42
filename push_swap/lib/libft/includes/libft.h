@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 13:32:24 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/10 13:37:30 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/30 11:31:11 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -87,5 +91,21 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+// Get Next Line
+char	*get_next_line(int fd);
+char	*ft_strndup(const char *s, size_t len);
+
+// Printf
+# include <stdarg.h>
+
+int		ft_printf(const char *format, ...);
+char	*ft_itoa_u(unsigned int nb);
+int		ft_puthexa(unsigned long p, int fd, char *base);
+int		ft_puthexa_p_fd(unsigned long p, int fd);
+int		ft_print_str(char *str);
+int		ft_print_nbr(int nb);
+int		ft_print_nbr_u(unsigned int nb);
+int		ft_putchar_len(char c, int fd);
 
 #endif
