@@ -45,17 +45,17 @@
 
 void error_handler()
 {
-    ft_putstr_fd("Error", 2);
+    ft_putendl_fd("Error", 2);
     exit(EXIT_FAILURE);
 }
 
 char *ft_join_w_space(char *tmp, char *str)
 {
-    size_t len_t;
-    size_t len_s;
+    int len_t;
+    int  len_s;
     char *out;
-    size_t i;
-    size_t j;
+    int i;
+    int  j;
 
     if (!tmp && !str)
         return (NULL);
@@ -68,23 +68,6 @@ char *ft_join_w_space(char *tmp, char *str)
     out = malloc(len_t + len_s + 1);
     if (!out)
         return (NULL);
-    i = 0;
-    while (i < len_t)
-    {
-        if (i == 0 || i == len_t - 1)
-            out[j++] = ' ';
-        out[j++] = tmp[i];
-        i++;
-    }
-    i = 0;
-    while (i < len_s)
-    {
-        if (i == 0 || i == len_s - 1)
-            out[j++] = ' ';
-        out[j++] = str[i];
-        i++;
-    }
-    return (out);
 }
 
 int main(int ac, char **av)
