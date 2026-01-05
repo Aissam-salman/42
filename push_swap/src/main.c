@@ -65,7 +65,7 @@ char **extract_params(int ac, char **av)
     }
     else
     {
-        i = 0;
+        i = 1;
         tmp = NULL;
         while (av[i] && av[i][0])
         {
@@ -142,9 +142,11 @@ void init_stack(char **set)
 	cur = NULL;
 	while (set[i])
 	{
+		//FIX: handle int_min and int_max
 		int tr = ft_atoi(set[i]);
 		if (tr == 0 && !check_set_zero(set[i]))
 			error_handler();
+		//FIX: handle duplicate value 
 		cur = ft_node_new(tr, i);
 		ft_node_add_back(&head_a, cur);
 		i++;
@@ -165,9 +167,8 @@ int main(int ac, char **av)
 
     if (ac < 2)
         error_handler();
-
     set = extract_params(ac, av);
-    init_stack(set + 1);
+    init_stack(set);
     // parsing args take only alpha number, no duplicate, not exceeed int max or int min
     // convert to int
     // init stack a with params in the same order , init stack b empty for now 
