@@ -136,27 +136,33 @@ void init_stack(char **set)
 {
 	t_node *head_a;
 	t_node *cur;
+	t_node *tmp;
+    t_node *tmp_next ;
+    int i;
 
-	int i = 0;
+	i = 0;
 	head_a = NULL;
 	cur = NULL;
 	while (set[i])
 	{
-		//FIX: handle int_min and int_max
 		int tr = ft_atoi(set[i]);
 		if (tr == 0 && !check_set_zero(set[i]))
 			error_handler();
-		//FIX: handle duplicate value 
 		cur = ft_node_new(tr, i);
 		ft_node_add_back(&head_a, cur);
 		i++;
 	}
-
-	t_node *tmp;
 	tmp = head_a;
 	while (tmp)
 	{
 		printf("set[%d] = %d\n", tmp->index, tmp->value);
+        tmp_next = tmp->next;
+        while (tmp_next)
+        {
+            if (tmp->value == tmp_next->value)
+                error_handler();
+            tmp_next = tmp_next->next;
+        }
 		tmp = tmp->next;
 	}
 }
@@ -169,8 +175,6 @@ int main(int ac, char **av)
         error_handler();
     set = extract_params(ac, av);
     init_stack(set);
-    // parsing args take only alpha number, no duplicate, not exceeed int max or int min
-    // convert to int
     // init stack a with params in the same order , init stack b empty for now 
     // make function sa, sb, ss, pa, pb, ra, rb ,rr, rra, rrb, rrr
     // start sorting stack

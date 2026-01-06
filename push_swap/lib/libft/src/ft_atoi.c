@@ -26,7 +26,7 @@ static int	ft_isspace(unsigned char c)
 
 int	ft_atoi(const char *nptr)
 {
-	unsigned long	nbr;
+	long long       nbr;
 	int				sign;
 
 	if (!nptr)
@@ -46,5 +46,7 @@ int	ft_atoi(const char *nptr)
 		nbr = nbr * 10 + (*nptr - '0');
 		nptr++;
 	}
-	return ((int)(nbr * sign));
+    if (nbr < (long long)INT_MIN || nbr > (long long)INT_MAX)
+        return (0);
+    return ((int)(nbr * sign));
 }

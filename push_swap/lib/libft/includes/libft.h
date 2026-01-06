@@ -18,6 +18,7 @@
 # endif
 
 # include <stdlib.h>
+# include <limits.h>
 # include <unistd.h>
 
 /* Character checks */
