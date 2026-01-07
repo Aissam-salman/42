@@ -1,2 +1,4 @@
 *.out
 *.o
+imgui.ini
+push_swap
