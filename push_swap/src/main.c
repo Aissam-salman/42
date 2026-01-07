@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 19:01:45 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/07 20:01:22 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/07 20:05:38 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ void	init_stack(char **set)
 	stack = fill_stack(set);
 	check_dup(stack);
 	len = ft_node_size(stack);
-	print_stack(stack);
-	ft_printf("len: %d\n", len);
-	// push_swap(head, len);
+	push_swap(stack, len);
 }
 
 int	main(int ac, char **av)
@@ -53,6 +51,5 @@ int	main(int ac, char **av)
 		error_handler();
 	params = extract_params(ac, av);
 	init_stack(params);
-	// make function sa, sb, ss, pa, pb, ra, rb ,rr, rra, rrb, rrr
-	// start sorting stack
+    return (0);
 }

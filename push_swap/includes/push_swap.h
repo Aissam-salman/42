@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 19:03:00 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/07 19:56:51 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/07 20:04:29 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,8 @@ t_node *fill_stack(char **params);
 
 // UTILS
 void error_handler();
+
+// CORE
+void push_swap(t_node *stack, int size);
 
 #endif
