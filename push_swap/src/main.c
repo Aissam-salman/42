@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 19:01:45 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/07 19:57:42 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/07 20:01:22 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,27 +32,27 @@
 */
 #include "../includes/push_swap.h"
 
-void init_stack(char **set)
+void	init_stack(char **set)
 {
-    t_node *stack;
-    int len;
+	t_node	*stack;
+	int		len;
 
-    stack = fill_stack(set);
-    check_dup(stack);
-    len = ft_node_size(stack);
-    print_stack(stack);
-    ft_printf("len: %d\n", len);
-    // push_swap(head, len);
+	stack = fill_stack(set);
+	check_dup(stack);
+	len = ft_node_size(stack);
+	print_stack(stack);
+	ft_printf("len: %d\n", len);
+	// push_swap(head, len);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-    char **params;
+	char	**params;
 
-    if (ac < 2)
-        error_handler();
-    params = extract_params(ac, av);
-    init_stack(params);
-    // make function sa, sb, ss, pa, pb, ra, rb ,rr, rra, rrb, rrr
-    // start sorting stack
+	if (ac < 2)
+		error_handler();
+	params = extract_params(ac, av);
+	init_stack(params);
+	// make function sa, sb, ss, pa, pb, ra, rb ,rr, rra, rrb, rrr
+	// start sorting stack
 }

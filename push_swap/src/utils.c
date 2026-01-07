@@ -6,14 +6,14 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:52:49 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/07 19:53:19 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/07 20:01:31 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void error_handler()
+void	error_handler(void)
 {
-    ft_putendl_fd("Error", 2);
-    exit(EXIT_FAILURE);
+	ft_putendl_fd("Error", 2);
+	exit(EXIT_FAILURE);
 }

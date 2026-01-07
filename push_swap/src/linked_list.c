@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:50:17 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/07 19:59:27 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/07 20:01:17 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,53 +14,53 @@
 
 t_node	*ft_node_new(int value, int index)
 {
-    t_node	*new_node;
+	t_node	*new_node;
 
-    new_node = malloc(sizeof(t_node));
-    if (!new_node)
-        return (NULL);
-    new_node->next = NULL;
-    new_node->value = value;
-    new_node->index = index;
-    return (new_node);
+	new_node = malloc(sizeof(t_node));
+	if (!new_node)
+		return (NULL);
+	new_node->next = NULL;
+	new_node->value = value;
+	new_node->index = index;
+	return (new_node);
 }
 
 t_node	*ft_node_last(t_node *lst)
 {
-    if (!lst)
-        return (NULL);
-    while (lst->next)
-        lst = lst->next;
-    return (lst);
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
 }
 
 void	ft_node_add_back(t_node **lst, t_node *new_node)
 {
-    t_node	*last;
+	t_node	*last;
 
-    if (!lst || !new_node)
-        return ;
-    if (!*lst)
-        *lst = new_node;
-    else
-    {
-        last = ft_node_last(*lst);
-        last->next = new_node;
-    }
+	if (!lst || !new_node)
+		return ;
+	if (!*lst)
+		*lst = new_node;
+	else
+	{
+		last = ft_node_last(*lst);
+		last->next = new_node;
+	}
 }
 
-void    print_stack(t_node *stack)
+void	print_stack(t_node *stack)
 {
-    while (stack)
-    {
-        ft_printf("stack[%d] = %d\n", stack->index, stack->value);
-        stack = stack->next;
-    }
+	while (stack)
+	{
+		ft_printf("stack[%d] = %d\n", stack->index, stack->value);
+		stack = stack->next;
+	}
 }
 
 int	ft_node_size(t_node *lst)
 {
-	int	size;
+	int size;
 
 	size = 0;
 	while (lst)
