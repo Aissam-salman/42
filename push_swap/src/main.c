@@ -131,40 +131,67 @@ int check_set_zero(char *s)
 	}
 	return (1);
 }
-
-void init_stack(char **set)
+void    check_dup(t_node *head)
 {
-	t_node *head_a;
-	t_node *cur;
-	t_node *tmp;
     t_node *tmp_next ;
-    int i;
 
-	i = 0;
-	head_a = NULL;
-	cur = NULL;
-	while (set[i])
+	while (head)
 	{
-		int tr = ft_atoi(set[i]);
-		if (tr == 0 && !check_set_zero(set[i]))
-			error_handler();
-		cur = ft_node_new(tr, i);
-		ft_node_add_back(&head_a, cur);
-		i++;
-	}
-	tmp = head_a;
-	while (tmp)
-	{
-		printf("set[%d] = %d\n", tmp->index, tmp->value);
-        tmp_next = tmp->next;
+		printf("set[%d] = %d\n", head->index, head->value);
+        tmp_next = head->next;
         while (tmp_next)
         {
-            if (tmp->value == tmp_next->value)
+            if (head->value == tmp_next->value)
                 error_handler();
             tmp_next = tmp_next->next;
         }
-		tmp = tmp->next;
+		head = head->next;
 	}
+}
+
+int check_only_digit(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (!ft_isdigit(str[i]))
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+t_node *fill_stack(char **set)
+{
+	t_node *head;
+	t_node *cur;
+    int i;
+    int tr;
+
+	i = 0;
+	head = NULL;
+	cur = NULL;
+	while (set[i])
+	{
+		tr = ft_atoi(set[i]);
+		if (tr == 0 && !check_set_zero(set[i]))
+			error_handler();
+        else if (!check_only_digit(set[i]))
+            error_handler();
+		cur = ft_node_new(tr, i);
+		ft_node_add_back(&head, cur);
+		i++;
+	}
+    return (head);
+}
+
+void init_stack(char **set)
+{
+	t_node *head;
+    head = fill_stack(set);
+    check_dup(head);
 }
 
 int main(int ac, char **av)
@@ -175,7 +202,6 @@ int main(int ac, char **av)
         error_handler();
     set = extract_params(ac, av);
     init_stack(set);
-    // init stack a with params in the same order , init stack b empty for now 
     // make function sa, sb, ss, pa, pb, ra, rb ,rr, rra, rrb, rrr
     // start sorting stack
 }
