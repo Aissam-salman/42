@@ -6,7 +6,7 @@ SRC = $(addprefix src/, $(addsuffix .c, main linked_list parsing utils core))
 OBJS := $(SRC:%.c=%.o)
 
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror
+CCFLAGS = -Wall -Wextra -Werror -g
 INC_DIR = includes
 CCIFLAGS = -I$(INC_DIR)
 #MATH flags
