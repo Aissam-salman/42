@@ -72,48 +72,23 @@ void sort_short(t_node **stack)
     //TODO: fn to change index after move
 }
 
-void push_b(t_node **stack_a, t_node **stack_b)
-{
-    t_node *tmp;
-
-    tmp = *stack_a;
-    *stack_a = tmp->next;
-    if (*stack_b)
-        tmp->next = *stack_b;
-    *stack_b = tmp;
-    ft_putendl_fd("pa", 1);
-}
 
 void pre_sort(t_node **stack_a, t_node **stack_b)
 {
     t_node *pivot;
-    t_node *head_a;
 
-    pivot = ft_node_last(*stack_a);
-    head_a = *stack_a;
-    while (ft_node_size(head_a) > 3)
-    {
-        if (head_a->value > pivot->value)
-            push_b(stack_a, stack_b);
-        head_a = *stack_a;
-    }
-    ft_printf("==== STACK A PRESORT ====\n");
-    print_stack(*stack_a);
+    pivot = ft_node_last(*stack_a)
+    // find mediane
+    // if value > mediane push_a : stack_b  
 
-    ft_printf("==== STACK B PRESORT ====\n");
-    print_stack(*stack_b);
 }
 
-void sort_turk(t_node **stack_a, t_node **stack_b)
-{
-    (void)stack_a, (void )stack_b;
-    ft_printf("==== TURK SORT ====\n");
-}
+void sort_turk(t_node **stack_a, t_node **stack_b);
 
 void push_swap(t_node *stack, int size)
 {
     t_node *stack_b;
-
+    // handle diff sort with size
     ft_printf("==== BEFORE SORT ====\n");
     print_stack(stack);
     stack_b = NULL;
@@ -124,6 +99,6 @@ void push_swap(t_node *stack, int size)
         pre_sort(&stack, &stack_b);
         sort_turk(&stack, &stack_b);
     }
-    // ft_printf("==== AFTER SORT ====\n");
-    // print_stack(stack);
+    ft_printf("==== AFTER SORT ====\n");
+    print_stack(stack);
 }
