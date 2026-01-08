@@ -91,6 +91,19 @@ void push_b(t_node **stack_a, t_node **stack_b)
     *stack_b = tmp;
     ft_putendl_fd("pb", 1);
 }
+void push_a(t_node **stack_a, t_node **stack_b)
+{
+    t_node *tmp;
+
+    tmp = *stack_a;
+    *stack_a = tmp->next;
+    if (*stack_b)
+        tmp->next = *stack_b;
+    else
+        tmp->next = NULL;
+    *stack_b = tmp;
+    ft_putendl_fd("pa", 1);
+}
 
 void update_index(t_node **stack)
 {
@@ -135,6 +148,7 @@ void sort_turk(t_node **stack_a, t_node **stack_b)
 {
     (void)stack_a, (void )stack_b;
     ft_printf("==== TURK SORT ====\n");
+    // 
 
     ft_printf("====  A ====\n");
     print_stack(*stack_a);
@@ -152,7 +166,7 @@ void push_swap(t_node *stack, int size)
     else
     {
         pre_sort(&stack, &stack_b);
-        sort_turk(&stack, &stack_b);
+        // sort_turk(&stack, &stack_b);
     }
     // ft_printf("==== AFTER SORT ====\n");
     // print_stack(stack);
