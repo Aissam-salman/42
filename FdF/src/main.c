@@ -1,16 +1,17 @@
-/* ************r************************************************************* */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:36:17 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/12 18:22:24 by alamjada         ###   ########.fr       */
+/*   Updated: 2025/12/22 11:00:33 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+#include <fcntl.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,6 +21,8 @@
 #define WIN_W 1980
 #define WIN_H 1080
 #define MARGIN 50
+#define DEFAULT_COLOR 0xFFFFFF
+
 
 typedef struct	s_data {
 	void	*img;
@@ -37,7 +40,7 @@ typedef struct s_mlx{
 	struct s_point *head;
 } t_mlx;
 
-void free_array(char **data)  
+void free_array(char **data)
 {
 	size_t i;
 
@@ -59,17 +62,18 @@ int close_window(t_mlx *mlx)
 	exit(EXIT_SUCCESS);
 }
 
-int handle_input_callback(int keycode, t_mlx *mlx)
+int handle_input_callback(int keycode, void *param)
 {
-	if (keycode == 65307) 
+	t_mlx *mlx = (t_mlx *)param;
+	if (keycode == 65307)
 		close_window(mlx);
-	else 
+	else
 		printf("KEY: %d\n", keycode);
 	return (0);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{	
+{
 	char	*dst;
 
 	if (x < 0 || y < 0 || x >= 1980 || y >= 1080)
@@ -77,24 +81,51 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
-
+/* Algorithm DDA
+    *si |x2-x1| >= |y2-y1| alors
+            longueur := |x2-x1|
+    sinon
+        longueur := |y2-y1|
+    fin si
+    dx := (x2-x1) / longueur
+    dy := (y2-y1) / longueur
+    x := x1 + 0.5
+    y := y1 + 0.5
+    i := 1
+    tant que i ≤ longueur faire
+    setPixel (E (x), E (y))
+    x := x + dx
+    y := y + dy
+    i := i + 1
+    fin tant que
+*/
 void draw_line(int x1, int y1, int x2, int y2, int color, t_data *img)
 {
-	double dx = x2 - x1;
-	double dy = y2 - y1;
-	int step = fabs(dx) > fabs(dy) ? fabs(dx) : fabs(dy);
+    double dx;
+    double dy;
+    double x;
+    double y;
+    int len;
+    int i;
 
-	dx /= step;
-	dy /= step;
-	double x = x1;
-	double y = y1;
-
-	for (int i = 0; i <= step; i++)
-	{
+    if (x2 - x1 >= y2 - y1)
+        len = x2 - x1;
+    else
+    {
+        len = y2 - y1;
+    }
+	dx = abs((x2 - x1) / len);
+	dy = abs((y2 - y1) / len);
+	x = x1 + 0.5;
+	y = y1 + 0.5;
+    i = 0;
+    while (i < len)
+    {
 		my_mlx_pixel_put(img, (int)x, (int)y, color);
 		x += dx;
 		y += dy;
-	}
+        i++;
+    }
 }
 
 t_point *get_point(t_point *head, int index)
@@ -178,104 +209,169 @@ void project_all_points(t_point *head)
     }
 }
 
-int main(int ac, char **av) {
-	int fd;
-	int x;
-	int y;
-	int z;
-	int color;
-	char *line;
-	t_point *head;
-	t_point *node;
-	char **data;
-	char **splited;
-	t_mlx *mlx;
-	int width;
+int find_width(char **splited)
+{
+    int width;
 
-	mlx = malloc(sizeof(t_mlx));
-	if (!mlx)
-		exit(EXIT_FAILURE);
-	mlx->ptr = NULL;
-	mlx->win = NULL;
-	mlx->head = NULL;
-	mlx->fd = -1;
-	if (ac != 2) 
-	{
-		ft_printf("Error number args!\nUsage: %s \"filename\"\n", av[0]);
-		exit(EXIT_FAILURE);
-	}
-	fd = open(av[1], O_RDONLY);
-	if (fd == -1) 
+    width = 0;
+    while(splited[width])
+        width++;
+    return (width);
+}
+
+t_point *extract_data(char *cor, int x, int y)
+{
+    char **data;
+    int z;
+    int color;
+
+    data = ft_split(cor, ',');
+    if (!data)
+        exit(EXIT_FAILURE);
+    z = ft_atoi(data[0]);
+    color = DEFAULT_COLOR;
+    if (data[1])
+        color = ft_atoi_base(data[1], "0123456789abcdef");
+    free_array(data);
+    return (ft_node_new(x, y, z, color));
+}
+
+void add_right_down(t_point **head,int  width,int  x,int  y,t_point **node)
+{
+    t_point *up;
+    t_point *prev;
+
+    if (x > 0)
+    {
+        prev = get_point(*head, y * width + x - 1);
+        prev->right = *node;
+    }
+    if (y > 0)
+    {
+        up = get_point(*head, (y - 1) * width + x);
+        up->down = *node;
+    }
+}
+
+void build_map(char **splited, t_point **head, int width, int y)
+{
+    int x;
+	t_point *node;
+
+    x = 0;
+    while (splited[x])
+    {
+        node = extract_data(splited[x], x, y);
+        add_right_down(head, width, x, y, &node);
+        ft_node_add_back(head, node);
+        x++;
+    }
+}
+
+t_point *parsing_file(int fd)
+{
+    t_point *head;
+    int y;
+    char **splited;
+    char *line;
+    int width;
+
+    head = NULL;
+    y = 0;
+    while ((line = get_next_line(fd)))
+    {
+        splited = ft_split(line, ' ');
+        if (!splited)
+        {
+            free(line);
+            perror("Error parsing file");
+            exit(EXIT_FAILURE);
+        }
+        free(line);
+        if (y == 0)
+            width = find_width(splited);
+        build_map(splited, &head, width, y);
+		free_array(splited);
+		y++;
+    }
+    return (head);
+}
+
+void   extract_parsing_file(char *filename, t_mlx **mlx)
+{
+    t_mlx *p_mlx;
+
+    if (!filename)
+    {
+        perror("Error with filename\n");
+        exit(EXIT_FAILURE);
+    }
+    p_mlx = *mlx;
+    p_mlx->fd = open(filename, O_RDONLY);
+	if (p_mlx->fd == -1)
 	{
 		printf("Error opening file: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
-	head = NULL;
-	y = 0;
-	while ((line = get_next_line(fd)) != NULL) 
-	{
-		splited = ft_split(line, ' ');
-		if (!splited || !*splited) 
-		{
-			perror("Error parsing file");
-			exit(EXIT_FAILURE);
-		}
-		if (y == 0)
-		{
-			width = 0;
-			while (splited[width])
-				width++;
-		}
-		free(line);
-		x = 0;
-		while (splited[x]) 
-		{
-			data = ft_split(splited[x], ',');
-			z = ft_atoi(data[0]);
-			color = 0xFFFFFF;
-			if (data[1])
-				color = ft_atoi_base(data[1], "0123456789abcdef");
-			free_array(data);
-			node = ft_node_new(x, y, z, color);
-			if (x > 0)
-			{
-				t_point *prev = get_point(head, y * width + x - 1);
-				prev->right = node;
-			}
-			if (y > 0)
-			{
-				t_point *up = get_point(head, (y - 1) * width + x);
-				up->down = node;
-			}
-			ft_node_add_back(&head, node);
-			x++;
-		}
-		free_array(splited);
-		y++;
-	}
-	project_all_points(head);
-	mlx->ptr = mlx_init();
-	if (!mlx->ptr)
-	{
+    p_mlx->head = parsing_file(p_mlx->fd);
+    if (!p_mlx->head)
+    {
+        perror("Error parsing\n");
+		exit(EXIT_FAILURE);
+    }
+}
+
+void mlx_start(t_mlx **mlx)
+{
+    t_mlx *p_mlx;
+
+    p_mlx = *mlx;
+	project_all_points(p_mlx->head);
+    p_mlx->ptr = mlx_init();
+    if (!p_mlx->ptr)
+    {
 		printf("Error with minilibx init: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
-	}
-	mlx->win = mlx_new_window(mlx->ptr, 1980, 1080, "FDF");
-	if (!mlx->win)
+    }
+	p_mlx->win = mlx_new_window(p_mlx->ptr, 1980, 1080, "FDF");
+	if (!p_mlx->win)
 	{
 		printf("Error with minilibx new img: %s\n", strerror(errno));
-		mlx_destroy_display(mlx->ptr);
-		free(mlx->ptr);
+		mlx_destroy_display(p_mlx->ptr);
+		free(p_mlx->ptr);
 		exit(EXIT_FAILURE);
 	}
-	mlx->img.img = mlx_new_image(mlx->ptr, 1980, 1080);
-	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bits_per_pixel, &mlx->img.line_length, &mlx->img.endian);
-	mlx->fd = fd;
-	mlx->head = head;
-	draw_map(head, &mlx->img);
-	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.img, 0, 0);
-	mlx_key_hook(mlx->win, handle_input_callback, mlx);
-	mlx_hook(mlx->win, 33, 1L<<17, close_window, mlx);
-	mlx_loop(mlx->ptr);
-	return (EXIT_SUCCESS);
+	p_mlx->img.img = mlx_new_image(p_mlx->ptr, 1980, 1080);
+	p_mlx->img.addr = mlx_get_data_addr(p_mlx->img.img, &p_mlx->img.bits_per_pixel, &p_mlx->img.line_length, &p_mlx->img.endian);
+}
+
+void mlx_core(t_mlx **mlx)
+{
+    t_mlx *p_mlx;
+
+    p_mlx = *mlx;
+	draw_map(p_mlx->head, &p_mlx->img);
+	mlx_put_image_to_window(p_mlx->ptr, p_mlx->win, p_mlx->img.img, 0, 0);
+	mlx_key_hook(p_mlx->win, handle_input_callback, p_mlx);
+	mlx_hook(p_mlx->win, 33, 1L<<17, close_window, p_mlx);
+	mlx_loop(p_mlx->ptr);
+}
+
+int main(int ac, char **av) {
+	t_mlx   *mlx;
+
+    if (ac != 2)
+    {
+        perror("Error args empty, need one\n");
+    }
+    mlx = malloc(sizeof(t_mlx));
+    if (!mlx)
+    {
+		printf("Error with alloc mlx: %s\n", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+    extract_parsing_file(av[1], &mlx);
+    mlx_start(&mlx);
+    mlx_core(&mlx);
+    exit(EXIT_SUCCESS);
 }

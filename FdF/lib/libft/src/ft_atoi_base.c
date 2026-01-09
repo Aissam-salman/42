@@ -29,13 +29,11 @@ static int	ft_find_index(char c, char *base)
 int	ft_atoi_base(char *nbr, char *base_from)
 {
 	size_t	lenb;
-	size_t	lenn;
 	size_t	i;
 	int		rs;
 	int		sign;
 
 	lenb = ft_strlen(base_from);
-	lenn = ft_strlen(nbr) - 1;
 	i = 0;
 	rs = 0;
 	sign = 1;

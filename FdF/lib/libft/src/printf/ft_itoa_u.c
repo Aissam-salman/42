@@ -21,8 +21,6 @@ static size_t	find_nblen(unsigned long n)
 	if (nbr == 0)
 		return (1);
 	count = 0;
-	if (nbr < 0)
-		nbr = -nbr;
 	while (nbr > 0)
 	{
 		nbr /= 10;
@@ -44,11 +42,6 @@ static char	*fill_nbr(char *out, unsigned long n, size_t len)
 		out[1] = '\0';
 		return (out);
 	}
-	if (nbr < 0)
-	{
-		out[0] = '-';
-		nbr = -nbr;
-	}
 	while (nbr > 0)
 	{
 		out[len - 1 - i] = nbr % 10 + '0';
@@ -65,8 +58,6 @@ char	*ft_itoa_u(unsigned int n)
 	char	*out;
 
 	len_nb = find_nblen(n);
-	if (n < 0)
-		len_nb++;
 	out = malloc(len_nb + 1);
 	if (!out)
 		return (NULL);

@@ -148,7 +148,6 @@ void sort_turk(t_node **stack_a, t_node **stack_b)
 {
     (void)stack_a, (void )stack_b;
     ft_printf("==== TURK SORT ====\n");
-    // 
 
     ft_printf("====  A ====\n");
     print_stack(*stack_a);
@@ -166,7 +165,7 @@ void push_swap(t_node *stack, int size)
     else
     {
         pre_sort(&stack, &stack_b);
-        // sort_turk(&stack, &stack_b);
+        sort_turk(&stack, &stack_b);
     }
     // ft_printf("==== AFTER SORT ====\n");
     // print_stack(stack);
