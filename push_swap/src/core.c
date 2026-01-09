@@ -163,7 +163,9 @@ void find_target(t_node **stack_a, t_node **stack_b)
         smallest_bigger = ca;
         while (ca)
         {
-            if (ca->value > cb->value && cb->value < smallest_bigger->value)
+            if (ca->value > cb->value)
+                smallest_bigger = ca;
+            if (ca->value < smallest_bigger->value)
                 smallest_bigger = ca;
             ca = ca->next;
         }
