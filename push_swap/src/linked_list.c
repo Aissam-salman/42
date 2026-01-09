@@ -22,6 +22,7 @@ t_node	*ft_node_new(int value, int index)
 	new_node->next = NULL;
 	new_node->value = value;
 	new_node->index = index;
+    new_node->target = NULL;
 	return (new_node);
 }
 
@@ -53,8 +54,23 @@ void	print_stack(t_node *stack)
 {
 	while (stack)
 	{
-		ft_printf("stack[%d] = %d\n", stack->index, stack->value);
-		stack = stack->next;
+		ft_printf("stack[%d] = %d\n", 
+            stack->index, 
+            stack->value);
+            stack = stack->next;
+	}
+}
+
+void print_stack_t(t_node *stack)
+{
+	while (stack)
+	{
+		ft_printf("stack[%d] = %d\n target= [%d]: %d\n", 
+            stack->index, 
+            stack->value, 
+            stack->target ? stack->target->index : -1, 
+            stack->target ? stack->target->value : -1);
+            stack = stack->next;
 	}
 }
 

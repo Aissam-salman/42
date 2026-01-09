@@ -55,6 +55,21 @@ int check_is_stack_sorted(t_node **stack)
     return (1);
 }
 
+void update_index(t_node **stack)
+{
+    t_node *h;
+    int i;
+
+    i = 0;
+    h = *stack;
+    while (h)
+    {
+        h->index = i;
+        h = h->next;
+        i++;
+    }
+}
+
 void sort_short(t_node **stack)
 {
     t_node *head;
@@ -75,7 +90,7 @@ void sort_short(t_node **stack)
         }
         head = *stack;
      }
-    //TODO: fn to change index after move
+    update_index(stack);
 }
 
 void push_b(t_node **stack_a, t_node **stack_b)
@@ -91,6 +106,7 @@ void push_b(t_node **stack_a, t_node **stack_b)
     *stack_b = tmp;
     ft_putendl_fd("pb", 1);
 }
+
 void push_a(t_node **stack_a, t_node **stack_b)
 {
     t_node *tmp;
@@ -105,20 +121,6 @@ void push_a(t_node **stack_a, t_node **stack_b)
     ft_putendl_fd("pa", 1);
 }
 
-void update_index(t_node **stack)
-{
-    t_node *h;
-    int i;
-
-    i = 0;
-    h = *stack;
-    while (h)
-    {
-        h->index = i;
-        h = h->next;
-        i++;
-    }
-}
 void update_stacks_index(t_node **stack_a, t_node **stack_b)
 {
     update_index(stack_a);
@@ -144,15 +146,48 @@ void pre_sort(t_node **stack_a, t_node **stack_b)
     update_stacks_index(stack_a, stack_b);
 }
 
-void sort_turk(t_node **stack_a, t_node **stack_b)
+void find_target(t_node **stack_a, t_node **stack_b)
 {
-    (void)stack_a, (void )stack_b;
-    ft_printf("==== TURK SORT ====\n");
+    // pour chaque element de la stack b, on cherche dans la stack a le nb qui :
+    // - plus grand que le nombre B
+    // - Mais le plus petit possible parmis ceux qui sont plus grand
+    // = target node
+    t_node *ca;
+    t_node *cb;
+    t_node *smallest_bigger;
 
+    cb = *stack_b;
+    while (cb)
+    {
+        ca = *stack_a;
+        smallest_bigger = ca;
+        while (ca)
+        {
+            if (ca->value > cb->value && cb->value < smallest_bigger->value)
+                smallest_bigger = ca;
+            ca = ca->next;
+        }
+        cb->target = smallest_bigger;
+        cb = cb->next;
+    }
     ft_printf("====  A ====\n");
     print_stack(*stack_a);
     ft_printf("====  B ====\n");
-    print_stack(*stack_b);
+    print_stack_t(*stack_b);
+}
+
+void sort_turk(t_node **stack_a, t_node **stack_b)
+{
+    sort_short(stack_a);
+    // find target node for all node in stack b
+    find_target(stack_a, stack_b);
+
+    // calculate cost move
+    // choice chipest 
+    // move
+    // restart while stack_b not empty 
+    // move min stack_a to top
+
 }
 
 void push_swap(t_node *stack, int size)
@@ -167,6 +202,4 @@ void push_swap(t_node *stack, int size)
         pre_sort(&stack, &stack_b);
         sort_turk(&stack, &stack_b);
     }
-    // ft_printf("==== AFTER SORT ====\n");
-    // print_stack(stack);
 }

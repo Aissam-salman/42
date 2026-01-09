@@ -21,6 +21,7 @@ typedef struct s_node
     int cost;
     int index;
     struct s_node *next;
+    struct s_node *target;
 }   t_node;
 
 // LINKED LIST
@@ -28,6 +29,7 @@ t_node	*ft_node_new(int value, int index);
 t_node	*ft_node_last(t_node *lst);
 void	ft_node_add_back(t_node **lst, t_node *new_node);
 void    print_stack(t_node *stack);
+void    print_stack_t(t_node *stack);
 int	ft_node_size(t_node *lst);
 
 // PARSING
