@@ -65,11 +65,12 @@ void print_stack_t(t_node *stack)
 {
 	while (stack)
 	{
-		ft_printf("stack[%d] = %d\n target= [%d]: %d\n", 
+		ft_printf("stack[%d] = %d\n target= [%d]: %d\n cost= %d\n", 
             stack->index, 
             stack->value, 
             stack->target ? stack->target->index : -1, 
-            stack->target ? stack->target->value : -1);
+            stack->target ? stack->target->value : -1,
+            stack->cost);
             stack = stack->next;
 	}
 }

@@ -41,6 +41,8 @@ void rotate(t_node **stack)
     *stack = nxt;
 }
 
+void reverse_rotate(t_node **stack);
+
 int check_is_stack_sorted(t_node **stack)
 {
     t_node *head;
@@ -148,10 +150,6 @@ void pre_sort(t_node **stack_a, t_node **stack_b)
 
 void find_target(t_node **stack_a, t_node **stack_b)
 {
-    // pour chaque element de la stack b, on cherche dans la stack a le nb qui :
-    // - plus grand que le nombre B
-    // - Mais le plus petit possible parmis ceux qui sont plus grand
-    // = target node
     t_node *ca;
     t_node *cb;
     t_node *smallest_bigger;
@@ -172,10 +170,81 @@ void find_target(t_node **stack_a, t_node **stack_b)
         cb->target = smallest_bigger;
         cb = cb->next;
     }
-    ft_printf("====  A ====\n");
-    print_stack(*stack_a);
-    ft_printf("====  B ====\n");
-    print_stack_t(*stack_b);
+}
+
+void    pricing(t_node **stack_b)
+{
+/*
+    Pour remettre un nombre de B dans A, tu dois :
+
+    Amener ce nombre en haut de B (on ne peut pousser que le sommet).
+
+    Amener le target node en haut de A.
+
+    Tu calcules combien d’opérations ça prend pour chaque nombre dans B pour
+    faire ça.
+    C’est simple : si l’élément est dans les premiers éléments, tu fais des
+    rotations simples (rb).
+    S’il est dans la seconde moitié, tu fais des rotations inverses (rrb).
+*/
+
+    // loop stack b
+    t_node *hb;
+    int sizeb;
+    int cost;
+
+    hb = *stack_b;
+    sizeb = ft_node_size(*stack_b);
+    while (hb)
+    {
+        if (hb->index < sizeb / 2)
+            cost = hb->index;
+        else 
+            cost = sizeb - hb->index;
+        if (hb->target->index < sizeb / 2)
+            cost += hb->target->index;
+        else 
+            cost += sizeb - hb->target->index;
+        hb->cost = cost;
+        hb = hb->next;
+    }
+}
+
+int find_min_cost_index(t_node *stack)
+{
+    int min;
+    int index;
+
+    min = stack->cost;
+    index = stack->index;
+    while (stack)
+    {
+        if (stack->cost < min)
+        {
+            min = stack->cost;
+            index = stack->index;
+        }
+        stack = stack->next;
+    }
+    return (index);
+}
+
+
+void move_cheapest(t_node **stack_a, t_node **stack_b)
+{
+    t_node *hb;
+    int cheapest_i;
+    
+    hb = *stack_b;
+    cheapest_i = find_min_cost_index(*stack_b);
+    // if first part and not in top, rotate_b
+    // else if second par and not in top, reverse_rotate_b
+    // tant que le node n'est pas au top,
+    // pareil pour son target node
+    // enfin push_a puis rotate_a
+    // maj index des deux stack
+
+
 }
 
 void sort_turk(t_node **stack_a, t_node **stack_b)
@@ -183,13 +252,16 @@ void sort_turk(t_node **stack_a, t_node **stack_b)
     sort_short(stack_a);
     // find target node for all node in stack b
     find_target(stack_a, stack_b);
-
     // calculate cost move
-    // choice chipest 
-    // move
+    pricing(stack_b);
+    // choice chipest and move
+    move_cheapest(stack_a, stack_b);
+    ft_printf("====  A ====\n");
+    print_stack(*stack_a);
+    ft_printf("====  B ====\n");
+    print_stack_t(*stack_b);
     // restart while stack_b not empty 
     // move min stack_a to top
-
 }
 
 void push_swap(t_node *stack, int size)
