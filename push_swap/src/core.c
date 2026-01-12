@@ -19,9 +19,7 @@ int find_min_cost_index(t_node *stack)
 {
     int min;
     int index;
-    int first;
 
-    first = 0;
     min = stack->cost;
     index = stack->index;
     while (stack)
@@ -218,19 +216,13 @@ void sort_short(t_node **stack)
     update_index(stack);
 }
 
-void sort_short_dec(t_node **stack)
+void sort_two(t_node **stack)
 {
     t_node *head;
 
     head = *stack;
-     while (!check_is_stack_sorted_dec(stack))
-     {
-        if (head->value < head->next->value)
-            rotate(stack, "rb");
-        else if (head->value < head->next->value)            
-            swap(stack, "sb");
-        head = *stack;
-     }
+    if (head->value < head->next->value)
+	    swap(stack, "sb");
     update_index(stack);
 }
 
@@ -268,90 +260,47 @@ void update_stacks_index(t_node **stack_a, t_node **stack_b)
     update_index(stack_b);
 }
 
-
-int find_min(t_node *stack)
+t_node *find_min(t_node *stack)
 {
     t_node *min;
 
     min = stack;
     while (stack)
     {
-        ft_printf("%stack= %d, min= %d\n", stack->value, min->value);
-        if (stack->value > min->value)
+        if (stack->value < min->value)
             min = stack;
         stack = stack->next;
     }
     min->next = NULL;
-    return (min->index);
-}
-
-int check_if_small(int minp, t_node **stack_b)
-{
-    t_node *h;
-
-    h = *stack_b;
-    while (h)
-    {
-        if (h->value > minp)
-            return (0);
-        h = h->next;
-    }
-    return (1);
-}
-
-void free_node(t_node *node)
-{
-    t_node *tmp;
-
-    tmp = node;
-    while (tmp)
-    {
-        free(node);
-        tmp = tmp->next;
-    }
-    free(node);
-    node = NULL;
+    return (min);
 }
 
 // FIX: rewrite all
 void find_target(t_node **stack_a, t_node **stack_b)
 {
-    // t_node *ca;
-    // t_node *cb;
-    // t_node *smallest_bigger;
-    // t_node *cb_copy;
-    //
-    // ca = *stack_a;
-    // smallest_bigger = NULL;
-    // while (ca)
-    // {
-    //     cb = *stack_b;
-    //     while (cb)
-    //     {
-    //         if (cb->value > ca->value)
-    //         {
-    //             cb_copy = cb;
-    //             cb_copy->next = NULL;
-    //             ft_node_add_back(&smallest_bigger, cb_copy);
-    //         }
-    //         cb = cb->next;
-    //     }
-    //     if (!smallest_bigger )
-    //     {
-    //         int index_min = find_min(cb);
-    //         ca->target = find_node_by_index(*stack_b, index_min);
-    //     }
-    //     else
-    //     {
-    //         ft_printf("smallestpb: %d\n", smallest_bigger->value);
-    //         print_stack_t(*stack_a);
-    //         int index_min = find_min(smallest_bigger);
-    //         ca->target = find_node_by_index(*stack_b, index_min);
-    //         ft_printf("ici\n");
-    //         ft_printf("val= %d, target = %d\n",ca->value, ca->target);
-    //     }
-    //     ca = ca->next;
-    // }
+	t_node *sa;
+	t_node *sb;
+	t_node *min;
+
+	sa = *stack_a;
+	while (sa)
+	{
+		sb = *stack_b;
+		min = NULL;
+		while (sb)
+		{
+			if (sb->value > sa->value)
+			{
+				if (!min || min->value < sb->value)
+					min = sb;
+			}
+			sb = sb->next;
+		}
+		if (!min)
+			min = find_min(*stack_b);
+		sa->target = min;
+		sa = sa->next;
+	}
 }
 
 void    pricing(t_node **stack_a,  t_node **stack_b)
@@ -379,8 +328,6 @@ void    pricing(t_node **stack_a,  t_node **stack_b)
     }
 }
 
-
-
 void move_cheapest(t_node **stack_a, t_node **stack_b)
 {
     t_node *node_cheapest;
@@ -404,17 +351,21 @@ void move_cheapest(t_node **stack_a, t_node **stack_b)
         update_stacks_index(stack_a, stack_b);
     }
     push_b(stack_a, stack_b);
-    rotate(stack_b, "rb");
+    swap(stack_b, "sb");
     update_stacks_index(stack_a, stack_b);
 }
 
 void sort_turk(t_node **stack_a, t_node **stack_b)
 {
-    sort_short_dec(stack_b);
+    sort_two(stack_b);
     while (*stack_a)
     {
         find_target(stack_a, stack_b);
-        ft_printf("la\n");
+        ft_printf("A\n");
+	print_stack_t(*stack_a);
+	ft_printf("B\n");
+	print_stack(*stack_b);
+	exit(0);
         pricing(stack_a, stack_b);
         move_cheapest(stack_a, stack_b);
     }
@@ -430,7 +381,6 @@ void push_swap(t_node *stack, int size)
         sort_short(&stack);
     else
     {
-        push_b(&stack, &stack_b);
         push_b(&stack, &stack_b);
         push_b(&stack, &stack_b);
         update_stacks_index(&stack, &stack_b);
