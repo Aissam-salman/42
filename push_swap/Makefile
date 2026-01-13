@@ -9,7 +9,6 @@ CC = cc
 CCFLAGS = -Wall -Wextra -Werror -g
 INC_DIR = includes
 CCIFLAGS = -I$(INC_DIR)
-#MATH flags
 RM = rm -f
 
 .PHONY: all clean fclean re
