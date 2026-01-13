@@ -272,20 +272,18 @@ void find_target(t_node **stack_a, t_node **stack_b)
     t_node *sb;
     t_node *min;
 
-    if (!*stack_b) {
+    if (!*stack_b)
         return ;
-    }
     sb = *stack_b;
-
     while (sb)
     {
         sa = *stack_a;
         min = NULL;
         while (sa)
         {
-            if (sa->value > sb->value)
+            if (sb->value < sa->value)
             {
-                if (!min || sa->value < min->value)
+                if (!min || min->value > sa->value)
                     min = sa;
             }
             sa = sa->next;
@@ -364,53 +362,44 @@ int max_in(t_node *stack, int value)
 //FIX: reverse logic
 void move_cheapest(t_node **stack_a, t_node **stack_b)
 {
-    t_node *node_cheapest;
+    t_node *cheapest;
 
-    if (!*stack_a) {
+    if (!*stack_b)
         return ;
-    }
-    node_cheapest = find_min_cost_node(*stack_a);
-    while(*stack_a && node_cheapest->index != 0)
+    cheapest = find_min_cost_node(*stack_b);
+    while (*stack_b && cheapest->index != 0)
     {
-        if (node_cheapest->index < ft_node_size(*stack_a) / 2)
-            rotate(stack_a, "ra");
-        else
-            reverse_rotate(stack_a, "rra");
-        update_index(stack_a);
-        node_cheapest = find_min_cost_node(*stack_a);
-    }
-    while (*stack_b && (*stack_b)->value != node_cheapest->target->value)
-    {
-        if (find_min(*stack_b)->value == node_cheapest->target->value && node_cheapest->value > find_min(*stack_b)->value)
-            break;
-        if (node_cheapest->target->index > ft_node_size(*stack_b) / 2)
-            reverse_rotate(stack_b, "rrb");
-        else
+        if (cheapest->index < ft_node_size(*stack_b) / 2)
             rotate(stack_b, "rb");
-
+        else
+            reverse_rotate(stack_b, "rrb");
         update_index(stack_b);
+        cheapest = find_min_cost_node(*stack_b);
     }
-    push_a(stack_a, stack_b);
+    while (*stack_a && (*stack_a)->value != cheapest->target->value)
+    {
+        if (cheapest->target->index > ft_node_size(*stack_a) / 2)
+            reverse_rotate(stack_a, "rra");
+        else
+            rotate(stack_a, "ra");
+        update_index(stack_a);
+    }
+    push_a(stack_b, stack_a);
     update_stacks_index(stack_a, stack_b);
 }
 
 void sort_turk(t_node **stack_a, t_node **stack_b)
 {
     // push all i b, keep 3 val
-    while (ft_node_size(*stack_a) > 3)
+    while (ft_node_size(*stack_a) > 4)
         push_b(stack_a,stack_b);
     sort_short(stack_a);
-    update_index(stack_a);
+    update_stacks_index(stack_a, stack_b);
     while (*stack_b)
     {
         find_target(stack_a, stack_b);
         pricing(stack_a, stack_b);
         move_cheapest(stack_a, stack_b);
-        ft_printf("A\n");
-        print_stack(*stack_a);
-        ft_printf("B\n");
-        print_stack_t(*stack_b);
-        exit(1);
     }
     while (find_min(*stack_a)->value != (*stack_a)->value)
         rotate(stack_a, "ra");
