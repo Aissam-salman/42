@@ -388,19 +388,19 @@ void sort_turk(t_node **stack_a, t_node **stack_b)
         push_a(stack_b, stack_a);
 }
 
-void push_swap(t_node *stack, int size)
+void push_swap(t_node **stack, int size)
 {
     t_node *stack_b;
 
     stack_b = NULL;
     if (size <= 3)
-        sort_short(&stack);
+        sort_short(stack);
     else
     {
-        push_b(&stack, &stack_b);
-        push_b(&stack, &stack_b);
-        update_stacks_index(&stack, &stack_b);
-        sort_turk(&stack, &stack_b);
+        push_b(stack, &stack_b);
+        push_b(stack, &stack_b);
+        update_stacks_index(stack, &stack_b);
+        sort_turk(stack, &stack_b);
     }
     if (stack_b)
         free_stack(&stack_b);

@@ -46,6 +46,6 @@ void free_array(char **arr);
 void free_stack(t_node **stack);
 
 // CORE
-void push_swap(t_node *stack, int size);
+void push_swap(t_node **stack, int size);
 
 #endif

@@ -42,12 +42,13 @@ int	main(int ac, char **av)
 		error_handler();
 	params = extract_params(ac, av);
 	stack = fill_stack(params);
+    if (params)
+    {
+        free_array(params);
+    }
 	check_dup(stack);
 	len = ft_node_size(stack);
-	push_swap(stack, len);
-    if (stack)
-        free_stack(&stack);
-    if (params)
-        free_array(params);
+	push_swap(&stack, len);
+    free_stack(&stack);
     return (0);
 }

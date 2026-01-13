@@ -45,7 +45,7 @@ void free_stack(t_node **stack)
 	while (head)
 	{
 		tmp = head->next;
-		ft_node_delone(head);
+		free(head);
 		head = tmp;
 	}
 	*stack = NULL;
