@@ -359,7 +359,6 @@ int max_in(t_node *stack, int value)
     return (1);
 }
 
-//FIX: reverse logic
 void move_cheapest(t_node **stack_a, t_node **stack_b)
 {
     t_node *cheapest;
@@ -390,7 +389,6 @@ void move_cheapest(t_node **stack_a, t_node **stack_b)
 
 void sort_turk(t_node **stack_a, t_node **stack_b)
 {
-    // push all i b, keep 3 val
     while (ft_node_size(*stack_a) > 4)
         push_b(stack_a,stack_b);
     sort_short(stack_a);
