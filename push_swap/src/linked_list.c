@@ -50,6 +50,15 @@ void	ft_node_add_back(t_node **lst, t_node *new_node)
 	}
 }
 
+
+void	ft_node_delone(t_node *node)
+{
+	if (!node)
+		return ;
+	node->next = NULL;
+	free(node);
+}
+
 void	print_stack(t_node *stack)
 {
 	while (stack)

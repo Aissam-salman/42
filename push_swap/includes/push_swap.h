@@ -31,6 +31,7 @@ void	ft_node_add_back(t_node **lst, t_node *new_node);
 void    print_stack(t_node *stack);
 void    print_stack_t(t_node *stack);
 int	ft_node_size(t_node *lst);
+void	ft_node_delone(t_node *node);
 
 // PARSING
 char **extract_params(int ac, char **av);
@@ -41,6 +42,8 @@ t_node *fill_stack(char **params);
 
 // UTILS
 void error_handler();
+void free_array(char **arr);
+void free_stack(t_node **stack);
 
 // CORE
 void push_swap(t_node *stack, int size);

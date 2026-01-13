@@ -32,24 +32,22 @@
 */
 #include "../includes/push_swap.h"
 
-void	init_stack(char **set)
+int	main(int ac, char **av)
 {
 	t_node	*stack;
 	int		len;
-
-	stack = fill_stack(set);
-	check_dup(stack);
-	len = ft_node_size(stack);
-	push_swap(stack, len);
-}
-
-int	main(int ac, char **av)
-{
 	char	**params;
 
 	if (ac < 2)
 		error_handler();
 	params = extract_params(ac, av);
-	init_stack(params);
+	stack = fill_stack(params);
+	check_dup(stack);
+	len = ft_node_size(stack);
+	push_swap(stack, len);
+    if (stack)
+        free_stack(&stack);
+    if (params)
+        free_array(params);
     return (0);
 }

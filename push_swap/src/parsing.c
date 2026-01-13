@@ -17,26 +17,28 @@ char	**extract_params(int ac, char **av)
 	char	**set;
 	size_t	i;
 	char	*tmp;
+    char *old;
 
 	if (ac == 2)
 	{
 		if (!av[1][0])
 			error_handler();
-		set = ft_split(av[1], ' ');
+		return (ft_split(av[1], ' '));
 	}
-	else
-	{
-		i = 1;
-		tmp = NULL;
-		while (av[i] && av[i][0])
-		{
-			tmp = ft_strjoin(tmp, av[i]);
-			tmp = ft_strjoin(tmp, " ");
-			i++;
-		}
-		set = ft_split(tmp, ' ');
-		free(tmp);
-	}
+    i = 1;
+    tmp = NULL;
+    while (av[i] && av[i][0])
+    {
+        old = tmp;
+        tmp = ft_strjoin(tmp, av[i]);
+        free(old);
+        old = tmp;
+        tmp = ft_strjoin(tmp, " ");
+        free(old);
+        i++;
+    }
+    set = ft_split(tmp, ' ');
+    free(tmp);
 	return (set);
 }
 
@@ -64,7 +66,10 @@ void	check_dup(t_node *head)
 		while (tmp_next)
 		{
 			if (head->value == tmp_next->value)
+            {
+                free_stack(&head);
 				error_handler();
+            }
 			tmp_next = tmp_next->next;
 		}
 		head = head->next;
@@ -99,9 +104,17 @@ t_node	*fill_stack(char **params)
 	{
 		tr = ft_atoi(params[i]);
 		if (tr == 0 && !check_set_zero(params[i]))
+        {
+            free_stack(&stack);
+            free_array(params);
 			error_handler();
+        }
 		else if (!check_only_digit(params[i]))
+        {
+            free_stack(&stack);
+            free_array(params);
 			error_handler();
+        }
 		cur = ft_node_new(tr, i);
 		ft_node_add_back(&stack, cur);
 		i++;
