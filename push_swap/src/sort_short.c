@@ -1,51 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   sort_short.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/07 19:52:49 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/13 18:39:55 by alamjada         ###   ########.fr       */
+/*   Created: 2026/01/13 17:48:04 by alamjada          #+#    #+#             */
+/*   Updated: 2026/01/13 18:43:28 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	error_handler(void)
-{
-	ft_putendl_fd("Error", 2);
-	exit(EXIT_FAILURE);
-}
-
-void	free_array(char **arr)
-{
-	int	i;
-
-	if (!arr)
-		return ;
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
-
-void	free_stack(t_node **stack)
+static int	check_is_stack_sorted(t_node **stack)
 {
 	t_node	*head;
-	t_node	*tmp;
 
-	if (!stack || !*stack)
-		return ;
 	head = *stack;
 	while (head)
 	{
-		tmp = head->next;
-		free(head);
-		head = tmp;
+		if (head->next && head->value > head->next->value)
+			return (0);
+		head = head->next;
 	}
-	*stack = NULL;
+	return (1);
+}
+
+void	sort_short(t_node **stack)
+{
+	t_node	*head;
+
+	head = *stack;
+	while (!check_is_stack_sorted(stack))
+	{
+		if (head->value > ft_node_last(head)->value)
+			rotate(stack, "ra");
+		else if (head->value > head->next->value)
+			swap(stack, "sa");
+		head = *stack;
+	}
+	update_index(stack);
 }

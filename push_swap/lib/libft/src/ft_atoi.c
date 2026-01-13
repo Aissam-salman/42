@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 18:07:50 by alamjada          #+#    #+#             */
-/*   Updated: 2025/12/08 15:46:10 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/13 18:38:27 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static int	ft_isspace(unsigned char c)
 
 int	ft_atoi(const char *nptr)
 {
-	long long       nbr;
-	int				sign;
+	long long	nbr;
+	int			sign;
 
 	if (!nptr)
 		return (0);
@@ -46,7 +46,7 @@ int	ft_atoi(const char *nptr)
 		nbr = nbr * 10 + (*nptr - '0');
 		nptr++;
 	}
-    if (nbr < (long long)INT_MIN || nbr > (long long)INT_MAX)
-        return (0);
-    return ((int)(nbr * sign));
+	if (nbr < (long long)INT_MIN || nbr > (long long)INT_MAX)
+		return (0);
+	return ((int)(nbr * sign));
 }

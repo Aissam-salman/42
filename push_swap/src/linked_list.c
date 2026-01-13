@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:50:17 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/07 20:01:17 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/13 18:40:20 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_node	*ft_node_new(int value, int index)
 	new_node->next = NULL;
 	new_node->value = value;
 	new_node->index = index;
-    new_node->target = NULL;
+	new_node->target = NULL;
 	return (new_node);
 }
 
@@ -50,7 +50,6 @@ void	ft_node_add_back(t_node **lst, t_node *new_node)
 	}
 }
 
-
 void	ft_node_delone(t_node *node)
 {
 	if (!node)
@@ -59,34 +58,9 @@ void	ft_node_delone(t_node *node)
 	free(node);
 }
 
-void	print_stack(t_node *stack)
-{
-	while (stack)
-	{
-		ft_printf("stack[%d] = %d\n", 
-            stack->index, 
-            stack->value);
-            stack = stack->next;
-	}
-}
-
-void print_stack_t(t_node *stack)
-{
-	while (stack)
-	{
-		ft_printf("stack[%d] = %d\n target= [%d]: %d\n cost= %d\n", 
-            stack->index, 
-            stack->value, 
-            stack->target ? stack->target->index : -1, 
-            stack->target ? stack->target->value : -1,
-            stack->cost);
-            stack = stack->next;
-	}
-}
-
 int	ft_node_size(t_node *lst)
 {
-	int size;
+	int	size;
 
 	size = 0;
 	while (lst)

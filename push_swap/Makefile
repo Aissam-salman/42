@@ -2,7 +2,7 @@ NAME = push_swap
 LIBFT = libft.a
 DIR_LIBFT = lib/libft/
 
-SRC = $(addprefix src/, $(addsuffix .c, main linked_list parsing utils core))
+SRC = $(addprefix src/, $(addsuffix .c, main linked_list parsing utils core move move2 finder sort_short handle_index))
 OBJS := $(SRC:%.c=%.o)
 
 CC = cc

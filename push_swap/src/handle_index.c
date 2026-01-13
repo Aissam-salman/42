@@ -1,51 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   handle_index.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/07 19:52:49 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/13 18:39:55 by alamjada         ###   ########.fr       */
+/*   Created: 2026/01/13 17:49:46 by alamjada          #+#    #+#             */
+/*   Updated: 2026/01/13 18:43:51 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	error_handler(void)
+void	update_index(t_node **stack)
 {
-	ft_putendl_fd("Error", 2);
-	exit(EXIT_FAILURE);
-}
+	t_node	*h;
+	int		i;
 
-void	free_array(char **arr)
-{
-	int	i;
-
-	if (!arr)
-		return ;
-	i = 0;
-	while (arr[i])
+	if (!*stack)
 	{
-		free(arr[i]);
+		return ;
+	}
+	i = 0;
+	h = *stack;
+	while (h)
+	{
+		h->index = i;
+		h = h->next;
 		i++;
 	}
-	free(arr);
 }
 
-void	free_stack(t_node **stack)
+void	update_stacks_index(t_node **stack_a, t_node **stack_b)
 {
-	t_node	*head;
-	t_node	*tmp;
-
-	if (!stack || !*stack)
-		return ;
-	head = *stack;
-	while (head)
-	{
-		tmp = head->next;
-		free(head);
-		head = tmp;
-	}
-	*stack = NULL;
+	if (*stack_a)
+		update_index(stack_a);
+	if (*stack_b)
+		update_index(stack_b);
 }
