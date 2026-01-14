@@ -6,7 +6,7 @@ SRC = $(addprefix src/, $(addsuffix .c, main linked_list parsing utils core move
 OBJS := $(SRC:%.c=%.o)
 
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror -g
+CCFLAGS = -Wall -Wextra -Werror
 INC_DIR = includes
 CCIFLAGS = -I$(INC_DIR)
 RM = rm -f
