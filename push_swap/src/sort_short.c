@@ -12,7 +12,7 @@
 
 #include "../includes/push_swap.h"
 
-static int	check_is_stack_sorted(t_node **stack)
+int	check_is_stack_sorted(t_node **stack)
 {
 	t_node	*head;
 

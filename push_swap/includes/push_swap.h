@@ -77,5 +77,6 @@ void				reverse_rotate_r(t_node **stack_a, t_node **stack_b);
 
 // SORT SHORT
 void				sort_short(t_node **stack);
+int	check_is_stack_sorted(t_node **stack);
 
 #endif

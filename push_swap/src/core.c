@@ -120,10 +120,13 @@ void	push_swap(t_node **stack, int size)
 	t_node	*stack_b;
 
 	stack_b = NULL;
-	if (size <= 3)
-		sort_short(stack);
-	else
-		sort_turk(stack, &stack_b);
-	if (stack_b)
-		free_stack(&stack_b);
+    if (!check_is_stack_sorted(stack))
+    {
+        if (size <= 3)
+            sort_short(stack);
+        else
+            sort_turk(stack, &stack_b);
+        if (stack_b)
+            free_stack(&stack_b);
+    }
 }

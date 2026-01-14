@@ -19,7 +19,7 @@ int	main(int ac, char **av)
 	char	**params;
 
 	if (ac < 2)
-		error_handler();
+        return (0);
 	params = extract_params(ac, av);
 	stack = fill_stack(params);
 	if (params)
