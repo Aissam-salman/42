@@ -101,7 +101,7 @@ static void	move_cheapest(t_node **stack_a, t_node **stack_b)
 
 static void	sort_turk(t_node **stack_a, t_node **stack_b)
 {
-	while (ft_node_size(*stack_a) >= 4)
+	while (ft_node_size(*stack_a) >= 3)
 		push_b(stack_a, stack_b);
 	sort_short(stack_a);
 	update_stacks_index(stack_a, stack_b);
