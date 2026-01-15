@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/15 13:24:17 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/15 13:26:33 by alamjada         ###   ########.fr       */
+/*   Created: 2026/01/15 19:58:27 by alamjada          #+#    #+#             */
+/*   Updated: 2026/01/15 19:59:07 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
 
-void    display_rules_params_exit(void)
+void render(t_fractal *fractal)
 {
-    ft_putendl_fd("Error params not correct!\n", 2);
-    ft_printf("---- PARAMS ----\n./fractol mandelbrot\nor\n");
-    ft_printf("./fratol julia [real] [imaginary]\n\nexample:\n");
-    ft_printf("./factol julia −0.8 0.156\n");
-    exit(EXIT_FAILURE);
-}
+    int x;
+    int y;
 
-void error_malloc()
-{
-    perror("Error with malloc!");
-    exit(EXIT_FAILURE);
+    y = 0;
+    while (y < HEIGHT)
+    {
+        x = 0;
+        while (x < WIDTH)
+        {
+            handle_cordinate(x, y, fractal);
+            x++;
+        }
+        y++;
+    }
+    mlx_put_image_to_window(fractal->mlx_connection, 
+                            fractal->mlx_win, 
+                            fractal->image.p_img, 
+                            0, 0);
 }

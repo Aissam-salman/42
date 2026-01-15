@@ -6,7 +6,9 @@ DIR_LIBFT = lib/libft/
 MINILIBX = libmlx_Linux.a
 DIR_MINILIBX = lib/minilibx-linux/
 
-SRC = $(addprefix src/, $(addsuffix .c, main error julia_init mandelbrot_init))
+SRC = $(addprefix src/, $(addsuffix .c, main error julia_init mandelbrot_init \
+complex data draw init_fractal key_handler rendering utils))
+
 OBJS := $(SRC:%.c=%.o)
 
 CC = cc
