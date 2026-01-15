@@ -35,10 +35,12 @@ void all_clear(t_fractal *fractal)
     exit(EXIT_SUCCESS);
 }
 
+#define ESC 65307
+
 int handle_hook_key(int keycode, t_fractal *fractal)
 {
     (void)fractal;
-    if (keycode == 65307)
+    if (keycode == ESC)
         all_clear(fractal);
     ft_printf("Helloo keyyyy, %d\n", keycode);
     return (0);

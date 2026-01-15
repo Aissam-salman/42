@@ -16,6 +16,9 @@
 #define WIDTH 1920
 #define HEIGHT 1080
 
+// KEYCODE
+#define ESC 65307
+
 #include "../lib/libft/includes/libft.h"
 #include "../lib/minilibx-linux/mlx.h"
 #include <math.h>
