@@ -28,14 +28,13 @@ void error_malloc()
 
 void all_clear(t_fractal *fractal)
 {
-    mlx_destroy_image(fractal->mlx_connection, fractal->image.img);
+    mlx_destroy_image(fractal->mlx_connection, fractal->image.p_img);
     mlx_destroy_window(fractal->mlx_connection, fractal->mlx_win);
     mlx_destroy_display(fractal->mlx_connection);
     free(fractal->mlx_connection);
     exit(EXIT_SUCCESS);
 }
 
-#define ESC 65307
 
 int handle_hook_key(int keycode, t_fractal *fractal)
 {
@@ -59,28 +58,59 @@ void init(t_fractal *fractal, char *name)
         free(fractal->mlx_connection);
         error_malloc();
     }
-    fractal->image.img = mlx_new_image(fractal->mlx_connection, WIDTH, HEIGHT);
-    if (!fractal->image.img)
+    fractal->image.p_img = mlx_new_image(fractal->mlx_connection, WIDTH, HEIGHT);
+    if (!fractal->image.p_img)
     {
         mlx_destroy_window(fractal->mlx_connection, fractal->mlx_win);
         mlx_destroy_display(fractal->mlx_connection);
         free(fractal->mlx_connection);
         error_malloc();    
     }
-    fractal->image.addr = mlx_get_data_addr(fractal->image.img, 
+    fractal->image.addr = mlx_get_data_addr(fractal->image.p_img, 
                                              &fractal->image.bits_per_pixel, 
                                              &fractal->image.line_length, 
                                              &fractal->image.endian);
     my_mlx_pixel_put(&fractal->image, WIDTH / 2, HEIGHT / 2, 0x00FF0000);
-    mlx_put_image_to_window(fractal->mlx_connection, fractal->mlx_win, fractal->image.img, 0, 0);
+    mlx_put_image_to_window(fractal->mlx_connection, fractal->mlx_win, fractal->image.p_img, 0, 0);
     mlx_key_hook(fractal->mlx_win, handle_hook_key, fractal);
     mlx_loop(fractal->mlx_connection);
 }
 
+//  Linear interpolation
+double scale_between(double num, double min_target, double max_target, 
+                     double min_origin, double max_origin)
+{
+    return ((max_target - min_target) * (num - min_origin) / (max_origin - min_origin) + min_origin);
+}
+
+void handle_cordinate(int x, int y, t_fractal *fractal)
+{
+    // -2 / 2 mandelbrot value range 
+    // need to transforme to fit in my windows
+    // check if value part of mandlebrot set  z = z*z + c
+}
+
+void render(t_fractal *fractal)
+{
+    int x;
+    int y;
+
+    y = 0;
+    while (y < HEIGHT)
+    {
+        x = 0;
+        while (x < WIDTH)
+        {
+            handle_cordinate(x, y, fractal);
+            x++;
+        }
+        y++;
+    }
+}
 
 void mandelbrot()
 {
     t_fractal fractal;
-
     init(&fractal, "Mandelbrot");
+    render(&fractal);
 }

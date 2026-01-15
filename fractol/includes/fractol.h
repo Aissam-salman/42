@@ -26,15 +26,15 @@
 
 typedef struct s_complex
 {
-    // x
-    double r;
-    // y
-    double i;
+    // real
+    double x;
+    // imaginary
+    double y;
 } t_complex;
 
 typedef struct s_img 
 {
-    void *img;
+    void *p_img;
     char *addr;
     int bits_per_pixel;
     int line_length;
