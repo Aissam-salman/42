@@ -6,20 +6,12 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 12:34:34 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/14 12:36:03 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/15 13:55:31 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../includes/fract_ol.h"
+#include "../includes/fractol.h"
 
-#include <stdio.h>
-typedef struct s_complex
-{
-    // x
-    double r;
-    // y
-    double i;
-} t_complex;
 
 void complex_test()
 {
@@ -44,17 +36,21 @@ void complex_test()
         // add c 
         z.r += c.r;
         z.i += c.i;
-        printf("i= %d, r= %f, i= %f\n",i, z.r, z.i);
+        ft_printf("i= %d, r= %f, i= %f\n",i, z.r, z.i);
     }
 }
 
 int main(int ac, char **av)
 {
-    (void)ac;
-    (void)av;
-    
+    if (ac < 2)
+        display_rules_params_exit();
+    if (ac == 2 && !ft_strncmp(av[1], "mandelbrot", 10))
+        mandelbrot();
+    else if (ac == 4 && !ft_strncmp(av[1], "julia", 5))
+        julia(av[2], av[3]);
+    else 
+        display_rules_params_exit();
     return (0);
-
 }
 
 // 2 params
