@@ -26,6 +26,24 @@ void error_malloc()
     exit(EXIT_FAILURE);
 }
 
+void all_clear(t_fractal *fractal)
+{
+    mlx_destroy_image(fractal->mlx_connection, fractal->image.img);
+    mlx_destroy_window(fractal->mlx_connection, fractal->mlx_win);
+    mlx_destroy_display(fractal->mlx_connection);
+    free(fractal->mlx_connection);
+    exit(EXIT_SUCCESS);
+}
+
+int handle_hook_key(int keycode, t_fractal *fractal)
+{
+    (void)fractal;
+    if (keycode == 65307)
+        all_clear(fractal);
+    ft_printf("Helloo keyyyy, %d\n", keycode);
+    return (0);
+}
+
 void init(t_fractal *fractal, char *name)
 {
     fractal->name = name;
@@ -53,6 +71,7 @@ void init(t_fractal *fractal, char *name)
                                              &fractal->image.endian);
     my_mlx_pixel_put(&fractal->image, WIDTH / 2, HEIGHT / 2, 0x00FF0000);
     mlx_put_image_to_window(fractal->mlx_connection, fractal->mlx_win, fractal->image.img, 0, 0);
+    mlx_key_hook(fractal->mlx_win, handle_hook_key, fractal);
     mlx_loop(fractal->mlx_connection);
 }
 
@@ -61,5 +80,5 @@ void mandelbrot()
 {
     t_fractal fractal;
 
-    init(&fractal, "mandelbrot");
+    init(&fractal, "Mandelbrot");
 }
