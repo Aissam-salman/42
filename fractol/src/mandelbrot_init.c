@@ -6,18 +6,17 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:41:07 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/15 20:04:40 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/16 19:35:59 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
 
-// z = z*z + c
-void mandelbrot()
+void	mandelbrot(void)
 {
-    t_fractal fractal;
+	t_fractal	fractal;
 
-    init(&fractal, "Mandelbrot");
-    render(&fractal);
-    mlx_loop(fractal.mlx_connection);
+	init(&fractal, "Mandelbrot");
+	render(&fractal);
+	mlx_loop(fractal.mlx_connection);
 }
