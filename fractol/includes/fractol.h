@@ -13,8 +13,8 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-#define WIDTH 800
-#define HEIGHT 800
+#define WIDTH 900
+#define HEIGHT 900
 
 // KEYCODE
 #define ESC 65307
