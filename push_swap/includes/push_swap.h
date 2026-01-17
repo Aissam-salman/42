@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 19:03:00 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/13 18:35:12 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/17 14:08:01 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ void				reverse_rotate_r(t_node **stack_a, t_node **stack_b);
 
 // SORT SHORT
 void				sort_short(t_node **stack);
-int	check_is_stack_sorted(t_node **stack);
+int					check_is_stack_sorted(t_node **stack);
 
 #endif

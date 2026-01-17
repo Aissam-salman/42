@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 20:03:39 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/13 18:42:39 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/17 14:07:27 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,13 @@ void	push_swap(t_node **stack, int size)
 	t_node	*stack_b;
 
 	stack_b = NULL;
-    if (!check_is_stack_sorted(stack))
-    {
-        if (size <= 3)
-            sort_short(stack);
-        else
-            sort_turk(stack, &stack_b);
-        if (stack_b)
-            free_stack(&stack_b);
-    }
+	if (!check_is_stack_sorted(stack))
+	{
+		if (size <= 3)
+			sort_short(stack);
+		else
+			sort_turk(stack, &stack_b);
+		if (stack_b)
+			free_stack(&stack_b);
+	}
 }
