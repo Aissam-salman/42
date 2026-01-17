@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:42:51 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/17 17:36:47 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/17 17:38:21 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ double	ft_atod(char *s)
 {
 	long	unit;
 	double	flt;
-	double	power;
 	int		sign;
 	int		i;
 
