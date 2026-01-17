@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 12:31:24 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/16 20:28:01 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/17 17:31:50 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int					close_window(t_fractal *fractal);
 void				render(t_fractal *fractal);
 // UTILS
 void				all_clear(t_fractal *fractal);
+double				lerp(double v0, double v1, double t);
 // ERROR
 void				display_rules_params_exit(void);
 void				error_malloc(void);
@@ -93,14 +94,14 @@ void				mandelbrot(void);
 void				julia(char *x, char *y);
 // COMPLEX NUMBER
 double				scale_between(double num, double min_target,
-						double max_target, double min_origin,
-						double max_origin);
+						double max_target, double max_origin);
 t_complex			sum_complex(t_complex z, t_complex c);
 t_complex			square_complex(t_complex z);
 void				handle_cordinate(int x, int y, t_fractal *fractal);
-
 // COLOR
-int get_color(int i, t_fractal *fractal);
-void generate_palette(t_fractal *fractal);
+int					get_color(int i, t_fractal *fractal);
+void				generate_palette(t_fractal *fractal);
+int					define_color(t_fractal *fractal, double iter);
+double				smooth_color(t_complex z, int i);
 
 #endif

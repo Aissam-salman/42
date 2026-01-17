@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 19:58:27 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/16 20:27:54 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/17 17:26:59 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	render(t_fractal *fractal)
 			x++;
 		}
 		y++;
-
 	}
 	mlx_put_image_to_window(fractal->mlx_connection, fractal->mlx_win,
 		fractal->image.p_img, 0, 0);

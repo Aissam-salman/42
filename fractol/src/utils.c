@@ -6,11 +6,16 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 20:01:41 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/16 19:37:42 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/17 17:31:39 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
+
+double	lerp(double v0, double v1, double t)
+{
+	return ((1 - t) * v0 + t * v1);
+}
 
 void	all_clear(t_fractal *fractal)
 {
