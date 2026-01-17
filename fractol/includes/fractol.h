@@ -13,6 +13,8 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
+# define BASE_HEX "0123456789ABCDEF"
+
 # define WIDTH 900
 # define HEIGHT 900
 
@@ -28,9 +30,8 @@
 # define SCROLL_UP 4
 # define SCROLL_DOWN 5
 // COLOR
+# define NB_ITER 162
 # define BLACK 0x000000
-# define WHITE 0xFFFFFF
-# define PURPLE 0x660066
 
 # include "../lib/libft/includes/libft.h"
 # include "../lib/minilibx-linux/mlx.h"
@@ -66,6 +67,7 @@ typedef struct s_fractal
 	double			offset_y;
 	double			julia_x;
 	double			julia_y;
+	int				*palette;
 }					t_fractal;
 
 // INIT
@@ -97,6 +99,8 @@ t_complex			sum_complex(t_complex z, t_complex c);
 t_complex			square_complex(t_complex z);
 void				handle_cordinate(int x, int y, t_fractal *fractal);
 
-int get_color(int iter);
+// COLOR
+int get_color(int i, t_fractal *fractal);
+void generate_palette(t_fractal *fractal);
 
 #endif

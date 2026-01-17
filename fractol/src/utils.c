@@ -18,5 +18,6 @@ void	all_clear(t_fractal *fractal)
 	mlx_destroy_window(fractal->mlx_connection, fractal->mlx_win);
 	mlx_destroy_display(fractal->mlx_connection);
 	free(fractal->mlx_connection);
+	free(fractal->palette);
 	exit(EXIT_SUCCESS);
 }

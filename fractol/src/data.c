@@ -15,8 +15,9 @@
 void	data_init(t_fractal *fractal)
 {
 	fractal->blows_up_val = 4;
-	fractal->max_iter = 102;
+	fractal->max_iter = NB_ITER;
 	fractal->zoom = 1.0;
 	fractal->offset_x = 0.0;
 	fractal->offset_y = 0.0;
+	generate_palette(fractal);
 }

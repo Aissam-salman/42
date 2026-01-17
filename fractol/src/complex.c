@@ -69,8 +69,6 @@ double	smooth_color(t_complex z, int i)
 	return (iter);
 }
 
-extern int	g_palette[256];
-
 void	handle_cordinate(int x, int y, t_fractal *fractal)
 {
 	t_complex		z;
@@ -92,12 +90,12 @@ void	handle_cordinate(int x, int y, t_fractal *fractal)
 		if ((z.x * z.x) + (z.y * z.y) > fractal->blows_up_val)
 		{
 			iter = smooth_color(z, i);
-			color = (int)lerp(g_palette[(int)floor(iter) & 255],
-					g_palette[(int)(floor(iter) + 1) & 255], i);
+			color = (int)lerp(get_color((int)floor(iter) % fractal->max_iter, fractal),
+					get_color((int)(floor(iter) + 1) % fractal->max_iter, fractal), i);
 			my_mlx_pixel_put(&fractal->image, x, y, color);
 			return ;
 		}
 		i++;
 	}
-	my_mlx_pixel_put(&fractal->image, x, y, g_palette[255]);
+	my_mlx_pixel_put(&fractal->image, x, y, BLACK);
 }
