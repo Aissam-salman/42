@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 19:03:00 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/17 14:08:01 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/18 12:33:39 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_node				*fill_stack(char **params);
 void				error_handler(void);
 void				free_array(char **arr);
 void				free_stack(t_node **stack);
+int					ft_atoi_safe(const char *nptr, int *res);
 
 // CORE
 void				push_swap(t_node **stack, int size);

@@ -3,3 +3,4 @@
 imgui.ini
 push_swap
 .vscode
+*.a

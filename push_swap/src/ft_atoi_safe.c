@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atoi_safe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 18:07:50 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/13 18:38:27 by alamjada         ###   ########.fr       */
+/*   Created: 2026/01/18 12:29:59 by alamjada          #+#    #+#             */
+/*   Updated: 2026/01/18 12:30:46 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
-
-/**
- * @brief Converts the initial portion of the string pointed to by nptr to int.
- *
- * @param nptr The string to convert.
- * @return The converted integer.
- */
+#include "../lib/libft/includes/libft.h"
 
 static int	ft_isspace(unsigned char c)
 {
 	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
-int	ft_atoi(const char *nptr)
+int	ft_atoi_safe(const char *nptr, int *res)
 {
 	long long	nbr;
 	int			sign;
 
 	if (!nptr)
-		return (0);
+		return (-1);
 	while (ft_isspace((unsigned char)*nptr))
 		nptr++;
 	sign = 1;
@@ -46,5 +39,8 @@ int	ft_atoi(const char *nptr)
 		nbr = nbr * 10 + (*nptr - '0');
 		nptr++;
 	}
-	return ((int)(nbr * sign));
+	if (nbr * sign < -2147483648 || nbr * sign > 2147483647)
+		return (0);
+	*res = (int)nbr  * sign;
+	return (1);
 }
