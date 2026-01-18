@@ -82,6 +82,8 @@ int	check_only_digit(char *str)
 	i = 0;
 	while (str[i])
 	{
+		if (str[i] == '-')
+			i++;
 		if (!ft_isdigit(str[i]))
 			return (0);
 		i++;
