@@ -15,6 +15,7 @@
 static void	hook_and_data_init(t_fractal *fractal)
 {
 	data_init(fractal);
+	generate_palette(fractal);
 	mlx_key_hook(fractal->mlx_win, handle_hook_key, fractal);
 	mlx_mouse_hook(fractal->mlx_win, handle_hook_mouse, fractal);
 	mlx_hook(fractal->mlx_win, 33, 1L << 17, close_window, fractal);

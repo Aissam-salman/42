@@ -19,10 +19,10 @@ double	lerp(double v0, double v1, double t)
 
 void	all_clear(t_fractal *fractal)
 {
+	free(fractal->palette);
 	mlx_destroy_image(fractal->mlx_connection, fractal->image.p_img);
 	mlx_destroy_window(fractal->mlx_connection, fractal->mlx_win);
 	mlx_destroy_display(fractal->mlx_connection);
 	free(fractal->mlx_connection);
-	free(fractal->palette);
 	exit(EXIT_SUCCESS);
 }

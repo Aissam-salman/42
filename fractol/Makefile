@@ -1,13 +1,14 @@
 NAME = fractol
 
-LIBFT = libft.a
 DIR_LIBFT = lib/libft/
+LIBFT = $(DIR_LIBFT)libft.a
 
-MINILIBX = libmlx_Linux.a
 DIR_MINILIBX = lib/minilibx-linux/
+MINILIBX = $(DIR_MINILIBX)libmlx_Linux.a
 
-SRC = $(addprefix src/, $(addsuffix .c, main error julia_init mandelbrot_init \
-complex data draw init_fractal key_handler rendering utils color))
+SRC = src/main.c src/error.c src/julia_init.c src/mandelbrot_init.c \
+	src/complex.c src/data.c src/draw.c src/init_fractal.c \
+	src/key_handler.c src/rendering.c src/utils.c src/color.c
 
 OBJS := $(SRC:%.c=%.o)
 
@@ -24,9 +25,7 @@ all: $(NAME)
 
 $(NAME): $(MINILIBX) $(LIBFT) $(OBJS)
 	$(CC) $(CCIFLAGS) $(OBJS) \
-	$(DIR_LIBFT)$(LIBFT) \
-	$(DIR_MINILIBX)$(MINILIBX) \
-	$(MLX_FLAGS) -o $(NAME)
+	$(LIBFT) $(MINILIBX) $(MLX_FLAGS) -o $(NAME)
 
 $(LIBFT):
 	make -C $(DIR_LIBFT)
@@ -44,7 +43,7 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
-	$(RM) $(DIR_MINILIBX)/$(MINILIBX)
+	$(RM) $(MINILIBX)
 	make fclean -C $(DIR_LIBFT)
 
 re: fclean all

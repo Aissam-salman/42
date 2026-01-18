@@ -1,20 +1,24 @@
-This project has been created as part of the 42 curriculum by alamjada
+*This project has been created as part of the 42 curriculum by alamjada*
+
 
 # Fract_ol 
 
-## Description
+# Description
 [subject](https://cdn.intra.42.fr/pdf/pdf/184938/en.subject.pdf)
 
-## Instructions
+# Instructions
 
 - Compile the project
 `make`
 
 - Run
-``
-## Resources
+`./fractol mandelbrot`
 
-### Videos
-### Articles
-### Tools
+`./fractol julia <param1> <param2>`
+
+# Resources
+
+## Videos
+## Articles
+## Tools
 

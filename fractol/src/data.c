@@ -19,5 +19,4 @@ void	data_init(t_fractal *fractal)
 	fractal->zoom = 1.0;
 	fractal->offset_x = 0.0;
 	fractal->offset_y = 0.0;
-	generate_palette(fractal);
 }
