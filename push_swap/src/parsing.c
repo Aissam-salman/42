@@ -80,15 +80,48 @@ int	check_only_digit(char *str)
 	int	i;
 
 	i = 0;
+	if (str[i] == '-')
+		i++;
 	while (str[i])
 	{
-		if (str[i] == '-')
-			i++;
 		if (!ft_isdigit(str[i]))
 			return (0);
 		i++;
 	}
 	return (1);
+}
+
+static int	ft_isspace(unsigned char c)
+{
+	return (c == ' ' || (c >= 9 && c <= 13));
+}
+
+int	ft_atoi_safe(const char *nptr, int *res)
+{
+	long long	nbr;
+	int			sign;
+
+	if (!nptr)
+		return (-1);
+	while (ft_isspace((unsigned char)*nptr))
+		nptr++;
+	sign = 1;
+	if (*nptr == '-' || *nptr == '+')
+	{
+		if (*nptr == '-')
+			sign = -1;
+		nptr++;
+	}
+	nbr = 0;
+	while (ft_isdigit((unsigned char)*nptr))
+	{
+		nbr = nbr * 10 + (*nptr - '0');
+		nptr++;
+	}
+	if (nbr < (long long)INT_MIN || nbr > (long long)INT_MAX)
+		return (-1);
+	*res = (int)nbr  * sign;
+	return ((int)(nbr * sign));
 }
 
 t_node	*fill_stack(char **params)
@@ -101,8 +134,7 @@ t_node	*fill_stack(char **params)
 	stack = NULL;
 	while (params[i])
 	{
-		tr = ft_atoi(params[i]);
-		if (tr == 0 && !check_set_zero(params[i]))
+		if (ft_atoi_safe(params[i], &tr) == -1)
 		{
 			free_stack(&stack);
 			free_array(params);

@@ -1,6 +1,6 @@
 NAME = push_swap
-LIBFT = libft.a
 DIR_LIBFT = lib/libft/
+LIBFT = $(DIR_LIBFT)libft.a
 
 SRC = $(addprefix src/, $(addsuffix .c, main linked_list parsing utils core move move2 finder sort_short handle_index))
 OBJS := $(SRC:%.c=%.o)
@@ -15,9 +15,8 @@ RM = rm -f
 
 all: $(NAME)
 
-$(NAME): $(MINILIBX) $(LIBFT) $(OBJS)
-	$(CC) $(CCIFLAGS) $(OBJS) \
-	$(DIR_LIBFT)$(LIBFT) -o $(NAME)
+$(NAME): $(LIBFT) $(OBJS)
+	$(CC) $(CCIFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 	make -C $(DIR_LIBFT)
@@ -34,4 +33,3 @@ fclean: clean
 	make fclean -C $(DIR_LIBFT)
 
 re: fclean all
-
