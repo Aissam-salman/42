@@ -23,9 +23,7 @@ int	main(int ac, char **av)
 	params = extract_params(ac, av);
 	stack = fill_stack(params);
 	if (params)
-	{
 		free_array(params);
-	}
 	check_dup(stack);
 	len = ft_node_size(stack);
 	push_swap(&stack, len);

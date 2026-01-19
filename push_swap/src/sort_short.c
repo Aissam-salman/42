@@ -26,18 +26,30 @@ int	check_is_stack_sorted(t_node **stack)
 	return (1);
 }
 
+int	find_max_index(t_node *stack)
+{
+	t_node *max;
+
+	max = stack;
+	while (stack)
+	{
+		if (stack->value > max->value)
+			max = stack;
+		stack = stack->next;
+	}
+	return (max->index);
+}
+
 void	sort_short(t_node **stack)
 {
-	t_node	*head;
+	int max_index;
 
-	head = *stack;
-	while (!check_is_stack_sorted(stack))
-	{
-		if (head->value > ft_node_last(head)->value)
-			rotate(stack, "ra");
-		else if (head->value > head->next->value)
-			swap(stack, "sa");
-		head = *stack;
-	}
+	max_index = find_max_index(*stack);
+	if (max_index == 0)
+		rotate(stack, "ra");
+	else			
+		reverse_rotate(stack, "rra");
+	if ((*stack)->value > (*stack)->next->value)
+		swap(stack, "sa");
 	update_index(stack);
 }
