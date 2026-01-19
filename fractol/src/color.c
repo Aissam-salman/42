@@ -40,7 +40,7 @@ void	generate_palette(t_fractal *fractal)
 	char	*hex;
 
 	i = 0;
-	fractal->palette = malloc(sizeof(int) * (NB_ITER+1));
+	fractal->palette = malloc(sizeof(int) * (NB_ITER + 1));
 	if (!fractal->palette)
 		error_malloc();
 	ft_bzero(fractal->palette, NB_ITER);
