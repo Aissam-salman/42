@@ -6,14 +6,13 @@ LIBFT = $(DIR_LIBFT)libft.a
 DIR_MINILIBX = lib/minilibx-linux/
 MINILIBX = $(DIR_MINILIBX)libmlx_Linux.a
 
-SRC = src/main.c src/error.c src/julia_init.c src/mandelbrot_init.c \
-	src/complex.c src/data.c src/draw.c src/init_fractal.c \
-	src/key_handler.c src/rendering.c src/utils.c src/color.c
-
+SRC = src/main.c src/error.c src/init.c src/utils.c \
+	  src/color.c src/compute.c src/key_handler.c \
+	  src/render.c src/palette.c
 OBJS := $(SRC:%.c=%.o)
 
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror -Ofast
+CCFLAGS = -Wall -Wextra -Werror -O
 INC_DIR = includes
 CCIFLAGS = -I$(INC_DIR) -I$(DIR_MINILIBX)
 RM = rm -f

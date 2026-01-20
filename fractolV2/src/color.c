@@ -5,21 +5,29 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/16 17:42:18 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/17 17:31:06 by alamjada         ###   ########.fr       */
+/*   Created: 2026/01/20 12:42:30 by alamjada          #+#    #+#             */
+/*   Updated: 2026/01/20 15:09:04 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
 
-int	define_color(t_fractal *fractal, double iter)
+int lerp_color(int color1, int color2, double ratio)
 {
-	int	color;
+	t_color_rgb co1;
+	t_color_rgb co2;
+	t_color_rgb final;
 
-	color = (int)lerp(get_color((int)floor(iter) % NB_ITER, fractal),
-			get_color((int)(floor(iter) + 1) % NB_ITER, fractal), iter
-			- floor(iter));
-	return (color);
+	co1.r = color1 >> 16 & 0xFF;
+	co1.g = color1 >> 8 & 0xFF;
+	co1.b = color1 & 0xFF;
+	co2.r = color2 >> 16 & 0xFF;
+	co2.g = color2 >> 8 & 0xFF;
+	co2.b = color2 & 0xFF;
+	final.r = (1 - ratio) * co1.r + ratio * co2.r;
+	final.g = (1 - ratio) * co1.g + ratio * co2.g;
+	final.b = (1 - ratio) * co1.b + ratio * co2.b;
+	return (final.r << 16 | final.g << 8 | final.b);
 }
 
 double	smooth_color(t_complex z, int i)
@@ -36,30 +44,36 @@ double	smooth_color(t_complex z, int i)
 
 void	generate_palette(t_fractal *fractal)
 {
-	int		i;
-	char	*hex;
+	unsigned short		i;
+	unsigned short seg;
 
-	i = 0;
 	fractal->palette = malloc(sizeof(int) * (NB_ITER + 1));
 	if (!fractal->palette)
 		error_malloc();
 	ft_bzero(fractal->palette, NB_ITER);
-	while (i < NB_ITER)
+	i = 0;
+	seg = floor(NB_ITER / 3);
+	while (i < NB_ITER )
 	{
-		hex = ft_itoa_base(i * 20, BASE_HEX);
-		fractal->palette[i] = ft_atoi_base(hex, BASE_HEX);
-		if (hex)
-			free(hex);
+		if (i < seg)
+			fractal->palette[i] = lerp_color(fractal->color1, fractal->color2,
+									(double) i / seg);
+		else if (i < seg * 2)
+			fractal->palette[i] = lerp_color(fractal->color1, fractal->color2,
+									(double)(i - seg) / seg);
+		else 
+			fractal->palette[i] = lerp_color(fractal->color1, fractal->color2,
+									(double)(i - 2 * seg) / seg);
 		i++;
 	}
-	fractal->palette[i] = 0;
+	fractal->palette[NB_ITER - 1] = 0x000000;
 }
 
 int	get_color(int i, t_fractal *fractal)
 {
-	if (i < 0)
-		i = 1;
-	if (i > NB_ITER)
-		i = NB_ITER - 1;
+	// if (i < 0)
+	// 	i = 0;
+	// if (i > NB_ITER)
+	// 	i = NB_ITER - 1;
 	return (fractal->palette[i]);
 }
