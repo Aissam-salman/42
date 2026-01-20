@@ -6,12 +6,11 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:33:29 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/20 16:12:48 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/20 16:25:45 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
-#include <stdio.h>
 
 int	handle_hook_key(int keycode, t_fractal *fractal)
 {
