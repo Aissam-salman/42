@@ -9,7 +9,7 @@ OBJS := $(SRC:%.c=%.o)
 CC = cc
 CCFLAGS = -Wall -Wextra -Werror
 INC_DIR = includes
-CCIFLAGS = -I$(INC_DIR)
+IFLAGS = -I$(INC_DIR)
 RM = rm -f
 
 .PHONY: all clean fclean re
@@ -17,7 +17,7 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CCIFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(IFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 	make -C $(DIR_LIBFT)

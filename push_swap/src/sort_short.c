@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 17:48:04 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/13 18:43:28 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/21 10:52:24 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_is_stack_sorted(t_node **stack)
 
 int	find_max_index(t_node *stack)
 {
-	t_node *max;
+	t_node	*max;
 
 	max = stack;
 	while (stack)
@@ -42,12 +42,12 @@ int	find_max_index(t_node *stack)
 
 void	sort_short(t_node **stack)
 {
-	int max_index;
+	int	max_index;
 
 	max_index = find_max_index(*stack);
 	if (max_index == 0)
 		rotate(stack, "ra");
-	else			
+	else if (max_index == 1)
 		reverse_rotate(stack, "rra");
 	if ((*stack)->value > (*stack)->next->value)
 		swap(stack, "sa");

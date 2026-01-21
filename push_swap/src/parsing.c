@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:49:46 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/18 12:33:43 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/21 10:52:19 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,6 @@ char	**extract_params(int ac, char **av)
 	set = ft_split(tmp, ' ');
 	free(tmp);
 	return (set);
-}
-
-int	check_set_zero(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] != '0')
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 void	check_dup(t_node *head)
@@ -90,7 +76,12 @@ int	check_only_digit(char *str)
 	}
 	return (1);
 }
-
+static void	error_parsing(char **params, t_node *stack)
+{
+	free_stack(&stack);
+	free_array(params);
+	error_handler();
+}
 
 t_node	*fill_stack(char **params)
 {
@@ -103,17 +94,9 @@ t_node	*fill_stack(char **params)
 	while (params[i])
 	{
 		if (!ft_atoi_safe(params[i], &tr))
-		{
-			free_stack(&stack);
-			free_array(params);
-			error_handler();
-		}
+			error_parsing(params, stack);
 		else if (!check_only_digit(params[i]))
-		{
-			free_stack(&stack);
-			free_array(params);
-			error_handler();
-		}
+			error_parsing(params, stack);
 		ft_node_add_back(&stack, ft_node_new(tr, i));
 		i++;
 	}
