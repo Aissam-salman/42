@@ -6,18 +6,17 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:12:15 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/20 14:01:06 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:34:49 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
 
-
-void start(char *name, char *c1, char *c2)
+void	start(char *name, char *c1, char *c2)
 {
 	t_fractal	fractal;
-	double params1;
-	double params2;
+	double		params1;
+	double		params2;
 
 	if (ft_strncmp(name, "julia", 5) == 0)
 	{
@@ -34,7 +33,7 @@ void start(char *name, char *c1, char *c2)
 	mlx_loop(fractal.mlx_connection);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	if (ac < 2)
 		error_params();

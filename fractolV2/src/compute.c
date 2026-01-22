@@ -6,20 +6,11 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:37:51 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/20 16:09:20 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:33:32 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
-#include <unistd.h>
-
-//  Linear interpolation
-double	scale_between(double num, double min_target, double max_target,
-		double max_origin)
-{
-	return ((max_target - min_target) * (num - 0) / (max_origin - 0)
-		+ min_target);
-}
 
 t_complex	sum_complex(t_complex z, t_complex c)
 {
@@ -53,17 +44,6 @@ void	choice_set(t_complex *z, t_complex *c, t_fractal *fractal)
 	}
 }
 
-void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
-{
-	int	offset;
-
-	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
-	{
-		offset = (y * data->line_length) + (x * (data->bits_per_pixel / 8));
-		*(unsigned int *)(data->addr + offset) = color;
-	}
-}
-
 void	handle_cordinate(int x, int y, t_fractal *fractal)
 {
 	t_complex		z;
@@ -92,7 +72,7 @@ void	handle_cordinate(int x, int y, t_fractal *fractal)
 	my_mlx_pixel_put(&fractal->img, x, y, fractal->color1);
 }
 
-void compute(t_fractal *fractal)
+void	compute(t_fractal *fractal)
 {
 	int	x;
 	int	y;

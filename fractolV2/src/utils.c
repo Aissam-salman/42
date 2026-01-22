@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 10:42:10 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/20 14:02:55 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:38:37 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,6 @@ int	ft_atod_safe(char *s, double *res)
 	return (1);
 }
 
-double	lerp(double v0, double v1, double t)
-{
-	return ((1 - t) * v0 + t * v1);
-}
-
 void	all_clear(t_fractal *fractal)
 {
 	free(fractal->palette);
@@ -72,4 +67,11 @@ void	all_clear(t_fractal *fractal)
 	mlx_destroy_display(fractal->mlx_connection);
 	free(fractal->mlx_connection);
 	exit(EXIT_SUCCESS);
+}
+
+double	scale_between(double num, double min_target, double max_target,
+		double max_origin)
+{
+	return ((max_target - min_target) * (num - 0) / (max_origin - 0)
+		+ min_target);
 }

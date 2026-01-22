@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 13:32:24 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/13 18:38:02 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:30:57 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # endif
 
 # include <limits.h>
+# include <stdarg.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdarg.h>
 
 /* Character checks */
 int					ft_isalpha(int c);

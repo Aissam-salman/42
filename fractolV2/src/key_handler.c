@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:33:29 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/20 16:25:45 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:34:37 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	handle_hook_key(int keycode, t_fractal *fractal)
 	return (0);
 }
 
-void switch_color(t_fractal *fractol) 
+void	switch_color(t_fractal *fractol)
 {
 	if (fractol->palette_num == 1)
 	{
@@ -59,7 +59,6 @@ void switch_color(t_fractal *fractol)
 	free(fractol->palette);
 	generate_palette(fractol);
 }
-# define CLICK_LEFT 1
 
 int	handle_hook_mouse(int button, int x, int y, t_fractal *fractal)
 {
