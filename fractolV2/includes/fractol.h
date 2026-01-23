@@ -14,10 +14,10 @@
 # define FRACTOL_H
 
 // SIZE
-# define WIDTH 900
-# define HEIGHT 900
+# define WIDTH 1000
+# define HEIGHT 1000
 
-# define NB_ITER 256
+# define NB_ITER 60
 # define COLOR1 0x251d3a
 # define COLOR2 0xff7700
 # define COLOR3 0xe04d01

@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 17:47:41 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/20 17:47:44 by alamjada         ###   ########.fr       */
+/*   Created: 2025/12/10 13:15:24 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/12 11:47:56 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-int main()
+void	ft_swap(char *s1, char *s2)
 {
-	char *out;
+	char	*tmp;
 
-	out = malloc(7);
-	memcpy(out, "fofofo", 7);
-	printf("%s", out);
-	// free(out);
-	// out = NULL;
-	return (0);
+	tmp = s1;
+	*s1 = *s2;
+	*s2 = *tmp;
 }

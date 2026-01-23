@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 17:47:41 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/20 17:47:44 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/06 08:49:49 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 16:19:21 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-int main()
-{
-	char *out;
+/**
+ * @brief Checks whether c fits into the ASCII character set.
+ *
+ * @param c The character to check.
+ * @return 1 if c is an ASCII character, 0 otherwise.
+ */
 
-	out = malloc(7);
-	memcpy(out, "fofofo", 7);
-	printf("%s", out);
-	// free(out);
-	// out = NULL;
-	return (0);
+int	ft_isascii(int c)
+{
+	return (c >= 0 && c <= 127);
 }

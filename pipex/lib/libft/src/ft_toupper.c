@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 17:47:41 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/20 17:47:44 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/07 18:52:47 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 16:30:31 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-int main()
-{
-	char *out;
+/**
+ * @brief Converts a lowercase letter to an uppercase letter.
+ *
+ * @param c The character to convert.
+ * @return The uppercase letter.
+ */
 
-	out = malloc(7);
-	memcpy(out, "fofofo", 7);
-	printf("%s", out);
-	// free(out);
-	// out = NULL;
-	return (0);
+int	ft_toupper(int c)
+{
+	if (c >= 'a' && c <= 'z')
+		c -= 32;
+	return (c);
 }

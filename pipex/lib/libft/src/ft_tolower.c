@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 17:47:41 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/20 17:47:44 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/07 19:03:56 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 16:29:53 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-int main()
-{
-	char *out;
+/**
+ * @brief Converts an uppercase letter to a lowercase letter.
+ *
+ * @param c The character to convert.
+ * @return The lowercase letter.
+ */
 
-	out = malloc(7);
-	memcpy(out, "fofofo", 7);
-	printf("%s", out);
-	// free(out);
-	// out = NULL;
-	return (0);
+int	ft_tolower(int c)
+{
+	if (c >= 'A' && c <= 'Z')
+		c += 32;
+	return (c);
 }

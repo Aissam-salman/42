@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 17:47:41 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/20 17:47:44 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/11 17:54:16 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 16:24:27 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-int main()
-{
-	char *out;
+#include "../includes/libft.h"
 
-	out = malloc(7);
-	memcpy(out, "fofofo", 7);
-	printf("%s", out);
-	// free(out);
-	// out = NULL;
-	return (0);
+/**
+ * @brief Outputs the string 's' to the given file descriptor.
+ *
+ * @param s The string to output.
+ * @param fd The file descriptor on which to write.
+ */
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	write(fd, s, i);
 }

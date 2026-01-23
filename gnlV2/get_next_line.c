@@ -34,12 +34,114 @@ int is_have_endl(char *s)
 	}
 	return (0);
 }
+char *ft_strdup(char *s)
+{
+	int len;
 
+	if (!s)
+		return (NULL);
+}
 //TODO: keep it simple
-int ft_strlen(char *s);
-int find_endl_or_end_index(char *str);
-char  *ft_substr(char *str, int start,int end);
-char *ft_strjoin(char *s1, char *s2);
+int ft_strlen(char *s)
+{
+	int i;
+
+	if (!s)
+		return (0);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+int find_endl_or_end_index(char *str)
+{
+	int index;
+
+	if (!str)
+		return (0);
+	index = 0;
+	while (str[index])
+	{
+		if (str[index] == '\n')
+			return (index);
+		index++;
+	}
+	return (index);
+}
+
+static char	*ft_strndup(const char *s, size_t len)
+{
+	size_t	i;
+	char	*dup;
+
+	dup = malloc(len + 1);
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (*s && i < len)
+		dup[i++] = *s++;
+	dup[i] = '\0';
+	return (dup);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t	len_s;
+	size_t	available;
+	size_t	real_len;
+
+	if (!s)
+		return (NULL);
+	len_s = ft_strlen(s);
+	if (start >= len_s)
+		return (ft_strdup(""));
+	available = len_s - start;
+	if (len > available)
+		real_len = available;
+	else
+		real_len = len;
+	return (ft_strndup(s + start, real_len));
+}
+static char	*fill_out(const char *s1, const char *s2, size_t lens1,
+		size_t lens2)
+{
+	char	*out;
+	size_t	i;
+	size_t	j;
+
+	out = malloc(lens1 + lens2 + 1);
+	if (!out)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i] && i < lens1)
+		out[j++] = s1[i++];
+	i = 0;
+	while (s2[i] && i < lens2)
+		out[j++] = s2[i++];
+	out[j] = '\0';
+	return (out);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*out;
+	size_t	lens1;
+	size_t	lens2;
+
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
+	out = NULL;
+	lens1 = ft_strlen(s1);
+	lens2 = ft_strlen(s2);
+	out = fill_out(s1, s2, lens1, lens2);
+	return (out);
+}
 
 char *get_next_line(int fd)
 {
