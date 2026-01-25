@@ -3,11 +3,11 @@ NAME = a.out
 DIR_LIBFT = lib/libft/
 LIBFT = $(DIR_LIBFT)libft.a
 
-SRC = src/main.c 
+SRC = src/main.c
 OBJS := $(SRC:%.c=%.o)
 
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror
+CCFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 INC_DIR = includes
 CCIFLAGS = -I$(INC_DIR)
 RM = rm -f
@@ -17,7 +17,7 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CCIFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CCFLAGS) $(CCIFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 	make -C $(DIR_LIBFT)

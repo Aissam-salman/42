@@ -12,6 +12,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include "../lib/libft/includes/libft.h"
@@ -22,12 +24,29 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	(void)env;
 
-	int i = 0;
-	while (env[i])
+	int id = fork();
+	int n;
+	if (id == 0)
+		n = 1;
+	else
+		n = 22;
+	if (id != 0)
+		wait(NULL);
+	int i = n;
+	while (i < n + 5)
 	{
-		printf("%s", env[i]);
-		i++;
+		printf("%d ", i++);
+		fflush(stdout);
 	}
+	if (id == 0)
+		printf("\n");
+	return (0);
+	// int i = 0;
+	// while (env[i])
+	// {
+	// 	printf("%s", env[i]);
+	// 	i++;
+	// }
 
 	// int fd = open("tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	// if (!fd)
@@ -48,6 +67,4 @@ int main(int ac, char **av, char **env)
 	// perror("execve 2");
 	//
 	// close(stdo);
-	printf("COOOLLL");
-	exit(EXIT_SUCCESS);
 }
