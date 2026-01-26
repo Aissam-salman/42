@@ -144,9 +144,9 @@ void check_cmd(int ac, t_pipex *pipex)
 	char *complet_path;
 	t_cmd *head;
 
-	head = pipex->cmd;
 	i = 2;
-	while (i < ac - 2)
+	head = pipex->cmd;
+	while (i < ac - 1)
 	{
 		is_access = 0;
 		if (start_with(head->args[0], "/"))
@@ -183,9 +183,8 @@ void check_cmd(int ac, t_pipex *pipex)
 		}
 		if (is_access == 0)
 			error_no("path");
-
+		head = head->next;
 		i++;
-		head = pipex->cmd->next;
 	}
 }
 
