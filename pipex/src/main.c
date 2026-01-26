@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <unistd.h>
 
 typedef struct s_cmd
 {
@@ -24,7 +25,15 @@ typedef struct s_cmd
 	char *path;
 	char **args;
 	int *pipeline;
+	struct s_cmd *next;
 }	t_cmd;
+
+typedef struct s_pipex
+{
+	char **env;
+	t_cmd *cmd;
+} t_pipex;
+
 
 void free_array(char **arr)
 {
@@ -38,17 +47,41 @@ void free_array(char **arr)
 	free(arr);
 }
 
-void clear_cmd(t_cmd **cmd)
+
+
+void	free_list(t_cmd **lst)
 {
-	if ((*cmd)->args)
-		free_array((*cmd)->args);
-	if ((*cmd)->pipeline[0])
-		close((*cmd)->pipeline[0]);
-	if ((*cmd)->pipeline[1])
-		close((*cmd)->pipeline[1]);
-	if ((*cmd)->path)
-		free((*cmd)->path);
-	free(*cmd);
+	t_cmd	*head;
+	t_cmd	*tmp;
+
+	if (!lst || !*lst)
+		return ;
+	head = *lst;
+	while (head)
+	{
+		tmp = head->next;
+		if (head->args)
+			free_array(head->args);
+		if (head->path)
+			free(head->path);
+		if (head->name)
+			free(head->name);
+		free(head);
+		head = tmp;
+	}
+	*lst = NULL;
+}
+
+void clear_pipex(t_pipex *pipex)
+{
+	if (pipex->env)
+		free_array(pipex->env);
+	// if (pipex->cmd->pipeline[0])
+	// 	close(pipex->cmd->pipeline[0]);
+	// if (pipex->cmd->pipeline[1])
+	// 	close(pipex->cmd->pipeline[1]);
+	free_list(&pipex->cmd);
+	free(pipex->cmd);
 }
 
 
@@ -85,29 +118,14 @@ void error_no(char *msg)
 	exit(EXIT_FAILURE);
 }
 
-void check_cmd(int ac, char **av)
-{
-	int i; 
-	(void)av;
-
-	i = 2;
-	while (i < ac - 1)
-	{
-		// char *cmd = av[i];
-		// char **splited = ft_split(cmd, ' ');
-		// char *path ;
-		// (void)splited;
-		// ()
-		i++;
-	}
-}
-
 #define ENV_PATH "PATH="
 
 int start_with(char *txt, char *word_start)
 {
 	int i;
 
+	if (!txt || !word_start)
+		return (-1);
 	i = 0;
 	while (word_start[i] && txt[i])
 	{
@@ -117,6 +135,60 @@ int start_with(char *txt, char *word_start)
 	}
 	return (1);
 }
+
+void check_cmd(int ac, t_pipex *pipex)
+{
+	int i; 
+	int j;
+	int is_access;
+	char *complet_path;
+	t_cmd *head;
+
+	head = pipex->cmd;
+	i = 2;
+	while (i < ac - 2)
+	{
+		is_access = 0;
+		if (start_with(head->args[0], "/"))
+		{
+			if (access(head->args[0], X_OK))
+			{
+				is_access = 1;
+				head->path = ft_strdup(head->args[0]);
+				head->name = ft_strdup(head->args[0]);
+			}
+		}
+		else 
+		{
+			j = 0;
+			while (pipex->env[j])
+			{
+				complet_path = ft_strjoin(pipex->env[j], head->args[0]);
+				if (access(complet_path, X_OK) == 0)
+				{
+					is_access = 1;
+					head->path = ft_strdup(complet_path);
+					head->name = ft_strdup(head->args[0]);
+					break;
+				}
+				free(complet_path);
+				complet_path = NULL;
+				j++;
+			}
+			if (complet_path)
+			{
+				free(complet_path);
+				complet_path = NULL;
+			}
+		}
+		if (is_access == 0)
+			error_no("path");
+
+		i++;
+		head = pipex->cmd->next;
+	}
+}
+
 
 char **extract_path(char **envp)
 {
@@ -142,38 +214,104 @@ char **extract_path(char **envp)
 		old = NULL;
 		i++;
 	}
-	for(int i = 0; path[i]; i++)
-		printf("[%d]= %s\n", i, path[i]);
 	return (path);
+}
+
+void init(t_pipex *pipex)
+{
+	pipex->env = NULL;
+	pipex->cmd = NULL;
+}
+
+
+t_cmd	*ft_cmd_last(t_cmd *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
+void	ft_cmd_back(t_cmd **lst, t_cmd *new_node)
+{
+	t_cmd	*last;
+
+	if (!lst || !new_node)
+		return ;
+	if (!*lst)
+		*lst = new_node;
+	else
+	{
+		last = ft_cmd_last(*lst);
+		last->next = new_node;
+	}
+}
+
+t_cmd *ft_new_cmd()
+{
+	t_cmd *cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		error_no("malloc");
+	cmd->args = NULL;
+	cmd->name = NULL;
+	cmd->path = NULL;
+	cmd->pipeline = NULL;
+	cmd->next = NULL;
+	return (cmd);
 }
 
 int main(int ac, char **av, char **envp)
 {
-	t_cmd *cmd;
-	int pipe_fd[2];
+	t_pipex pipex;
+	int i;
 
-	//NOTE: parsing params
 	if (ac < 4)
 		error_program("Pipex: need \"./pipex file1 cmd1 file2\" minimal.");
 	check_infile(av[1]);
 	check_filename(av[ac - 1]);
-	char **env = extract_path(envp);
-	free_array(env);
+	init(&pipex);
+	pipex.env = extract_path(envp);
+	i = 2;
+	t_cmd *head = NULL;
+	while (i <  ac - 1)
+	{
+		t_cmd *new_cmd = ft_new_cmd();
+		new_cmd->args = ft_split(av[i], ' ');
+		ft_cmd_back(&head, new_cmd);
+		i++;
+	}
+	pipex.cmd = head;
+	check_cmd(ac, &pipex);
+
+	while (head)
+	{
+		printf("name: %s, path: %s, args[0]: %s\n", head->name, head->path, head->args[0]);
+		head = head->next;
+	}
+	clear_pipex(&pipex);
 	exit(0);
 
-	check_cmd(ac, av);
+	//
+	// i = 0;
+	// while (pipex.env[i])
+	// {
+	// 	printf("env[%d]: %s\n", i, pipex.env[i]);
+	// 	i++;
+	// }
 
 	//NOTE: CMD args
-	if (pipe(pipe_fd) == -1)
-		error_no("pipe");
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-		error_no("malloc");
-	char **args = ft_split(av[1], ' ');
-	cmd->name = args[0];
-	cmd->path = ft_strjoin("/bin/", args[0]);
-	cmd->args = args;
-	cmd->pipeline = pipe_fd;
-	clear_cmd(&cmd);
+	// if (pipe(pipe_fd) == -1)
+	// 	error_no("pipe");
+	// cmd = malloc(sizeof(t_cmd));
+	// if (!cmd)
+	// 	error_no("malloc");
+	// cmd->name = args[0];
+	// cmd->path = ft_strjoin("/bin/", args[0]);
+	// cmd->args = args;
+	// cmd->pipeline = pipe_fd;
+	// free_array(env);
 	return (0);
 }

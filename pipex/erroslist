@@ -133,3 +133,6 @@ Error 131: State not recoverable
 Error 132: Operation not possible due to RF-kill
 Error 133: Memory page has hardware error
 Error 134: Unknown error 134
+
+
+en[23]= PATH=/home/alamjada/.opencode/bin:/home/alamjada/goinfre/bin:/home/alamjada/neovim/bin:/home/salman/.config/herd-lite/bin:/home/alamjada/.bin:/home/alamjada/.local/bin:/home/alamjada/Applications:/usr/bin:/home/alamjada/bin:/home/alamjada/.opencode/bin:/home/alamjada/.local/share/zinit/polaris/bin:/home/alamjada/goinfre/bin:/home/alamjada/neovim/bin:/home/salman/.config/herd-lite/bin:/home/alamjada/.bin:/home/alamjada/.local/bin:/home/alamjada/Applications:/usr/bin:/home/alamjada/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
