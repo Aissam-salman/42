@@ -127,8 +127,9 @@ accessibility according to the bit pattern contained in amode
 The value of amode is either the bitwise-inclusive OR of the
 access permissions to be checked (R_OK, W_OK, X_OK) or the
 existence test (F_OK)
-return 0;
-otherwise
+Upon successful completion, these functions shall return 0.
+Otherwise, these functions shall return -1 and set errno to
+indicate the error.
 
 ```c
 #include <unistd.h>

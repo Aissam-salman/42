@@ -1,4 +1,4 @@
-NAME = a.out
+NAME = pipex
 
 DIR_LIBFT = lib/libft/
 LIBFT = $(DIR_LIBFT)libft.a
