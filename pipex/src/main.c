@@ -19,12 +19,13 @@
 #include <errno.h>
 #include <unistd.h>
 
+#define ENV_PATH "PATH="
+
 typedef struct s_cmd
 {
 	char *name;
 	char *path;
 	char **args;
-	int *pipeline;
 	struct s_cmd *next;
 }	t_cmd;
 
@@ -32,8 +33,8 @@ typedef struct s_pipex
 {
 	char **env;
 	t_cmd *cmd;
+	int pipeline[1024];
 } t_pipex;
-
 
 void free_array(char **arr)
 {
@@ -46,8 +47,6 @@ void free_array(char **arr)
 		free(arr[i++]);
 	free(arr);
 }
-
-
 
 void	free_list(t_cmd **lst)
 {
@@ -76,12 +75,9 @@ void clear_pipex(t_pipex *pipex)
 {
 	if (pipex->env)
 		free_array(pipex->env);
-	// if (pipex->cmd->pipeline[0])
-	// 	close(pipex->cmd->pipeline[0]);
-	// if (pipex->cmd->pipeline[1])
-	// 	close(pipex->cmd->pipeline[1]);
 	free_list(&pipex->cmd);
 	free(pipex->cmd);
+	// close_arr(pipex->pipeline)
 }
 
 
@@ -115,10 +111,9 @@ void	error_program(char *msg)
 void error_no(char *msg)
 {
 	perror(msg);
-	exit(EXIT_FAILURE);
+	exit(errno);
 }
 
-#define ENV_PATH "PATH="
 
 int start_with(char *txt, char *word_start)
 {
@@ -136,6 +131,30 @@ int start_with(char *txt, char *word_start)
 	return (1);
 }
 
+char *ft_cutname(char *path)
+{
+	char *name;
+	int end;
+	int size;
+	int i;
+
+	end = ft_strlen(path) - 1;
+	size = 0;
+	while (path[end] != '/')
+	{
+		size++;
+		end--;
+	}
+	name = malloc(size + 1);
+	if (!name)
+		return (NULL);
+	i = 0;
+	while (path[++end])
+		name[i++] = path[end];
+	name[i] = '\0';
+	return (name);
+}
+
 void check_cmd(int ac, t_pipex *pipex)
 {
 	int i; 
@@ -151,11 +170,11 @@ void check_cmd(int ac, t_pipex *pipex)
 		is_access = 0;
 		if (start_with(head->args[0], "/"))
 		{
-			if (access(head->args[0], X_OK))
+			if (access(head->args[0], X_OK) == 0)
 			{
 				is_access = 1;
 				head->path = ft_strdup(head->args[0]);
-				head->name = ft_strdup(head->args[0]);
+				head->name = ft_cutname(head->args[0]);
 			}
 		}
 		else 
@@ -183,11 +202,9 @@ void check_cmd(int ac, t_pipex *pipex)
 		}
 		if (is_access == 0)
 			error_no("path");
-		head = head->next;
-		i++;
+		head = head->next; i++;
 	}
 }
-
 
 char **extract_path(char **envp)
 {
@@ -221,7 +238,6 @@ void init(t_pipex *pipex)
 	pipex->env = NULL;
 	pipex->cmd = NULL;
 }
-
 
 t_cmd	*ft_cmd_last(t_cmd *lst)
 {
@@ -257,7 +273,6 @@ t_cmd *ft_new_cmd()
 	cmd->args = NULL;
 	cmd->name = NULL;
 	cmd->path = NULL;
-	cmd->pipeline = NULL;
 	cmd->next = NULL;
 	return (cmd);
 }
@@ -266,6 +281,8 @@ int main(int ac, char **av, char **envp)
 {
 	t_pipex pipex;
 	int i;
+	int pipe_fd[2];
+	t_cmd *head;
 
 	if (ac < 4)
 		error_program("Pipex: need \"./pipex file1 cmd1 file2\" minimal.");
@@ -274,43 +291,43 @@ int main(int ac, char **av, char **envp)
 	init(&pipex);
 	pipex.env = extract_path(envp);
 	i = 2;
-	t_cmd *head = NULL;
 	while (i <  ac - 1)
 	{
 		t_cmd *new_cmd = ft_new_cmd();
 		new_cmd->args = ft_split(av[i], ' ');
-		ft_cmd_back(&head, new_cmd);
+		ft_cmd_back(&pipex.cmd, new_cmd);
 		i++;
 	}
-	pipex.cmd = head;
 	check_cmd(ac, &pipex);
-
-	while (head)
+	head = pipex.cmd;
+	i = 0;
+	while (pipex.cmd)
 	{
-		printf("name: %s, path: %s, args[0]: %s\n", head->name, head->path, head->args[0]);
-		head = head->next;
+		if (pipex.cmd->next){
+			if (pipe(pipe_fd) == -1)
+				error_no("pipe");
+			pipex.pipeline[i] = pipe_fd[0];
+			pipex.pipeline[i + 1] = pipe_fd[1];
+		}
+		pipex.cmd = pipex.cmd->next;
+		i += 2;
 	}
+	pipex.cmd = head;
+	i = 0;
+	while (pipex.pipeline[i] && i < ac - 2)
+		printf("%d\n", pipex.pipeline[i++]);
+	//NOTE: fork
+	// create fork 
+	// check fork
+	// check if subprocess
+	//      yes   recup args from cmd
+	//      dup2(pipeline[i], STDOUT_FILENO)
+	//      close(pipeline[i])
+	//      close(pipeline[i + 1])
+	//              execv(path, args)
+	//      no
+	//      close all pipeline
+	//      waitpid all 
 	clear_pipex(&pipex);
-	exit(0);
-
-	//
-	// i = 0;
-	// while (pipex.env[i])
-	// {
-	// 	printf("env[%d]: %s\n", i, pipex.env[i]);
-	// 	i++;
-	// }
-
-	//NOTE: CMD args
-	// if (pipe(pipe_fd) == -1)
-	// 	error_no("pipe");
-	// cmd = malloc(sizeof(t_cmd));
-	// if (!cmd)
-	// 	error_no("malloc");
-	// cmd->name = args[0];
-	// cmd->path = ft_strjoin("/bin/", args[0]);
-	// cmd->args = args;
-	// cmd->pipeline = pipe_fd;
-	// free_array(env);
-	return (0);
+	return (EXIT_SUCCESS);
 }
