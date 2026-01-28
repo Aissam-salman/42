@@ -3,39 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/26 22:40:21 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/27 19:35:01 by salman           ###   ########.fr       */
+/*   Created: 2026/01/28 10:13:48 by alamjada          #+#    #+#             */
+/*   Updated: 2026/01/28 11:58:33 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
+#define BUFFER_SIZE 42
 
-int have_endl(char *line)
+int  have_endl(char *str)
 {
 	int i;
 
-	if (!line)
+	if (!str)
 		return (0);
 	i = 0;
-	while (line[i])
+	while (str[i])
 	{
-		if (line[i] == '\n')
+		if (str[i] == '\n')
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-int  ft_strlen(char *s)
+int ft_strlen(char *s)
 {
 	int i;
 
@@ -45,44 +42,39 @@ int  ft_strlen(char *s)
 	return (i);
 }
 
-char *ft_strdup(char *s)
+char *ft_strdup(char *str)
 {
 	char *dup;
-	int len;
+	int i;
 
-	if (!s)
+	if (!str)
 		return (NULL);
-	len = ft_strlen(s);
-	dup = malloc(len + 1);
+	dup = malloc(ft_strlen(str) + 1);
 	if (!dup)
 		return (NULL);
-	len = 0;
-	while (s[len])
+	i = 0;
+	while(str[i])
 	{
-		dup[len] = s[len];
-		len++;
+		dup[i] = str[i];
+		i++;
 	}
-	dup[len] = '\0';
+	dup[i] = '\0';
 	return (dup);
 }
 
 char *ft_strjoin(char *s1, char *s2)
 {
-	char  *join;
-	int lens1;
-	int lens2;
+	char *join;
 	int i;
 	int j;
-
+	
 	if (!s1 && !s2)
 		return (ft_strdup(""));
 	if (!s1)
 		return (ft_strdup(s2));
 	if (!s2)
 		return (ft_strdup(s1));
-	lens1 = ft_strlen(s1);
-	lens2 = ft_strlen(s2);
-	join = malloc(lens1 + lens2 + 1);
+	join = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!join)
 		return (NULL);
 	i = 0;
@@ -104,16 +96,14 @@ char *read_line(char **storage, int fd)
 
 	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
-		return (NULL);
+		 return (NULL);
 	while (!have_endl(storage[fd]))
 	{
 		read_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (read_bytes < 0)
-		{
-			free(buffer);
-			free(storage[fd]);
-			return (NULL);
-		}
+			return (free(buffer), NULL);
+		if (read_bytes == 0)
+			break;
 		buffer[read_bytes] = '\0';
 		tmp = storage[fd];
 		storage[fd] = ft_strjoin(tmp, buffer);
@@ -123,48 +113,54 @@ char *read_line(char **storage, int fd)
 	return (storage[fd]);
 }
 
-char *clean_storage(char *storage)
-{
-	int i;
-
-	i = 0;
-	while (storage[i] != '\n')
-		i++;
-	int j = i;
-	while(storage[j])
-		j++;
-	int len = j - i;
-	char *new_storage = malloc(len + 1);
-	if (!new_storage)
-		return (NULL);
-	j = 0;
-	while (storage[i])
-		new_storage[j++] = storage[i++];
-	new_storage[j] = '\0';
-	free(storage);
-	storage = NULL;
-	return (new_storage);
-}
-
-char *extract_before_endl(char *storage)
+char *get_line(char *reading)
 {
 	char *line;
 	int i;
 
+	if (!reading || !reading[0])
+		return (NULL);
 	i = 0;
-	while (storage[i] != '\n')
+	while (reading[i] && reading[i] != '\n')
+		i++;
+	if (reading[i] == '\n')
 		i++;
 	line = malloc(i + 1);
 	if (!line)
 		return (NULL);
 	i = 0;
-	while (storage[i] && storage[i] != '\n')
+	while (reading[i] && reading[i] != '\n')
 	{
-		line[i] = storage[i];
+		line[i] = reading[i];
 		i++;
 	}
+	if (reading[i] == '\n')
+		line[i++] = '\n';
 	line[i] = '\0';
 	return (line);
+}
+
+char *clean_stay(char *reading)
+{
+	char *stay;
+	int i;
+	int j;
+
+	i = 0;
+	while (reading[i] && reading[i] != '\n')
+		i++;
+	if (!reading[i])
+		return (free(reading), NULL);
+	stay = malloc(ft_strlen(reading) - i);
+	if (!stay)
+		return (NULL);
+	i++;
+	j = 0;
+	while (reading[i])
+		stay[j++] = reading[i++];
+	stay[j] = '\0';
+	free(reading);
+	return (stay);
 }
 
 char *get_next_line(int fd)
@@ -173,16 +169,13 @@ char *get_next_line(int fd)
 	char *reading;
 	char *line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	reading = read_line(storage, fd);
-	line = extract_before_endl(reading);
-	storage[fd] = clean_storage(reading);
-	if (!storage[fd])
-	{
-		free(storage[fd]);
-		storage[fd] = NULL;
-	}
+	if (!reading)
+		return (NULL);
+	line = get_line(reading);
+	storage[fd] = clean_stay(reading);
 	return (line);
 }
 
@@ -190,14 +183,10 @@ int main(void)
 {
 	char *line;
 
-	int fd = open("test", O_RDONLY);
-	if (fd < 0)
-		exit(2);
-	while((line = get_next_line(fd) ) != NULL)
+	while ((line = get_next_line(0)) != NULL)
 	{
 		printf("%s", line);
 		free(line);
 	}
-	close(fd);
 	return (0);
 }

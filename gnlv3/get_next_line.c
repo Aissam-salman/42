@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 17:54:36 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/20 17:56:44 by alamjada         ###   ########.fr       */
+/*   Created: 2026/01/27 11:31:08 by alamjada          #+#    #+#             */
+/*   Updated: 2026/01/27 11:33:21 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
+char *get_next_line(int fd)
+{
+	(void)fd;
+	char *out;
 
-# ifndef OPEN_MAX
-#  define OPEN_MAX 1024
-# endif
+	out = strdup("s");
+	return (out);
+}
 
-#endif
+int main()
+{
+	char *line = get_next_line(0);
+	printf("%s", line);
+	free(line);
+	return (0);
+}
