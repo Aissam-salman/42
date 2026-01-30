@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 #define ENV_PATH "PATH="
@@ -33,7 +34,7 @@ typedef struct s_pipex
 {
 	char **env;
 	t_cmd *cmd;
-	int pipeline[1024];
+	int pipeline[2];
 } t_pipex;
 
 void free_array(char **arr)
@@ -219,6 +220,8 @@ char **extract_path(char **envp)
 			break;
 		i++;
 	}
+	//FIX: handle cmd with "" '' like awk '{print $1}'
+	//    don't separe text, need new split
 	line = envp[i] + ft_strlen(ENV_PATH);
 	path = ft_split(line, ':');
 	i = 0;
@@ -281,8 +284,11 @@ int main(int ac, char **av, char **envp)
 {
 	t_pipex pipex;
 	int i;
-	int pipe_fd[2];
 	t_cmd *head;
+	int pids[ac - 3];
+	int out_fd;
+	int inf_fd;
+	int status;
 
 	if (ac < 4)
 		error_program("Pipex: need \"./pipex file1 cmd1 file2\" minimal.");
@@ -299,35 +305,54 @@ int main(int ac, char **av, char **envp)
 		i++;
 	}
 	check_cmd(ac, &pipex);
+	inf_fd = open(av[1], O_RDONLY);
+	dup2(inf_fd, 0);
+	close(inf_fd);
 	head = pipex.cmd;
 	i = 0;
-	while (pipex.cmd)
+	while (pipex.cmd->next)
 	{
-		if (pipex.cmd->next){
-			if (pipe(pipe_fd) == -1)
-				error_no("pipe");
-			pipex.pipeline[i] = pipe_fd[0];
-			pipex.pipeline[i + 1] = pipe_fd[1];
+		if (pipe(pipex.pipeline) == -1)
+			error_no("pipe");
+		pids[i] = fork();
+		if (pids[i] == 0)
+		{
+			dup2(pipex.pipeline[1], 1);
+			close(pipex.pipeline[0]);
+			close(pipex.pipeline[1]);
+			execv(pipex.cmd->path, pipex.cmd->args);
+		}
+		else
+		{
+			dup2(pipex.pipeline[0], 0);
+			close(pipex.pipeline[1]);
+			close(pipex.pipeline[0]);
 		}
 		pipex.cmd = pipex.cmd->next;
-		i += 2;
+		i++;
 	}
-	pipex.cmd = head;
+	out_fd = open(av[ac - 1], O_TRUNC,0644);
+	pids[i] = fork();
+	if (pids[i] == 0)
+	{
+		dup2(out_fd, 1);
+		close(out_fd);
+		execv(pipex.cmd->path, pipex.cmd->args);
+	}
+	close(out_fd);
 	i = 0;
-	while (pipex.pipeline[i] && i < ac - 2)
-		printf("%d\n", pipex.pipeline[i++]);
-	//NOTE: fork
-	// create fork 
-	// check fork
-	// check if subprocess
-	//      yes   recup args from cmd
-	//      dup2(pipeline[i], STDOUT_FILENO)
-	//      close(pipeline[i])
-	//      close(pipeline[i + 1])
-	//              execv(path, args)
-	//      no
-	//      close all pipeline
-	//      waitpid all 
+	while (head)
+	{
+		printf("i= %d", i);
+		waitpid(pids[i], &status, 0);
+		if (WIFEXITED(status) > 0)
+		{
+			perror("Error");
+			exit(WEXITSTATUS(status));
+		}
+		i++;
+		head = head->next;
+	}
 	clear_pipex(&pipex);
 	return (EXIT_SUCCESS);
 }
