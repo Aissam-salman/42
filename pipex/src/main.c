@@ -331,7 +331,9 @@ int main(int ac, char **av, char **envp)
 		pipex.cmd = pipex.cmd->next;
 		i++;
 	}
-	out_fd = open(av[ac - 1], O_TRUNC,0644);
+	out_fd = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (out_fd == -1)
+		error_no("open");
 	pids[i] = fork();
 	if (pids[i] == 0)
 	{
@@ -341,15 +343,10 @@ int main(int ac, char **av, char **envp)
 	}
 	close(out_fd);
 	i = 0;
+	pipex.cmd = head;
 	while (head)
 	{
-		printf("i= %d", i);
 		waitpid(pids[i], &status, 0);
-		if (WIFEXITED(status) > 0)
-		{
-			perror("Error");
-			exit(WEXITSTATUS(status));
-		}
 		i++;
 		head = head->next;
 	}

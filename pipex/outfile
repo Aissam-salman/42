@@ -1,0 +1,15 @@
+total 92
+drwxr-xr-x 1 salman salman   160 Feb  1 12:12 .
+drwxr-xr-x 1 salman salman   274 Feb  1 11:45 ..
+-rwxr-xr-x 1 salman salman 19576 Jan 25 17:01 a.out
+-rw-r--r-- 1 salman salman  5138 Jan 26 22:27 erroslist
+-rw-r--r-- 1 salman salman    29 Jan 25 12:44 .gitignore
+drwxr-xr-x 1 salman salman    12 Jan 26 22:27 includes
+-rw-r--r-- 1 salman salman     0 Jan 25 12:44 infile
+drwxr-xr-x 1 salman salman    10 Jan 25 12:44 lib
+-rw-r--r-- 1 salman salman   563 Jan 26 22:27 Makefile
+-rw-r--r-- 1 salman salman  7089 Jan 26 22:27 note.md
+-rw-r--r-- 1 salman salman     0 Feb  1 12:19 outfile
+-rwxr-xr-x 1 salman salman 42416 Feb  1 12:12 pipex
+-rw-r--r-- 1 salman salman    57 Jan 25 12:44 README.md
+drwxr-xr-x 1 salman salman    36 Feb  1 12:14 src
