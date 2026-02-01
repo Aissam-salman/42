@@ -14,28 +14,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void bin_ok(int digits, char *value)
-{
-	
-	while (1)
-	{
-		printf("%s\n", value);
-		int idx;
-
-		for (idx = digits - 1; idx >= 0; --idx)
-		{
-			if (value[idx] == '0')
-			{
-				value[idx]++;
-				break;
-			}
-			value[idx] = '0';
-		}
-		if (idx < 0)
-			break;
-	}
-}
-
 #define SYMBOL "0123456789abcdef"
 
 void bin_naruto(int index, int digits, char *value, int base)
@@ -47,15 +25,15 @@ void bin_naruto(int index, int digits, char *value, int base)
 		for (int i = 0; i < base; i++)
 		{
 			value[index] = SYMBOL[i];
-			bin_naruto(index + 1, digits, value, 10);
+			bin_naruto(index + 1, digits, value, base);
 		}
 	}
 }
 
-void  binary_four(int digits)
+void  que(int digits)
 {
 	char *val;
-	int i ;
+	int i;
 
 	val = calloc(digits + 1, sizeof(*val));
 	if (!val)
