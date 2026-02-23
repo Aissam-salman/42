@@ -5,16 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/29 10:22:23 by alamjada          #+#    #+#             */
-/*   Updated: 2026/02/05 11:19:41 by alamjada         ###   ########.fr       */
+/*   Created: 2026/02/05 10:41:15 by alamjada          #+#    #+#             */
+/*   Updated: 2026/02/05 11:19:37 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <strings.h>
+#include <unistd.h>
 #define BUFFER_SIZE 42
 
 int ft_strlen(char *s)
@@ -73,43 +72,45 @@ char *ft_strjoin(char *s1, char *s2)
 	return (join);
 }
 
-int have_endl(char *line)
+int have_endl(char *str)
 {
 	int i;
 
-	if (!line)
+	if (!str)
 		return (0);
 	i = 0;
-	while (line[i])
+	while (str[i])
 	{
-		if (line[i] == '\n')
+		if (str[i] == '\n')
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-char *clean_line(char *reading)
+char *read_line(char **store, int fd)
 {
-	char *rest;
-	int i;
-	int j;
+	char *buffer;
+	char *tmp;
+	int read_bytes;
 
-	i = 0;
-	while (reading[i] && reading[i] != '\n')
-		i++;
-	if (!reading[i])
-		return (free(reading), NULL);
-	rest = malloc(ft_strlen(reading) - i);
-	if (!rest)
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
 		return (NULL);
-	i++;
-	j = 0;
-	while (reading[i])
-		rest[j++] = reading[i++];
-	rest[j] = '\0';
-	free(reading);
-	return (rest);
+	while (!have_endl(store[fd])) 
+	{
+		read_bytes = read(fd, buffer, BUFFER_SIZE);
+		if (read_bytes < 0)
+			return (free(buffer), NULL);
+		if (read_bytes == 0)
+			break;
+		buffer[read_bytes] = '\0';
+		tmp = store[fd];
+		store[fd] = ft_strjoin(tmp, buffer);
+		free(tmp);
+	}
+	free(buffer);
+	return (store[fd]);
 }
 
 char *get_line(char *reading)
@@ -117,9 +118,9 @@ char *get_line(char *reading)
 	char *line;
 	int i;
 
-	if (!reading || !reading[0])
-		return (NULL);
 	i = 0;
+	if (!reading || !reading[i])
+		return(NULL);
 	while (reading[i] && reading[i] != '\n')
 		i++;
 	if (reading[i] == '\n')
@@ -139,29 +140,27 @@ char *get_line(char *reading)
 	return (line);
 }
 
-char *read_line(char **store, int fd)
+char *clean_line(char *reading)
 {
-	char *buffer;
-	char *tmp;
-	int read_bytes;
+	char *rest;
+	int i;
+	int j;
 
-	buffer = malloc(BUFFER_SIZE + 1);
-	if (!buffer)
-		return (NULL);
-	while (!have_endl(store[fd]))
-	{
-		read_bytes = read(fd, buffer, BUFFER_SIZE);
-		if (read_bytes < 0)
-			return (free(buffer), NULL);
-		if (read_bytes == 0)
-			break;
-		buffer[read_bytes] = '\0';
-		tmp = store[fd];
-		store[fd] = ft_strjoin(tmp, buffer);
-		free(tmp);
-	}
-	free(buffer);
-	return (store[fd]);
+	i = 0;
+	while (reading[i] && reading[i] != '\n')
+		i++;
+	if (!reading[i])
+		return (free(reading), NULL);
+	rest = malloc(ft_strlen(reading) - i);
+	if (!rest)
+		return (free(reading), NULL);
+	i++;
+	j = 0;
+	while (reading[i])
+		rest[j++] = reading[i++];
+	rest[j] = '\0';
+	free(reading);
+	return (rest);
 }
 
 char *get_next_line(int fd)
@@ -180,7 +179,7 @@ char *get_next_line(int fd)
 	return (line);
 }
 
-int main()
+int main(void)
 {
 	char *line;
 
@@ -189,5 +188,5 @@ int main()
 		printf("%s", line);
 		free(line);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }

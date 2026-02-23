@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/16 14:27:30 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/19 08:42:32 by alamjada         ###   ########.fr       */
+/*   Created: 2025/12/30 11:40:03 by salman            #+#    #+#             */
+/*   Updated: 2026/01/13 18:39:28 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "../includes/libft.h"
 
-# include "libft/libft.h"
-# include <stdarg.h>
+char	*ft_strndup(const char *s, size_t len)
+{
+	size_t	i;
+	char	*dup;
 
-int		ft_printf(const char *format, ...);
-char	*ft_itoa_u(unsigned int nb);
-int		ft_puthexa(unsigned long p, int fd, char *base);
-int		ft_puthexa_p_fd(unsigned long p, int fd);
-int		ft_print_str(char *str);
-int		ft_print_nbr(int nb);
-int		ft_print_nbr_u(unsigned int nb);
-int		ft_putchar_len(char c, int fd);
-
-#endif
+	if (!s)
+		return (NULL);
+	dup = malloc(len + 1);
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (*s && i < len)
+		dup[i++] = *s++;
+	dup[i] = '\0';
+	return (dup);
+}

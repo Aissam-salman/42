@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/16 14:27:30 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/19 08:42:32 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/11 17:15:43 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 16:24:25 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "../includes/libft.h"
 
-# include "libft/libft.h"
-# include <stdarg.h>
+/**
+ * @brief Outputs the character 'c' to the given file descriptor.
+ *
+ * @param c The character to output.
+ * @param fd The file descriptor on which to write.
+ */
 
-int		ft_printf(const char *format, ...);
-char	*ft_itoa_u(unsigned int nb);
-int		ft_puthexa(unsigned long p, int fd, char *base);
-int		ft_puthexa_p_fd(unsigned long p, int fd);
-int		ft_print_str(char *str);
-int		ft_print_nbr(int nb);
-int		ft_print_nbr_u(unsigned int nb);
-int		ft_putchar_len(char c, int fd);
-
-#endif
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}

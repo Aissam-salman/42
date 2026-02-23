@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/16 14:27:30 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/19 08:42:32 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/12 20:28:07 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 16:20:36 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "../includes/libft.h"
 
-# include "libft/libft.h"
-# include <stdarg.h>
+/**
+ * @brief Counts the number of elements in a list.
+ *
+ * @param lst The beginning of the list.
+ * @return The length of the list.
+ */
 
-int		ft_printf(const char *format, ...);
-char	*ft_itoa_u(unsigned int nb);
-int		ft_puthexa(unsigned long p, int fd, char *base);
-int		ft_puthexa_p_fd(unsigned long p, int fd);
-int		ft_print_str(char *str);
-int		ft_print_nbr(int nb);
-int		ft_print_nbr_u(unsigned int nb);
-int		ft_putchar_len(char c, int fd);
+int	ft_lstsize(t_list *lst)
+{
+	int	size;
 
-#endif
+	size = 0;
+	while (lst)
+	{
+		size++;
+		lst = lst->next;
+	}
+	return (size);
+}

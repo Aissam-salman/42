@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_lstadd_front_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/16 14:27:30 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/19 08:42:32 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/12 20:18:11 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 16:20:36 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "../includes/libft.h"
 
-# include "libft/libft.h"
-# include <stdarg.h>
+/**
+ * @brief Adds the element 'new_node' at the beginning of the list.
+ *
+ * @param lst The address of a pointer to the first link of a list.
+ * @param new_node The address of a pointer to the element to be added to the
+ * list.
+ */
 
-int		ft_printf(const char *format, ...);
-char	*ft_itoa_u(unsigned int nb);
-int		ft_puthexa(unsigned long p, int fd, char *base);
-int		ft_puthexa_p_fd(unsigned long p, int fd);
-int		ft_print_str(char *str);
-int		ft_print_nbr(int nb);
-int		ft_print_nbr_u(unsigned int nb);
-int		ft_putchar_len(char c, int fd);
-
-#endif
+void	ft_lstadd_front(t_list **lst, t_list *new_node)
+{
+	if (!lst || !new_node)
+		return ;
+	new_node->next = *lst;
+	*lst = new_node;
+}

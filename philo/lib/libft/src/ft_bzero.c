@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/16 14:27:30 by alamjada          #+#    #+#             */
-/*   Updated: 2025/11/19 08:42:32 by alamjada         ###   ########.fr       */
+/*   Created: 2025/11/06 09:53:53 by alamjada          #+#    #+#             */
+/*   Updated: 2025/12/08 15:46:29 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "../includes/libft.h"
 
-# include "libft/libft.h"
-# include <stdarg.h>
+/**
+ * @brief Writes n zeroed bytes to the string s.
+ *
+ * @param s The string to write to.
+ * @param n The number of bytes to write.
+ */
 
-int		ft_printf(const char *format, ...);
-char	*ft_itoa_u(unsigned int nb);
-int		ft_puthexa(unsigned long p, int fd, char *base);
-int		ft_puthexa_p_fd(unsigned long p, int fd);
-int		ft_print_str(char *str);
-int		ft_print_nbr(int nb);
-int		ft_print_nbr_u(unsigned int nb);
-int		ft_putchar_len(char c, int fd);
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*p_cpy;
 
-#endif
+	p_cpy = (unsigned char *) s;
+	while (n > 0)
+	{
+		*p_cpy = '\0';
+		p_cpy++;
+		n--;
+	}
+}

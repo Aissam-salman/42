@@ -53,7 +53,7 @@ void	handle_cordinate(int x, int y, t_fractal *fractal)
 	double			iter;
 
 	z.x = (scale_between(x, -2, 2, WIDTH) * fractal->zoom) + fractal->offset_x;
-	z.y = (scale_between(y, 2, -2, HEIGHT) * fractal->zoom) + fractal->offset_y;
+	z.y = (scale_between(y, 2, -2, HEIGHT) * fractal->zoom) +fractal->offset_y;
 	choice_set(&z, &c, fractal);
 	i = 0;
 	iter = 0;
