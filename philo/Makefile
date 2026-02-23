@@ -1,13 +1,10 @@
-NAME = a.out
-
-DIR_LIBFT = lib/libft/
-LIBFT = $(DIR_LIBFT)libft.a
+NAME = philo
 
 SRC = src/main.c 
 OBJS := $(SRC:%.c=%.o)
 
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror
+CCFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread -g
 INC_DIR = includes
 CCIFLAGS = -I$(INC_DIR)
 RM = rm -f
@@ -16,22 +13,17 @@ RM = rm -f
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CCIFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
-
-$(LIBFT):
-	make -C $(DIR_LIBFT)
+$(NAME): $(OBJS)
+	$(CC) $(CCFLAGS) $(CCIFLAGS) $(OBJS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CCIFLAGS) $(CCFLAGS) -o $@ -c $<
+	$(CC) $(CCFLAGS) $(CCIFLAGS) -o $@ -c $<
 
 clean:
 	$(RM) $(OBJS)
-	make clean -C $(DIR_LIBFT)
 
 fclean: clean
 	$(RM) $(NAME)
-	make fclean -C $(DIR_LIBFT)
 
 re: fclean all
 
