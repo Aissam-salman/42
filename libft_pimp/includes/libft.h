@@ -88,4 +88,12 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
+//TODO:
+//   - prepend / append 
+//   - insertion in the middle 
+//   - deletion from ends 
+//   - deletion in the midddle
+//   - get head / tail 
+//   - get in general
+
 #endif

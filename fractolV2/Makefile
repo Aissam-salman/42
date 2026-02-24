@@ -12,7 +12,7 @@ SRC = src/main.c src/error.c src/init.c src/utils.c \
 OBJS := $(SRC:%.c=%.o)
 
 CC = cc
-CCFLAGS = 
+CCFLAGS = -O3
 INC_DIR = includes
 CCIFLAGS = -I$(INC_DIR) -I$(DIR_MINILIBX)
 RM = rm -f
