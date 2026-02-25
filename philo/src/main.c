@@ -16,10 +16,36 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-#define TIMES 1000
 #define TRUE 1
 #define FALSE 0
+/*
+// cc -pthread -fsanitize=thread -g  (contre data race)
+ *  1 seconds = 1000 milli
+ *  1000 microseconds = 1 milliseconds   formula
+	/ 1000  usleep(1* 1000) for 1 mls
+ *
+ *  ac -> min 5, max 6
 
+	*  ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
+ *
+ *  philo 1 -> N
+ *
+ *  Debut: mark T0 avec le timestamps gettimeofday * 1000
+ *  Ta(nv timestamps a chq action) - T0 = timestamps a afficher
+ *
+ *  Mark last eat TE of philo, if (time current - TE) > time_to_die  ->>>> died
+ *
+ *  print X whith the philo number
+ *  timestamp_in_ms X has taken a fork
+ *  timestamp_in_ms X is eating
+ *  timestamp_in_ms X is sleeping
+ *  timestamp_in_ms X is thinking
+ *  timestamp_in_ms X died , dans les 10ms of their actual death
+ *
+ *  Monitor qui verif si un philo est mort et arret la simu si oui
+ *
+ * pthread_mutex_t forks[5];
+ */
 /////////////////////////////////////// STRUCT PHILO
 
 typedef enum e_action
@@ -68,18 +94,18 @@ typedef struct s_philo
 
 /////////////////////////////////////// STRUCT PHILO
 
-void	print_action(t_action action, int time, int tid)
+void	print_action(t_action action, int time, int index)
 {
 	if (action == EAT)
-		printf("[%d] %d has eat\n", time, tid);
+		printf("[%d] %d has eat\n", time, index);
 	else if (action == SLEEP)
-		printf("[%d] %d  is sleeping\n", time, tid);
+		printf("[%d] %d  is sleeping\n", time, index);
 	else if (action == THINK)
-		printf("[%d] %d is thinking\n", time, tid);
+		printf("[%d] %d is thinking\n", time, index);
 	else if (action == TAKE)
-		printf("[%d] %d has take a fork\n", time, tid);
+		printf("[%d] %d has take a fork\n", time, index);
 	else if (action == DIED)
-		printf("[%d] %d died\n", time, tid);
+		printf("[%d] %d died\n", time, index);
 }
 
 void	print_params(void)
@@ -339,31 +365,3 @@ int	main(int ac, char **av)
 	return (EXIT_SUCCESS);
 }
 
-/*
-// cc -pthread -fsanitize=thread -g  (contre data race)
- *  1 seconds = 1000 milli
- *  1000 microseconds = 1 milliseconds   formula
-	/ 1000  usleep(1* 1000) for 1 mls
- *
- *  ac -> min 5, max 6
-
-	*  ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
- *
- *  philo 1 -> N
- *
- *  Debut: mark T0 avec le timestamps gettimeofday * 1000
- *  Ta(nv timestamps a chq action) - T0 = timestamps a afficher
- *
- *  Mark last eat TE of philo, if (time current - TE) > time_to_die  ->>>> died
- *
- *  print X whith the philo number
- *  timestamp_in_ms X has taken a fork
- *  timestamp_in_ms X is eating
- *  timestamp_in_ms X is sleeping
- *  timestamp_in_ms X is thinking
- *  timestamp_in_ms X died , dans les 10ms of their actual death
- *
- *  Monitor qui verif si un philo est mort et arret la simu si oui
- *
- * pthread_mutex_t forks[5];
- */
