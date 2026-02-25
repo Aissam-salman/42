@@ -35,7 +35,7 @@ typedef struct s_stop
 {
 	pthread_mutex_t	stop_mutex;
 	int				stop;
-}	t_stop;
+}					t_stop;
 
 typedef struct s_table
 {
@@ -43,7 +43,7 @@ typedef struct s_table
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	size_t			time_start; // ?? mutex
+	size_t time_start; // ?? mutex
 	size_t			nb_times_must_eat;
 	pthread_mutex_t	print_lock;
 	t_stop			*stoper;
@@ -58,7 +58,8 @@ typedef struct s_let
 
 typedef struct s_philo
 {
-	size_t			tid;
+	size_t			index;
+	pthread_t		tid;
 	size_t			nb_times_must_eat;
 	t_let			*let;
 	t_table			*table;
@@ -66,7 +67,6 @@ typedef struct s_philo
 }					t_philo;
 
 /////////////////////////////////////// STRUCT PHILO
-
 
 void	print_action(t_action action, int time, int tid)
 {
@@ -130,7 +130,7 @@ int	ft_isspace(int c)
 	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
-size_t ft_atol(char *str)
+size_t	ft_atol(char *str)
 {
 	int		i;
 	size_t	nb;
@@ -146,7 +146,7 @@ size_t ft_atol(char *str)
 	return (nb);
 }
 
-int fill_table(t_table *table, char **av)
+int	fill_table(t_table *table, char **av)
 {
 	table->nb_philo = ft_atol(av[1]);
 	if (table->nb_philo < 2)
@@ -176,12 +176,12 @@ int fill_table(t_table *table, char **av)
 			return (FALSE);
 		}
 	}
-	else 
+	else
 		table->nb_times_must_eat = 0;
 	return (TRUE);
 }
 
-void print_table(t_table *table)
+void	print_table(t_table *table)
 {
 	printf("nb philo: %ld\n", table->nb_philo);
 	printf("time_to_die: %ld\n", table->time_to_die);
@@ -224,10 +224,10 @@ void	thread_routine_philo(void *data)
 	// return (NULL);
 }
 
-t_philo *init_philo(t_table *table)
+t_philo	*init_philo(t_table *table)
 {
-	t_philo *philo;
-	int i;
+	t_philo	*philo;
+	int		i;
 
 	philo = malloc(sizeof(t_philo) * table->nb_philo);
 	if (!philo)
@@ -239,7 +239,8 @@ t_philo *init_philo(t_table *table)
 	while (i < table->nb_philo)
 	{
 		philo[i].table = table;
-		philo[i].tid = i;
+		philo[i].index = i;
+		philo[i].tid = -1;
 		philo[i].let = malloc(sizeof(t_let *));
 		if (!philo[i].let)
 			return (NULL);
@@ -252,16 +253,16 @@ t_philo *init_philo(t_table *table)
 
 void	init(int ac, char **av)
 {
-	t_table	*table;
+	t_table			*table;
 	struct timeval	tv;
-	t_philo *philosophers;
+	t_philo			*philosophers;
 
 	(void)ac;
 	table = malloc(sizeof(t_table));
 	if (!table)
 		return ;
 	if (!fill_table(table, av))
-		return;
+		return ;
 	if (gettimeofday(&tv, NULL) == -1)
 	{
 		perror("gettimeofday");
@@ -272,28 +273,40 @@ void	init(int ac, char **av)
 	if (!table->fork)
 	{
 		printf("malloc\n");
-		return;
+		return ;
 	}
 	table->stoper = malloc(sizeof(t_stop));
 	if (!table)
 	{
 		printf("malloc\n");
-		return;
+		return ;
 	}
 	table->stoper->stop = 0;
 	philosophers = init_philo(table);
-
-	// init_all_mutex_of_table()
-	// pthread_create(&tid1, NULL, thread_routine, &counter);
+	// NOTE: init_all_mutex()
+	// run_thread()
+	//  -> pthread_create(&tid, NULL, thread_routine, &philo[i]);
+	//  usleep(time_to_eat) pair index
 	//
+	// NOTE:
+	// join_all()
 	// pthread_join(tid1, NULL);
 	// printf("Union first thread [%ld]\n", tid1);
 	// pthread_join(tid2, NULL);
 	// printf("Union second thread [%ld]\n", tid2);
-	//DEBUG
+	
 	print_table(table);
 	printf("OK\n");
+
 	// pthread_mutex_destroy(&counter.count_mutex);
+	// NOTE: destroy_all_mutex();
+	//
+	//NOTE:
+	// init mutex all
+	// create t_philo, N
+	// create thread , usleep pair ,
+	// create reaper, check all thread last_eat_times,
+	// begin routine
 }
 
 int	main(int ac, char **av)
@@ -323,19 +336,14 @@ int	main(int ac, char **av)
 	printf("\n");
 	printf("\n=====PARSING======\n");
 	init(ac, av);
-	// init mutex all
-	// create t_philo, N
-	// create thread , usleep pair ,
-	// create reaper, check all thread last_eat_times,
-	// begin routine
-	//
 	return (EXIT_SUCCESS);
 }
 
 /*
 // cc -pthread -fsanitize=thread -g  (contre data race)
  *  1 seconds = 1000 milli
- *  1000 microseconds = 1 milliseconds   formula / 1000  usleep(1* 1000) for 1 mls
+ *  1000 microseconds = 1 milliseconds   formula
+	/ 1000  usleep(1* 1000) for 1 mls
  *
  *  ac -> min 5, max 6
 
