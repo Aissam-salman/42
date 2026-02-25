@@ -253,7 +253,7 @@ void	thread_routine_philo(void *data)
 t_philo	*init_philo(t_table *table)
 {
 	t_philo	*philo;
-	int		i;
+	size_t		i;
 
 	philo = malloc(sizeof(t_philo) * table->nb_philo);
 	if (!philo)
@@ -267,7 +267,7 @@ t_philo	*init_philo(t_table *table)
 		philo[i].table = table;
 		philo[i].index = i;
 		philo[i].tid = -1;
-		philo[i].let = malloc(sizeof(t_let *));
+		philo[i].let = malloc(sizeof(t_let));
 		if (!philo[i].let)
 			return (NULL);
 		philo[i].let->last_eat_times = 0;
@@ -309,6 +309,7 @@ void	init(int ac, char **av)
 	}
 	table->stoper->stop = 0;
 	philosophers = init_philo(table);
+	(void)philosophers;
 	// NOTE: init_all_mutex()
 	// run_thread()
 	//  -> pthread_create(&tid, NULL, thread_routine, &philo[i]);
@@ -327,7 +328,7 @@ void	init(int ac, char **av)
 	// pthread_mutex_destroy(&counter.count_mutex);
 	// NOTE: destroy_all_mutex();
 	//
-	//NOTE:
+	//NOTE: process
 	// init mutex all
 	// create t_philo, N
 	// create thread , usleep pair ,
