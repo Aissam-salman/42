@@ -10,100 +10,65 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <sys/time.h>
 #include <pthread.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
 
 #define TIMES 1000
+#define TRUE 1
+#define FALSE 0
 
 /////////////////////////////////////// STRUCT PHILO
 
-typedef enum e_action {
+typedef enum e_action
+{
 	EAT,
 	SLEEP,
 	THINK,
 	TAKE,
 	DIED
-} t_action;
+}					t_action;
 
 typedef struct s_stop
 {
-	pthread_mutex_t stop_mutex;
-	int stop;
-} t_stop;
+	pthread_mutex_t	stop_mutex;
+	int				stop;
+}	t_stop;
 
 typedef struct s_table
 {
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int 	time_start;
-	pthread_mutex_t print_lock;
-	t_stop  stoper;
-	pthread_mutex_t *fork;
-} t_table;
+	size_t			nb_philo;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
+	size_t			time_start; // ?? mutex
+	size_t			nb_times_must_eat;
+	pthread_mutex_t	print_lock;
+	t_stop			*stoper;
+	pthread_mutex_t	*fork;
+}					t_table;
 
 typedef struct s_let
 {
-	pthread_mutex_t last_eat_times_mutex;
-	int last_eat_times;
-} t_let;
-
+	pthread_mutex_t	last_eat_times_mutex;
+	size_t			last_eat_times;
+}					t_let;
 
 typedef struct s_philo
 {
-	int tid;
-	t_let let;
-	t_table *table;
+	size_t			tid;
+	size_t			nb_times_must_eat;
+	t_let			*let;
+	t_table			*table;
 	// ?? state ? t_action
-} t_philo;
+}					t_philo;
 
 /////////////////////////////////////// STRUCT PHILO
 
 
-
-
-
-/*
-void *thread_routine(void *data)
-{
-	pthread_t tid;
-	t_counter *counter;
-	int i;
-
-	tid = pthread_self();
-	counter = (t_counter *)data;
-
-	pthread_mutex_lock(&counter->count_mutex);
-	printf("Thread [%ld]: count start: %d\n", tid, counter->count);
-	pthread_mutex_unlock(&counter->count_mutex);
-
-	i = 0;
-	while (i < TIMES)
-	{
-		pthread_mutex_lock(&counter->count_mutex);
-		counter->count++;
-		pthread_mutex_unlock(&counter->count_mutex);
-		i++;
-	}
-	pthread_mutex_lock(&counter->count_mutex);
-	printf("Thread [%ld]: count final: %d\n", tid, counter->count);
-	pthread_mutex_unlock(&counter->count_mutex);
-	return (NULL);
-}
-*/
-
-void thread_routine_philo(void *data)
-{
-	t_philo *philo;
-
-	philo = (t_philo *)data;
-
-	// loop tant que vivant  eat -> sleep -> think
-        //*  Mark last eat TE of philo, if (time current - TE) > time_to_die  ->>>> died
-}
-
-void print_action(t_action action, int time, int tid)
+void	print_action(t_action action, int time, int tid)
 {
 	if (action == EAT)
 		printf("[%d] %d has eat\n", time, tid);
@@ -117,63 +82,269 @@ void print_action(t_action action, int time, int tid)
 		printf("[%d] %d died\n", time, tid);
 }
 
-int main(int ac, char **av)
+void	print_params(void)
 {
-	if (ac < 5)
-		return (1);
-	(void)av;
-	struct timeval tv;
-	// init_table(ac, av)
+	printf("./philo number_of_philosophers time_to_die");
+	printf(" time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
+}
 
-	// GET INFO FROM ARGS, 
-	// PARSING IT 
-	// IF OK
-	// CREATE t_table struct,
-	// init mutex all
-	// create t_philo, N 
-	// create thread , usleep pair ,
-	// create reaper, check all thread last_eat_times,
-	// begin routine 
-	
+int	ft_isdigit(char c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+int	only_digit(char *param)
+{
+	int	i;
+
+	i = 0;
+	if (param[i] == '+')
+		i++;
+	else if (param[i] == '-')
+		return (FALSE);
+	while (param[i])
+	{
+		if (!ft_isdigit(param[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+int	is_valid_params(int ac, char **av)
+{
+	int	i;
+
+	i = 1;
+	while (i < ac)
+	{
+		if (!only_digit(av[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+int	ft_isspace(int c)
+{
+	return (c == ' ' || (c >= 9 && c <= 13));
+}
+
+size_t ft_atol(char *str)
+{
+	int		i;
+	size_t	nb;
+
+	i = 0;
+	nb = 0;
+	while (ft_isspace(str[i]))
+		i++;
+	if (str[i] == '+')
+		i++;
+	while (ft_isdigit(str[i]))
+		nb = nb * 10 + (str[i++] - '0');
+	return (nb);
+}
+
+int fill_table(t_table *table, char **av)
+{
+	table->nb_philo = ft_atol(av[1]);
+	if (table->nb_philo < 2)
+	{
+		printf("Insuffisant philo must be > 1");
+		return (FALSE);
+	}
+	table->time_to_die = ft_atol(av[2]);
+	if (table->time_to_die == 0)
+	{
+		printf("Insuffisant time_to_die must be > 0");
+		return (FALSE);
+	}
+	table->time_to_eat = ft_atol(av[3]);
+	if (table->time_to_eat == 0)
+	{
+		printf("Insuffisant time_to_eat must be > 0");
+		return (FALSE);
+	}
+	table->time_to_sleep = ft_atol(av[4]);
+	if (av[5])
+	{
+		table->nb_times_must_eat = ft_atol(av[5]);
+		if (table->time_to_eat == 0)
+		{
+			printf("Insuffisant time_to_eat must be > 0");
+			return (FALSE);
+		}
+	}
+	else 
+		table->nb_times_must_eat = 0;
+	return (TRUE);
+}
+
+void print_table(t_table *table)
+{
+	printf("nb philo: %ld\n", table->nb_philo);
+	printf("time_to_die: %ld\n", table->time_to_die);
+	printf("time_to_eat: %ld\n", table->time_to_eat);
+	printf("time_to_sleep: %ld\n", table->time_to_sleep);
+	printf("time_start: %ld ms\n", table->time_start);
+	if (table->nb_times_must_eat)
+		printf("nb_times_must_eat: %ld\n", table->nb_times_must_eat);
+}
+
+void	thread_routine_philo(void *data)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)data;
+	// loop tant que vivant  eat -> sleep -> think
+	//*  Mark last eat TE of philo, if (time current - TE) > time_to_die
+	// ->>>> died
+	(void)philo;
+	// pthread_t	tid;
+	// t_counter	*counter;
+	// int			i;
+	//
+	// tid = pthread_self();
+	// counter = (t_counter *)data;
+	// pthread_mutex_lock(&counter->count_mutex);
+	// printf("Thread [%ld]: count start: %d\n", tid, counter->count);
+	// pthread_mutex_unlock(&counter->count_mutex);
+	// i = 0;
+	// while (i < TIMES)
+	// {
+	// 	pthread_mutex_lock(&counter->count_mutex);
+	// 	counter->count++;
+	// 	pthread_mutex_unlock(&counter->count_mutex);
+	// 	i++;
+	// }
+	// pthread_mutex_lock(&counter->count_mutex);
+	// printf("Thread [%ld]: count final: %d\n", tid, counter->count);
+	// pthread_mutex_unlock(&counter->count_mutex);
+	// return (NULL);
+}
+
+t_philo *init_philo(t_table *table)
+{
+	t_philo *philo;
+	int i;
+
+	philo = malloc(sizeof(t_philo) * table->nb_philo);
+	if (!philo)
+	{
+		printf("malloc\n");
+		return (NULL);
+	}
+	i = 0;
+	while (i < table->nb_philo)
+	{
+		philo[i].table = table;
+		philo[i].tid = i;
+		philo[i].let = malloc(sizeof(t_let *));
+		if (!philo[i].let)
+			return (NULL);
+		philo[i].let->last_eat_times = 0;
+		philo[i].nb_times_must_eat = table->nb_times_must_eat;
+		i++;
+	}
+	return (philo);
+}
+
+void	init(int ac, char **av)
+{
+	t_table	*table;
+	struct timeval	tv;
+	t_philo *philosophers;
+
+	(void)ac;
+	table = malloc(sizeof(t_table));
+	if (!table)
+		return ;
+	if (!fill_table(table, av))
+		return;
 	if (gettimeofday(&tv, NULL) == -1)
 	{
-		printf("Error: gettimeofday\n");
-		return (1);
+		perror("gettimeofday");
+		return ;
 	}
-	printf("Microseconds: %ld\n", tv.tv_usec);
+	table->time_start = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	table->fork = malloc(sizeof(pthread_mutex_t) * table->nb_philo);
+	if (!table->fork)
+	{
+		printf("malloc\n");
+		return;
+	}
+	table->stoper = malloc(sizeof(t_stop));
+	if (!table)
+	{
+		printf("malloc\n");
+		return;
+	}
+	table->stoper->stop = 0;
+	philosophers = init_philo(table);
 
-	// counter.count = 0;
-	// pthread_mutex_init(&counter.count_mutex, NULL);
-	// printf("Res attendu: %d\n", TIMES * 2);
+	// init_all_mutex_of_table()
 	// pthread_create(&tid1, NULL, thread_routine, &counter);
-	// printf("First thread [%ld] created\n", tid1);
-	// pthread_create(&tid2, NULL, thread_routine, &counter);
-	// printf("Second thread [%ld] created\n", tid2);
+	//
 	// pthread_join(tid1, NULL);
 	// printf("Union first thread [%ld]\n", tid1);
 	// pthread_join(tid2, NULL);
 	// printf("Union second thread [%ld]\n", tid2);
-	// if (counter.count == TIMES * 2)
-	// 	printf("OK, greet: %d\n", counter.count);
-	// else
-	// 	printf("Noooo, res: %d\n", counter.count);
+	//DEBUG
+	print_table(table);
+	printf("OK\n");
 	// pthread_mutex_destroy(&counter.count_mutex);
-	return (0);
 }
 
+int	main(int ac, char **av)
+{
+	if (ac < 5 || ac > 6)
+	{
+		printf("Error params.\n");
+		print_params();
+		return (EXIT_FAILURE);
+	}
+	if (!is_valid_params(ac, av))
+	{
+		printf("Invalid params.\n");
+		print_params();
+		return (EXIT_FAILURE);
+	}
+	printf("\n=====INPUT=======\n");
+	printf("nb philo: %s, ", av[1]);
+	printf("time_to_die: %s, ", av[2]);
+	printf("time_to_eat: %s, ", av[3]);
+	printf("time_to_sleep: %s", av[4]);
+	if (av[5])
+	{
+		printf(", ");
+		printf("nb_times_must_eat: %s", av[5]);
+	}
+	printf("\n");
+	printf("\n=====PARSING======\n");
+	init(ac, av);
+	// init mutex all
+	// create t_philo, N
+	// create thread , usleep pair ,
+	// create reaper, check all thread last_eat_times,
+	// begin routine
+	//
+	return (EXIT_SUCCESS);
+}
 
 /*
 // cc -pthread -fsanitize=thread -g  (contre data race)
- *  1 seconds = 1000
- *  1000 microseconds = 1 milliseconds   formula / 1000  usleep(1 * 1000) for 1 mls
+ *  1 seconds = 1000 milli
+ *  1000 microseconds = 1 milliseconds   formula / 1000  usleep(1* 1000) for 1 mls
  *
  *  ac -> min 5, max 6
- *  ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
+
+	*  ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
  *
  *  philo 1 -> N
- *  
+ *
  *  Debut: mark T0 avec le timestamps gettimeofday * 1000
- *  Ta(nv timestamps a chq action) - T0 = timestamps a afficher 
+ *  Ta(nv timestamps a chq action) - T0 = timestamps a afficher
  *
  *  Mark last eat TE of philo, if (time current - TE) > time_to_die  ->>>> died
  *
