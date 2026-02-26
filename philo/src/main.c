@@ -281,9 +281,6 @@ t_philo	*init_philo(t_table *table)
 void init_all_mutex(t_table *table, t_philo *philos)
 {
 	int i;
-	// table->fork[i];
-	// table->stoper->stop_mutex;
-	// table->print_lock;
 	if (pthread_mutex_init(&table->stoper->stop_mutex, NULL) != 0)
 		return ;
 	if (pthread_mutex_init(&table->print_lock, NULL) != 0)
@@ -297,8 +294,24 @@ void init_all_mutex(t_table *table, t_philo *philos)
 			return ;
 		i++;
 	}
-	
+}
 
+void destroy_all_mutex(t_table *table, t_philo *philos)
+{
+	int i;
+	if (pthread_mutex_destroy(&table->stoper->stop_mutex) != 0)
+		return ;
+	if (pthread_mutex_destroy(&table->print_lock) != 0)
+		return ;
+	i = 0;
+	while (i < table->nb_times_must_eat)
+	{
+		if (pthread_mutex_destroy(&table->fork[i], NULL) != 0)
+			return ;
+		if (pthread_mutex_destroy(&philos[i].let->last_eat_times_mutex, NULL) != 0)
+			return ;
+		i++;
+	}
 }
 
 void	init(int ac, char **av)
@@ -333,8 +346,7 @@ void	init(int ac, char **av)
 	}
 	table->stoper->stop = 0;
 	philosophers = init_philo(table);
-	(void)philosophers;
-	// NOTE: init_all_mutex()
+	init_all_mutex(table, philosophers);
 	// run_thread()
 	//  -> pthread_create(&tid, NULL, thread_routine, &philo[i]);
 	//  usleep(time_to_eat) pair index
@@ -347,8 +359,7 @@ void	init(int ac, char **av)
 	// printf("Union second thread [%ld]\n", tid2);
 	print_table(table);
 	printf("OK\n");
-	// pthread_mutex_destroy(&counter.count_mutex);
-	// NOTE: destroy_all_mutex();
+	destroy_all_mutex(table, philosophers);
 	//
 	// NOTE: process
 	// init mutex all
