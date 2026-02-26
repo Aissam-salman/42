@@ -437,9 +437,7 @@ void	*thread_routine_reaper(void *data)
 	t_table *table;
 
 	table = (t_table *)data;
-	printf("FROM reaper\n");
-	print_table(table);
-	printf("REAPER DONE");
+	(void)table;
 	return (NULL);
 }
 
@@ -452,19 +450,21 @@ void	run_thread(t_table *table)
 	i = 0;
 	while (i < table->nb_philo)
 	{
-		pthread_create(&philos[i].tid, NULL, thread_routine_philo,
+		pthread_create(&(philos[i].tid), NULL, thread_routine_philo,
 			(void *)&philos[i]);
 		// WARN: maybe need split time for precision
-		usleep(table->time_to_eat / 1000);
+		usleep(1000);
 		i++;
 	}
 	pthread_create(&table->reaper, NULL, *thread_routine_reaper, (void *)table);
 }
 
-void	join_all(t_table *table, t_philo *philo)
+void	join_all(t_table *table)
 {
 	size_t	i;
+	t_philo *philo;
 
+	philo = table->philo;
 	i = 0;
 	while (i < table->nb_philo)
 	{
@@ -506,9 +506,7 @@ void	init(char **av)
 	init_philo(table);
 	init_all_mutex(table);
 	run_thread(table);
-	// join_all(table, philosophers);
-	print_table(table);
-	printf("OK\n");
+	join_all(table);
 	destroy_all_mutex(table);
 }
 
@@ -526,18 +524,6 @@ int	main(int ac, char **av)
 		print_params();
 		return (EXIT_FAILURE);
 	}
-	printf("\n=====INPUT=======\n");
-	printf("nb philo: %s, ", av[1]);
-	printf("time_to_die: %s, ", av[2]);
-	printf("time_to_eat: %s, ", av[3]);
-	printf("time_to_sleep: %s", av[4]);
-	if (av[5])
-	{
-		printf(", ");
-		printf("nb_times_must_eat: %s", av[5]);
-	}
-	printf("\n");
-	printf("\n=====PARSING======\n");
 	init(av);
 	return (EXIT_SUCCESS);
 }
