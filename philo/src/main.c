@@ -75,6 +75,7 @@ typedef struct s_table
 	pthread_mutex_t	print_lock;
 	t_stop			*stoper;
 	pthread_mutex_t	*fork;
+	pthread_t  		reaper;
 }					t_table;
 
 typedef struct s_let
@@ -280,7 +281,7 @@ t_philo	*init_philo(t_table *table)
 
 void init_all_mutex(t_table *table, t_philo *philos)
 {
-	int i;
+	size_t i;
 	if (pthread_mutex_init(&table->stoper->stop_mutex, NULL) != 0)
 		return ;
 	if (pthread_mutex_init(&table->print_lock, NULL) != 0)
@@ -298,7 +299,7 @@ void init_all_mutex(t_table *table, t_philo *philos)
 
 void destroy_all_mutex(t_table *table, t_philo *philos)
 {
-	int i;
+	size_t i;
 	if (pthread_mutex_destroy(&table->stoper->stop_mutex) != 0)
 		return ;
 	if (pthread_mutex_destroy(&table->print_lock) != 0)
@@ -306,21 +307,57 @@ void destroy_all_mutex(t_table *table, t_philo *philos)
 	i = 0;
 	while (i < table->nb_times_must_eat)
 	{
-		if (pthread_mutex_destroy(&table->fork[i], NULL) != 0)
+		if (pthread_mutex_destroy(&table->fork[i]) != 0)
 			return ;
-		if (pthread_mutex_destroy(&philos[i].let->last_eat_times_mutex, NULL) != 0)
+		if (pthread_mutex_destroy(&philos[i].let->last_eat_times_mutex) != 0)
 			return ;
 		i++;
 	}
 }
 
-void	init(int ac, char **av)
+void	thread_routine_reaper(void *data)
+{
+
+}
+
+void run_thread(t_table *table, t_philo *philo)
+{
+	(void)table;
+	(void)philo;
+	size_t i;
+
+	i = 0;
+	while (i < table->nb_philo)
+	{
+		pthread_create(&philo[i].pid, NULL, thread_routine_philo, &philo[i])
+		i++;
+	}
+	pthread_create(&table->reaper, NULL, thread_routine_reaper, &philo);
+
+	//  -> pthread_create(&tid, NULL, thread_routine, &philo[i]);
+	//  usleep(time_to_eat) pair index
+	//
+}
+
+void join_all(t_table *table, t_philo *philo)
+{
+	size_t i;
+
+	i = 0;
+	while (i < table->nb_philo)
+	{
+		 pthread_join(philo[i].tid, NULL);
+		 i++;
+	}
+	pthread_join(table->reaper, NULL);
+}
+
+void	init(char **av)
 {
 	t_table			*table;
 	struct timeval	tv;
 	t_philo			*philosophers;
 
-	(void)ac;
 	table = malloc(sizeof(t_table));
 	if (!table)
 		return ;
@@ -347,26 +384,11 @@ void	init(int ac, char **av)
 	table->stoper->stop = 0;
 	philosophers = init_philo(table);
 	init_all_mutex(table, philosophers);
-	// run_thread()
-	//  -> pthread_create(&tid, NULL, thread_routine, &philo[i]);
-	//  usleep(time_to_eat) pair index
-	//
-	// NOTE:
-	// join_all()
-	// pthread_join(tid1, NULL);
-	// printf("Union first thread [%ld]\n", tid1);
-	// pthread_join(tid2, NULL);
-	// printf("Union second thread [%ld]\n", tid2);
+	run_thread(table, philosophers);
+	// join_all(table, philosophers);
 	print_table(table);
 	printf("OK\n");
 	destroy_all_mutex(table, philosophers);
-	//
-	// NOTE: process
-	// init mutex all
-	// create t_philo, N
-	// create thread , usleep pair ,
-	// create reaper, check all thread last_eat_times,
-	// begin routine
 }
 
 int	main(int ac, char **av)
@@ -395,6 +417,6 @@ int	main(int ac, char **av)
 	}
 	printf("\n");
 	printf("\n=====PARSING======\n");
-	init(ac, av);
+	init(av);
 	return (EXIT_SUCCESS);
 }
