@@ -18,6 +18,7 @@
 
 #define TRUE 1
 #define FALSE 0
+
 /*
 // cc -pthread -fsanitize=thread -g  (contre data race)
  *  1 seconds = 1000 milli
@@ -70,7 +71,7 @@ typedef struct s_table
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	size_t time_start; // ?? mutex
-	size_t			nb_times_must_eat;
+	size_t			nb_times_must_eat; // ?? mutex
 	pthread_mutex_t	print_lock;
 	t_stop			*stoper;
 	pthread_mutex_t	*fork;
@@ -253,7 +254,7 @@ void	thread_routine_philo(void *data)
 t_philo	*init_philo(t_table *table)
 {
 	t_philo	*philo;
-	size_t		i;
+	size_t	i;
 
 	philo = malloc(sizeof(t_philo) * table->nb_philo);
 	if (!philo)
@@ -275,6 +276,29 @@ t_philo	*init_philo(t_table *table)
 		i++;
 	}
 	return (philo);
+}
+
+void init_all_mutex(t_table *table, t_philo *philos)
+{
+	int i;
+	// table->fork[i];
+	// table->stoper->stop_mutex;
+	// table->print_lock;
+	if (pthread_mutex_init(&table->stoper->stop_mutex, NULL) != 0)
+		return ;
+	if (pthread_mutex_init(&table->print_lock, NULL) != 0)
+		return ;
+	i = 0;
+	while (i < table->nb_times_must_eat)
+	{
+		if (pthread_mutex_init(&table->fork[i], NULL) != 0)
+			return ;
+		if (pthread_mutex_init(&philos[i].let->last_eat_times_mutex, NULL) != 0)
+			return ;
+		i++;
+	}
+	
+
 }
 
 void	init(int ac, char **av)
@@ -321,14 +345,12 @@ void	init(int ac, char **av)
 	// printf("Union first thread [%ld]\n", tid1);
 	// pthread_join(tid2, NULL);
 	// printf("Union second thread [%ld]\n", tid2);
-	
 	print_table(table);
 	printf("OK\n");
-
 	// pthread_mutex_destroy(&counter.count_mutex);
 	// NOTE: destroy_all_mutex();
 	//
-	//NOTE: process
+	// NOTE: process
 	// init mutex all
 	// create t_philo, N
 	// create thread , usleep pair ,
@@ -365,4 +387,3 @@ int	main(int ac, char **av)
 	init(ac, av);
 	return (EXIT_SUCCESS);
 }
-
