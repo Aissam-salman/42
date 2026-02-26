@@ -281,6 +281,7 @@ int sleeping(t_philo *philo)
 		pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
 		return (1);
 	}
+	pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
 	if (gettimeofday(&tv, NULL) == -1)
 	{
 		perror("gettimeofday");
@@ -308,6 +309,7 @@ int think(t_philo *philo)
 		pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
 		return (1);
 	}
+	pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
 	if (gettimeofday(&tv, NULL) == -1)
 	{
 		perror("gettimeofday");
@@ -453,7 +455,7 @@ void	*thread_routine_reaper(void *data)
 				return (NULL);
 			}
 			current_time = (tv.tv_sec * 1000 + tv.tv_usec / 1000);
- // *  Mark last eat TE of philo, if (time current - TE) > time_to_die  ->>>> died
+			 // *  Mark last eat TE of philo, if (time current - TE) > time_to_die  ->>>> died
 			pthread_mutex_lock(&table->philo[i].let->last_eat_times_mutex);
 			if ((current_time - table->philo[i].let->last_eat_times) > table->time_to_die)
 			{
@@ -487,7 +489,8 @@ void	run_thread(t_table *table)
 		pthread_create(&(philos[i].tid), NULL, thread_routine_philo,
 			(void *)&philos[i]);
 		// WARN: maybe need split time for precision
-		usleep(500);
+		if (i % 2 == 0)
+			usleep(500);
 		i++;
 	}
 	pthread_create(&table->reaper, NULL, *thread_routine_reaper, (void *)table);
