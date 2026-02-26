@@ -86,8 +86,15 @@ void	join_all(t_table *table)
 	pthread_join(table->reaper, NULL);
 }
 
-void	print_action(t_action action, int time, int index)
+void	print_action(t_philo *philo, t_action action, int time, int index)
 {
+	pthread_mutex_lock(&philo->table->stoper->stop_mutex);
+	if (philo->table->stoper->stop == 1)
+	{
+		pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
 	if (action == EAT)
 		printf("[%d] %d has eat\n", time, index + 1);
 	else if (action == SLEEP)
@@ -241,16 +248,16 @@ int eat(t_philo *philo)
 
 	pthread_mutex_lock(&philo->table->fork[min]);
 	pthread_mutex_lock(&philo->table->print_lock);
-	print_action(TAKE, current_time - philo->table->time_start, philo->index);
+	print_action(philo, TAKE, current_time - philo->table->time_start, philo->index);
 	pthread_mutex_unlock(&philo->table->print_lock);
 
 	pthread_mutex_lock(&philo->table->fork[max]);
 	pthread_mutex_lock(&philo->table->print_lock);
-	print_action(TAKE, current_time - philo->table->time_start, philo->index);
+	print_action(philo, TAKE, current_time - philo->table->time_start, philo->index);
 	pthread_mutex_unlock(&philo->table->print_lock);
 
 	pthread_mutex_lock(&philo->table->print_lock);
-	print_action(EAT, current_time - philo->table->time_start, philo->index);
+	print_action(philo, EAT, current_time - philo->table->time_start, philo->index);
 	pthread_mutex_unlock(&philo->table->print_lock);
 
 	if (gettimeofday(&tv, NULL) == -1)
@@ -289,7 +296,7 @@ int sleeping(t_philo *philo)
 	}
 	current_time = (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 	pthread_mutex_lock(&philo->table->print_lock);
-	print_action(SLEEP, current_time - philo->table->time_start, philo->index);
+	print_action(philo, SLEEP, current_time - philo->table->time_start, philo->index);
 	pthread_mutex_unlock(&philo->table->print_lock);
 
 	usleep(philo->table->time_to_sleep * 1000);
@@ -317,9 +324,9 @@ int think(t_philo *philo)
 	}
 	current_time = (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 	pthread_mutex_lock(&philo->table->print_lock);
-	print_action(THINK, current_time - philo->table->time_start, philo->index);
+	print_action(philo, THINK, current_time - philo->table->time_start, philo->index);
 	pthread_mutex_unlock(&philo->table->print_lock);
-	usleep(philo->table->time_to_sleep * 1000);
+	usleep(500);
 	return (0);
 }
 
@@ -464,7 +471,7 @@ void	*thread_routine_reaper(void *data)
 				pthread_mutex_unlock(&table->stoper->stop_mutex);
 				pthread_mutex_unlock(&table->philo[i].let->last_eat_times_mutex);
 				pthread_mutex_lock(&table->print_lock);
-				print_action(DIED, current_time - table->time_start, table->philo[i].index);
+				print_action(&table->philo[i], DIED, current_time - table->time_start, table->philo[i].index);
 				pthread_mutex_unlock(&table->print_lock);
 				return (NULL);
 			}
@@ -493,7 +500,7 @@ void	run_thread(t_table *table)
 			usleep(500);
 		i++;
 	}
-	pthread_create(&table->reaper, NULL, *thread_routine_reaper, (void *)table);
+	pthread_create(&table->reaper, NULL, thread_routine_reaper, (void *)table);
 }
 
 
@@ -520,7 +527,7 @@ void	init(char **av)
 		return ;
 	}
 	table->stoper = malloc(sizeof(t_stop));
-	if (!table)
+	if (!table->stoper)
 	{
 		printf("malloc\n");
 		return ;
