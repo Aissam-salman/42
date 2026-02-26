@@ -20,34 +20,6 @@
 #define TRUE 1
 #define FALSE 0
 
-/*
-// cc -pthread -fsanitize=thread -g  (contre data race)
- *  1 seconds = 1000 milli
- *  1000 microseconds = 1 milliseconds   formula
-	/ 1000  usleep(1* 1000) for 1 mls
- *
- *  ac -> min 5, max 6
-
-	*  ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
- *
- *  philo 1 -> N
- *
- *  Debut: mark T0 avec le timestamps gettimeofday * 1000
- *  Ta(nv timestamps a chq action) - T0 = timestamps a afficher
- *
- *  Mark last eat TE of philo, if (time current - TE) > time_to_die  ->>>> died
- *
- *  print X whith the philo number
- *  timestamp_in_ms X has taken a fork
- *  timestamp_in_ms X is eating
- *  timestamp_in_ms X is sleeping
- *  timestamp_in_ms X is thinking
- *  timestamp_in_ms X died , dans les 10ms of their actual death
- *
- *  Monitor qui verif si un philo est mort et arret la simu si oui
- *
- * pthread_mutex_t forks[5];
- */
 /////////////////////////////////////// STRUCT PHILO
 
 typedef enum e_action
@@ -98,6 +70,21 @@ typedef struct s_table
 
 
 /////////////////////////////////////// STRUCT PHILO
+
+void	join_all(t_table *table)
+{
+	size_t	i;
+	t_philo *philo;
+
+	philo = table->philo;
+	i = 0;
+	while (i < table->nb_philo)
+	{
+		pthread_join(philo[i].tid, NULL);
+		i++;
+	}
+	pthread_join(table->reaper, NULL);
+}
 
 void	print_action(t_action action, int time, int index)
 {
@@ -222,25 +209,6 @@ void	print_table(t_table *table)
 	if (table->nb_times_must_eat)
 		printf("nb_times_must_eat: %ld\n", table->nb_times_must_eat);
 }
-	// 
-	//*  Mark last eat TE of philo, if (time current - TE) > time_to_die
-	// t_counter	*counter;
-	// int			i;
-	//
-	// pthread_mutex_lock(&counter->count_mutex);
-	// printf("Thread [%ld]: count start: %d\n", tid, counter->count);
-	// pthread_mutex_unlock(&counter->count_mutex);
-	// i = 0;
-	// while (i < TIMES)
-	// {
-	// 	pthread_mutex_lock(&counter->count_mutex);
-	// 	counter->count++;
-	// 	pthread_mutex_unlock(&counter->count_mutex);
-	// 	i++;
-	// }
-	// pthread_mutex_lock(&counter->count_mutex);
-	// printf("Thread [%ld]: count final: %d\n", tid, counter->count);
-	// pthread_mutex_unlock(&counter->count_mutex);
 
 size_t get_min(int x, int y)
 {
@@ -268,39 +236,38 @@ int eat(t_philo *philo)
 		return (1);
 	}
 	current_time = (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-	if ((current_time - philo->table->time_start) > philo->table->time_to_die)
-	{
-		pthread_mutex_lock(&philo->table->print_lock);
-		print_action(DIED, current_time - philo->table->time_start, philo->index);
-		pthread_mutex_unlock(&philo->table->print_lock);
-		return (1);
-	}
-	min = get_min(philo->index, philo->index + 1 % philo->table->nb_philo);
-	max = get_min(philo->index, philo->index + 1 % philo->table->nb_philo);
+	min = get_min(philo->index, (philo->index + 1) % philo->table->nb_philo);
+	max = get_max(philo->index, (philo->index + 1) % philo->table->nb_philo);
+
 	pthread_mutex_lock(&philo->table->fork[min]);
 	pthread_mutex_lock(&philo->table->print_lock);
 	print_action(TAKE, current_time - philo->table->time_start, philo->index);
 	pthread_mutex_unlock(&philo->table->print_lock);
+
 	pthread_mutex_lock(&philo->table->fork[max]);
 	pthread_mutex_lock(&philo->table->print_lock);
 	print_action(TAKE, current_time - philo->table->time_start, philo->index);
 	pthread_mutex_unlock(&philo->table->print_lock);
-	usleep(philo->table->time_to_eat * 1000);
+
+	pthread_mutex_lock(&philo->table->print_lock);
+	print_action(EAT, current_time - philo->table->time_start, philo->index);
+	pthread_mutex_unlock(&philo->table->print_lock);
+
 	if (gettimeofday(&tv, NULL) == -1)
 	{
 		perror("gettimeofday");
 		return (1);
 	}
 	current_time = (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-	pthread_mutex_lock(&philo->table->print_lock);
-	print_action(EAT, current_time - philo->table->time_start, philo->index);
-	pthread_mutex_unlock(&philo->table->print_lock);
+	pthread_mutex_lock(&philo->let->last_eat_times_mutex);
+	philo->let->last_eat_times = current_time;
+	pthread_mutex_unlock(&philo->let->last_eat_times_mutex);
+	usleep(philo->table->time_to_eat * 1000);
+
 	pthread_mutex_unlock(&philo->table->fork[min]);
 	pthread_mutex_unlock(&philo->table->fork[max]);
-	pthread_mutex_lock(&philo->let->last_eat_times_mutex);
-	philo->let->last_eat_times = current_time - philo->table->time_start;
-	pthread_mutex_unlock(&philo->let->last_eat_times_mutex);
-	return (1);
+
+	return (0);
 }
 
 int sleeping(t_philo *philo)
@@ -308,7 +275,12 @@ int sleeping(t_philo *philo)
 	struct timeval tv;
 	size_t current_time;
 
-	usleep(philo->table->time_to_sleep * 1000);
+	pthread_mutex_lock(&philo->table->stoper->stop_mutex);
+	if (philo->table->stoper->stop == 1)
+	{
+		pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
+		return (1);
+	}
 	if (gettimeofday(&tv, NULL) == -1)
 	{
 		perror("gettimeofday");
@@ -318,6 +290,9 @@ int sleeping(t_philo *philo)
 	pthread_mutex_lock(&philo->table->print_lock);
 	print_action(SLEEP, current_time - philo->table->time_start, philo->index);
 	pthread_mutex_unlock(&philo->table->print_lock);
+
+	usleep(philo->table->time_to_sleep * 1000);
+
 	return (0);
 
 }
@@ -327,7 +302,12 @@ int think(t_philo *philo)
 	struct timeval tv;
 	size_t current_time;
 
-	usleep(philo->table->time_to_sleep * 1000);
+	pthread_mutex_lock(&philo->table->stoper->stop_mutex);
+	if (philo->table->stoper->stop == 1)
+	{
+		pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
+		return (1);
+	}
 	if (gettimeofday(&tv, NULL) == -1)
 	{
 		perror("gettimeofday");
@@ -337,6 +317,7 @@ int think(t_philo *philo)
 	pthread_mutex_lock(&philo->table->print_lock);
 	print_action(THINK, current_time - philo->table->time_start, philo->index);
 	pthread_mutex_unlock(&philo->table->print_lock);
+	usleep(philo->table->time_to_sleep * 1000);
 	return (0);
 }
 
@@ -347,18 +328,33 @@ void	*thread_routine_philo(void *data)
 	philo = (t_philo *)data;
 	while (1)
 	{
+		if (eat(philo))
+			return (NULL);
 		pthread_mutex_lock(&philo->table->stoper->stop_mutex);
-		if (philo->table->stoper->stop)
+		if (philo->table->stoper->stop == 1)
 		{
 			pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
 			return (NULL);
 		}
-		if (eat(philo))
-			return (NULL);
+		pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
 		if (sleeping(philo))
 			return (NULL);
+		pthread_mutex_lock(&philo->table->stoper->stop_mutex);
+		if (philo->table->stoper->stop == 1)
+		{
+			pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
+			return (NULL);
+		}
+		pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
 		if (think(philo))
 			return (NULL);
+		pthread_mutex_lock(&philo->table->stoper->stop_mutex);
+		if (philo->table->stoper->stop == 1)
+		{
+			pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
+			return (NULL);
+		}
+		pthread_mutex_unlock(&philo->table->stoper->stop_mutex);
 	}
 	return (NULL);
 }
@@ -367,6 +363,7 @@ void init_philo(t_table *table)
 {
 	t_philo	*philo;
 	size_t	i;
+	struct timeval tv;
 
 	philo = malloc(sizeof(t_philo) * table->nb_philo);
 	if (!philo)
@@ -375,6 +372,11 @@ void init_philo(t_table *table)
 		return ;
 	}
 	i = 0;
+	if (gettimeofday(&tv, NULL) == -1)
+	{
+		perror("gettimeofday");
+		return ;
+	}
 	while (i < table->nb_philo)
 	{
 		philo[i].table = table;
@@ -383,7 +385,7 @@ void init_philo(t_table *table)
 		philo[i].let = malloc(sizeof(t_let));
 		if (!philo[i].let)
 			return ;
-		philo[i].let->last_eat_times = 0;
+		philo[i].let->last_eat_times = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 		philo[i].nb_times_must_eat = table->nb_times_must_eat;
 		i++;
 	}
@@ -401,7 +403,7 @@ void	init_all_mutex(t_table *table)
 	if (pthread_mutex_init(&table->print_lock, NULL) != 0)
 		return ;
 	i = 0;
-	while (i < table->nb_times_must_eat)
+	while (i < table->nb_philo)
 	{
 		if (pthread_mutex_init(&table->fork[i], NULL) != 0)
 			return ;
@@ -422,7 +424,7 @@ void	destroy_all_mutex(t_table *table)
 	if (pthread_mutex_destroy(&table->print_lock) != 0)
 		return ;
 	i = 0;
-	while (i < table->nb_times_must_eat)
+	while (i < table->nb_philo)
 	{
 		if (pthread_mutex_destroy(&table->fork[i]) != 0)
 			return ;
@@ -435,9 +437,41 @@ void	destroy_all_mutex(t_table *table)
 void	*thread_routine_reaper(void *data)
 {
 	t_table *table;
+	size_t i;
+	size_t current_time;
+	struct timeval tv;
 
 	table = (t_table *)data;
-	(void)table;
+	while (1)
+	{
+		i = 0;
+		while (i < table->nb_philo)
+		{
+			if (gettimeofday(&tv, NULL) == -1)
+			{
+				perror("gettimeofday");
+				return (NULL);
+			}
+			current_time = (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+ // *  Mark last eat TE of philo, if (time current - TE) > time_to_die  ->>>> died
+			pthread_mutex_lock(&table->philo[i].let->last_eat_times_mutex);
+			if ((current_time - table->philo[i].let->last_eat_times) > table->time_to_die)
+			{
+				pthread_mutex_lock(&table->stoper->stop_mutex);
+				table->stoper->stop = 1;
+				pthread_mutex_unlock(&table->stoper->stop_mutex);
+				pthread_mutex_unlock(&table->philo[i].let->last_eat_times_mutex);
+				pthread_mutex_lock(&table->print_lock);
+				print_action(DIED, current_time - table->time_start, table->philo[i].index);
+				pthread_mutex_unlock(&table->print_lock);
+				return (NULL);
+			}
+			pthread_mutex_unlock(&table->philo[i].let->last_eat_times_mutex);
+			i++;
+		}
+		usleep(100);
+	}
+
 	return (NULL);
 }
 
@@ -453,26 +487,12 @@ void	run_thread(t_table *table)
 		pthread_create(&(philos[i].tid), NULL, thread_routine_philo,
 			(void *)&philos[i]);
 		// WARN: maybe need split time for precision
-		usleep(1000);
+		usleep(500);
 		i++;
 	}
 	pthread_create(&table->reaper, NULL, *thread_routine_reaper, (void *)table);
 }
 
-void	join_all(t_table *table)
-{
-	size_t	i;
-	t_philo *philo;
-
-	philo = table->philo;
-	i = 0;
-	while (i < table->nb_philo)
-	{
-		pthread_join(philo[i].tid, NULL);
-		i++;
-	}
-	pthread_join(table->reaper, NULL);
-}
 
 void	init(char **av)
 {
