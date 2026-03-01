@@ -4,7 +4,7 @@ SRC = src/main.c
 OBJS := $(SRC:%.c=%.o)
 
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread -g
+CCFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=address -g
 INC_DIR = includes
 CCIFLAGS = -I$(INC_DIR)
 RM = rm -f

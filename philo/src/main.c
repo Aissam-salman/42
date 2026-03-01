@@ -537,7 +537,6 @@ void	run_thread(t_table *table)
 	{
 		pthread_create(&(philos[i].tid), NULL, thread_routine_philo,
 			(void *)&philos[i]);
-		// WARN: maybe need split time for precision
 		if (i % 2 == 0)
 			usleep(500);
 		i++;
@@ -545,6 +544,36 @@ void	run_thread(t_table *table)
 	pthread_create(&table->reaper, NULL, thread_routine_reaper, (void *)table);
 }
 
+void free_arr(t_philo *philo, size_t nb_philo)
+{
+	size_t i;
+
+	if (!philo)
+		return;
+	i = 0;
+	while (i < nb_philo)
+	{
+		free(philo[i].nb_h_eat);
+		free(philo[i].let);
+		i++;
+	}
+	free(philo);
+}
+
+void free_all(t_table *table)
+{
+	if (!table)
+		return;
+	if (table->philo)
+		free_arr(table->philo, table->nb_philo);
+	if (table->fork)
+		free(table->fork);
+	if (table->stoper)
+		free(table->stoper);
+	if (table->nb_eat)
+		free(table->nb_eat);
+	free(table);
+}
 
 void	init(char **av)
 {
@@ -560,6 +589,15 @@ void	init(char **av)
 		return ;
 	}
 	table->time_start = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	table->nb_eat = malloc(sizeof(t_must_be_eat));
+	if (!table->nb_eat)
+	{
+		printf("malloc\n");
+		return ;
+	}
+	table->nb_eat->nb_times_must_eat = 0;
+	if (!fill_table(table, av))
+		return ;
 	table->fork = malloc(sizeof(pthread_mutex_t) * table->nb_philo);
 	if (!table->fork)
 	{
@@ -573,20 +611,12 @@ void	init(char **av)
 		return ;
 	}
 	table->stoper->stop = 0;
-	table->nb_eat = malloc(sizeof(t_must_be_eat));
-	if (!table->nb_eat)
-	{
-		printf("malloc\n");
-		return ;
-	}
-	table->nb_eat->nb_times_must_eat = 0;
-	if (!fill_table(table, av))
-		return ;
 	init_philo(table);
 	init_all_mutex(table);
 	run_thread(table);
 	join_all(table);
 	destroy_all_mutex(table);
+	free_all(table);
 }
 
 int	main(int ac, char **av)
