@@ -93,6 +93,6 @@ int	think(t_philo *philo)
 	print_action(philo, THINK, current_time - philo->table->time_start,
 		philo->index);
 	pthread_mutex_unlock(&philo->table->print_lock);
-	usleep(500);
+	usleep(300);
 	return (0);
 }

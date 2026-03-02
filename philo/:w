@@ -19,17 +19,15 @@ int	join_all(t_table *table)
 
 	philo = table->philo;
 	i = 0;
-	if (table->nb_philo > 1)
+	while (i < table->nb_philo)
 	{
-		while (i < table->nb_philo)
-		{
-			if (pthread_join(philo[i].tid, NULL) != 0)
-				return (1);
-			i++;
-		}
+		if (pthread_join(philo[i].tid, NULL) != 0)
+			return (1);
+		i++;
 	}
 	if (pthread_join(table->reaper, NULL) != 0)
 		return (1);
+	printf("foo: %zu\n", table->nb_philo);
 	return (0);
 }
 

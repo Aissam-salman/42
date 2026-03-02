@@ -14,14 +14,14 @@
 
 static int	reaper_detect_dead(t_table *table, size_t current_time, size_t i)
 {
-	pthread_mutex_lock(&table->stoper->stop_mutex);
-	table->stoper->stop = 1;
-	pthread_mutex_unlock(&table->stoper->stop_mutex);
-	pthread_mutex_unlock(&table->philo[i].let->last_eat_times_mutex);
 	pthread_mutex_lock(&table->print_lock);
 	print_action(&table->philo[i], DIED, current_time - table->time_start,
 		table->philo[i].index);
 	pthread_mutex_unlock(&table->print_lock);
+	pthread_mutex_lock(&table->stoper->stop_mutex);
+	table->stoper->stop = 1;
+	pthread_mutex_unlock(&table->stoper->stop_mutex);
+	pthread_mutex_unlock(&table->philo[i].let->last_eat_times_mutex);
 	return (1);
 }
 
@@ -51,8 +51,7 @@ static int	reaper_check_philo(t_table *table, size_t *all_eat)
 		pthread_mutex_lock(&table->philo[i].nb_h_eat->nb_have_eat_mutex);
 		if (table->nb_eat->nb_times_must_eat > 0)
 		{
-			if (table->philo[i].nb_h_eat->nb_have_eat
-				>= table->nb_eat->nb_times_must_eat)
+			if (table->philo[i].nb_h_eat->nb_have_eat >= table->nb_eat->nb_times_must_eat)
 				*all_eat = *all_eat + 1;
 		}
 		pthread_mutex_unlock(&table->philo[i].nb_h_eat->nb_have_eat_mutex);
