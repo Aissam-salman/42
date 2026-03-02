@@ -1,6 +1,17 @@
 NAME = philo
 
-SRC = src/main.c 
+SRC = src/action.c \
+	src/init_data.c \
+	src/main.c \
+	src/memory.c \
+	src/mutex.c \
+	src/philo_routine.c \
+	src/print.c \
+	src/reaper.c \
+	src/run.c \
+	src/utils.c \
+	src/utils2.c
+
 OBJS := $(SRC:%.c=%.o)
 
 CC = cc

@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:14:23 by alamjada          #+#    #+#             */
-/*   Updated: 2026/01/19 16:14:45 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/03/02 12:37:42 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,45 @@ typedef struct s_table
 	pthread_t		reaper;
 	t_philo			*philo;
 }					t_table;
+
+// SRC/INIT.C
+int					init(t_table *table, char **av);
+
+// SRC/UTILS.C
+int					get_current_time(size_t *time);
+size_t				get_min(int x, int y);
+size_t				get_max(int x, int y);
+size_t				ft_atol(char *str);
+
+// SRC/UTILS2.C
+int					ft_isdigit(char c);
+int					is_valid_params(int ac, char **av);
+
+// SRC/MUTEX.C
+int					init_all_mutex(t_table *table);
+int					destroy_all_mutex(t_table *table);
+
+// SRC/RUN.C
+int					run(t_table *table);
+
+// SRC/PRINT.C
+void				print_action(t_philo *philo, t_action action, int time,
+						int index);
+void				print_params(void);
+
+// SRC/MEMORY.C
+void				free_arr(t_philo *philo, size_t nb_philo);
+void				free_all(t_table *table);
+
+// SRC/REAPER.C
+void				*thread_routine_reaper(void *data);
+
+// SRC/PHILO_ROUTINE.C
+void				*thread_routine_philo(void *data);
+
+// SRC/ACTION.C
+int					think(t_philo *philo);
+int					sleeping(t_philo *philo);
+int					eat(t_philo *philo);
 
 #endif
