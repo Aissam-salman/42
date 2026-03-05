@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 12:22:23 by alamjada          #+#    #+#             */
-/*   Updated: 2026/03/02 12:39:32 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/03/05 20:46:04 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,16 @@ int	join_all(t_table *table)
 	size_t	i;
 	t_philo	*philo;
 
-	philo = table->philo;
-	i = 0;
-	if (table->nb_philo > 1)
-	{
-		while (i < table->nb_philo)
-		{
-			if (pthread_join(philo[i].tid, NULL) != 0)
-				return (1);
-			i++;
-		}
-	}
 	if (pthread_join(table->reaper, NULL) != 0)
 		return (1);
+	philo = table->philo;
+	i = 0;
+	while (i < table->nb_philo)
+	{
+		if (pthread_join(philo[i].tid, NULL) != 0)
+			return (1);
+		i++;
+	}
 	return (0);
 }
 

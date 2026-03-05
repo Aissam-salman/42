@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 12:30:59 by alamjada          #+#    #+#             */
-/*   Updated: 2026/03/02 12:42:49 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/03/05 20:41:54 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,15 @@ int	eat(t_philo *philo)
 
 	if (get_current_time(&current_time) == -1)
 		return (1);
+	if (philo->table->nb_philo == 1)
+	{
+		pthread_mutex_lock(&philo->table->print_lock);
+		print_action(philo, TAKE, current_time - philo->table->time_start,
+			philo->index);
+		pthread_mutex_unlock(&philo->table->print_lock);
+		usleep(philo->table->time_to_die * 1000);
+		return (1);
+	}
 	min = get_min(philo->index, (philo->index + 1) % philo->table->nb_philo);
 	max = get_max(philo->index, (philo->index + 1) % philo->table->nb_philo);
 	pthread_mutex_lock(&philo->table->fork[min]);

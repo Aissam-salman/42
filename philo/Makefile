@@ -15,7 +15,7 @@ SRC = src/action.c \
 OBJS := $(SRC:%.c=%.o)
 
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=address -g
+CCFLAGS = -Wall -Wextra -Werror -pthread -g
 INC_DIR = includes
 CCIFLAGS = -I$(INC_DIR)
 RM = rm -f
