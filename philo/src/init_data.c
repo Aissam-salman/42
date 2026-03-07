@@ -60,7 +60,7 @@ static int	fill_table(t_table *table, char **av)
 	table->nb_philo = ft_atol(av[1]);
 	if (table->nb_philo <= 0)
 	{
-		printf("Insuffisant philo must be > 1");
+		printf("Insuffisant philo must be > 0");
 		return (1);
 	}
 	table->time_to_die = ft_atol(av[2]);

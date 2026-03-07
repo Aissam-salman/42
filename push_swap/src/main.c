@@ -14,6 +14,7 @@
 
 int	main(int ac, char **av)
 {
+
 	t_node	*stack;
 	int		len;
 	char	**params;
