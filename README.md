@@ -66,4 +66,14 @@
 
 ## Minitalk
 
-##FDF
+## Fractol
+
+## Push_swap
+
+## Minishell
+
+## Philosopers
+
+## NetPratice
+
+## Cube3D
