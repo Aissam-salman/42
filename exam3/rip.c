@@ -12,14 +12,6 @@
 
 #include <stdio.h>
 
-int ft_strlen(char *s)
-{
-	int i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
 void solve(char *source, int i, int nb_open, int nb_close, int score)
 {
 	if (score < 0 || nb_open < 0 || nb_close < 0)
