@@ -1,0 +1,74 @@
+[
+  {
+    "file": "src/core/game.c",
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g3",
+      "-Wno-cast-function-type",
+      "-MMD",
+      "-MP",
+      "-I.",
+      "-Iincludes",
+      "-Ilibft",
+      "-Ilibft/includes",
+      "-Iminilibx-linux",
+      "-c",
+      "src/core/game.c",
+      "-o",
+      "objs/src/core/game.o"
+    ],
+    "directory": "/home/salman/Work/LAB/42/cub3d",
+    "output": "objs/src/core/game.o"
+  },
+  {
+    "file": "src/parsing/parsing.c",
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g3",
+      "-Wno-cast-function-type",
+      "-MMD",
+      "-MP",
+      "-I.",
+      "-Iincludes",
+      "-Ilibft",
+      "-Ilibft/includes",
+      "-Iminilibx-linux",
+      "-c",
+      "src/parsing/parsing.c",
+      "-o",
+      "objs/src/parsing/parsing.o"
+    ],
+    "directory": "/home/salman/Work/LAB/42/cub3d",
+    "output": "objs/src/parsing/parsing.o"
+  },
+  {
+    "file": "src/render/imgs_init.c",
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g3",
+      "-Wno-cast-function-type",
+      "-MMD",
+      "-MP",
+      "-I.",
+      "-Iincludes",
+      "-Ilibft",
+      "-Ilibft/includes",
+      "-Iminilibx-linux",
+      "-c",
+      "src/render/imgs_init.c",
+      "-o",
+      "objs/src/render/imgs_init.o"
+    ],
+    "directory": "/home/salman/Work/LAB/42/cub3d",
+    "output": "objs/src/render/imgs_init.o"
+  }
+]
