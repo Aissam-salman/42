@@ -20,7 +20,8 @@ public:
   PhoneBook(void);
   ~PhoneBook(void);
 
-  void add(Contact newContact);
+	void start(void);
+  void add(void);
   void search(void);
   void exit(void);
 

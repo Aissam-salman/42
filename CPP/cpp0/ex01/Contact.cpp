@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Contact.hpp"
+#include <iostream>
 #include <string>
 
 Contact::Contact(void) {}
@@ -23,29 +24,58 @@ std::string Contact::getLastname(void) const { return this->_lastname; }
 std::string Contact::getNickname(void) const { return this->_nickname; }
 int Contact::getIndex(void) const { return this->_index; }
 
-void Contact::setNumber(std::string newNumber) {
+int Contact::setNumber(std::string newNumber) {
   if (newNumber.length() != 10)
-    return;
+	{
+		std::cout << "Invalid number!\n";
+    return (1);
+	}
   this->_number = newNumber;
-  return;
+  return (0);
 }
-void Contact::setFirstname(std::string newFirstname) {
-  if (!newFirstname.empty())
-    this->_firstname = newFirstname;
-  return;
+int Contact::setFirstname(std::string newFirstname) {
+  if (newFirstname.empty())
+		return (1);
+	this->_firstname = newFirstname;
+  return (0);
 }
-void Contact::setLastname(std::string newLastname) {
-  if (!newLastname.empty())
-    this->_lastname = newLastname;
-  return;
+int Contact::setLastname(std::string newLastname) {
+  if (newLastname.empty())
+		return (1);
+	this->_lastname = newLastname;
+  return (0);
 }
-void Contact::setNickname(std::string newNickname) {
-  if (!newNickname.empty())
-    this->_nickname = newNickname;
-  return;
+int Contact::setNickname(std::string newNickname) {
+  if (newNickname.empty())
+		return (1);
+	this->_nickname = newNickname;
+  return (0);
 }
-void Contact::setIndex(int newIndex) {
+int Contact::setIndex(int newIndex) {
   if (newIndex >= 0 && newIndex <= 8)
+	{
     this->_index = newIndex;
-  return;
+		return (0);
+	}
+  return (1);
+}
+
+void Contact::create(void) {
+	std::string fn;
+	std::string ln;
+	std::string nn;
+	std::string nb;
+
+  std::cout << "Firstname: ";
+  std::cin >> fn;
+  std::cout << "Lastname: ";
+  std::cin >> ln;
+  std::cout << "Nickname: ";
+  std::cin >> nn;
+  std::cout << "Numero: ";
+  std::cin >> nb;
+	this->setFirstname(fn);
+	this->setLastname(ln);
+	this->setNickname(nn);
+	this->setNumber(nb);
 }

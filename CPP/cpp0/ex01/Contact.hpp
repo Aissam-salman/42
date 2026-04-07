@@ -27,11 +27,12 @@ public:
   std::string getNickname(void) const;
   int getIndex(void) const;
 
-  void setNumber(std::string newNumber);
-  void setFirstname(std::string newFirstname);
-  void setLastname(std::string newLastname);
-  void setNickname(std::string newNickname);
-  void setIndex(int newIndex);
+  int setNumber(std::string newNumber);
+  int setFirstname(std::string newFirstname);
+  int setLastname(std::string newLastname);
+  int setNickname(std::string newNickname);
+  int setIndex(int newIndex);
+	void create(void);
 
 private:
   std::string _number;

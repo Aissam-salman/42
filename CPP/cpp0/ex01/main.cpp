@@ -17,30 +17,28 @@
 
 int main() {
   PhoneBook phone;
+	int input;
 
-  Contact contact;
-	//  std::string newFirstname;
-	//  std::string newLastname;
-	//  std::string newNickname;
-	// std::string number;
-	//
-	//  std::cout << "Firstname: ";
-	//  std::cin >> newFirstname;
-	//  std::cout << "Lastname: ";
-	//  std::cin >> newLastname;
-	//  std::cout << "Nickname: ";
-	//  std::cin >> newNickname;
-	//  std::cout << "Numero: ";
-	//  std::cin >> number;
 
-	contact.setIndex(0);
-  contact.setFirstname("012345678910");
-	contact.setLastname("Lamjada");
-	contact.setNickname("salman");
-	contact.setNumber("0620200203");
-
-	phone.add(contact);
-	phone.search();
-	// phone.exit();
+	input = 0;
+	while (input != 3)
+	{
+		phone.start();
+		std::cin >> input; 
+		std::cout << "\n";
+		switch (input) {
+			case 1: 
+				phone.search();
+				break;
+			case 2:
+				phone.add();
+				break;
+			case 3:
+				phone.exit();
+				break;
+			default:
+				std::cout << "1, 2 or 3 only!\n";
+		}
+	}
   return (0);
 }
