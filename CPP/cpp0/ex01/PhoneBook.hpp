@@ -25,7 +25,6 @@ public:
   void exit(void);
 
   void increaseNbContact(void);
-  void decreaseNbContact(void);
   int getNbContact(void) const;
 
 private:

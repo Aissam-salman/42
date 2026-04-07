@@ -10,14 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Contact.hpp"
 #include "PhoneBook.hpp"
 #include <iostream>
+#include <unistd.h>
 
 int main() {
-  std::cout << "Cou" << std::endl;
+  PhoneBook phone;
 
-	PhoneBook ph;
+  Contact contact;
+	//  std::string newFirstname;
+	//  std::string newLastname;
+	//  std::string newNickname;
+	// std::string number;
+	//
+	//  std::cout << "Firstname: ";
+	//  std::cin >> newFirstname;
+	//  std::cout << "Lastname: ";
+	//  std::cin >> newLastname;
+	//  std::cout << "Nickname: ";
+	//  std::cin >> newNickname;
+	//  std::cout << "Numero: ";
+	//  std::cin >> number;
 
-	
+	contact.setIndex(0);
+  contact.setFirstname("012345678910");
+	contact.setLastname("Lamjada");
+	contact.setNickname("salman");
+	contact.setNumber("0620200203");
+
+	phone.add(contact);
+	phone.search();
+	// phone.exit();
   return (0);
 }
