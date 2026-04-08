@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "Contact.hpp"
+#include <cctype>
+#include <cstddef>
 #include <iostream>
 #include <string>
 
@@ -24,58 +26,99 @@ std::string Contact::getLastname(void) const { return this->_lastname; }
 std::string Contact::getNickname(void) const { return this->_nickname; }
 int Contact::getIndex(void) const { return this->_index; }
 
+static int ft_is_digit_only(std::string nb) {
+  for (size_t i = 0; i < nb.length(); i++) {
+    if (!std::isdigit(nb[i]))
+      return (1);
+  }
+  return (0);
+}
+
+static int ft_is_alpha_only(std::string str) {
+  for (size_t i = 0; i < str.length(); i++) {
+    if (!std::isalpha(str[i]))
+      return (1);
+  }
+  return (0);
+}
+
 int Contact::setNumber(std::string newNumber) {
-  if (newNumber.length() != 10)
-	{
-		std::cout << "Invalid number!\n";
-    return (1);
-	}
+  if (newNumber.length() != 10 || ft_is_digit_only(newNumber)) {
+    std::cout << "Invalid number!\n";
+    return (0);
+  }
   this->_number = newNumber;
-  return (0);
-}
-int Contact::setFirstname(std::string newFirstname) {
-  if (newFirstname.empty())
-		return (1);
-	this->_firstname = newFirstname;
-  return (0);
-}
-int Contact::setLastname(std::string newLastname) {
-  if (newLastname.empty())
-		return (1);
-	this->_lastname = newLastname;
-  return (0);
-}
-int Contact::setNickname(std::string newNickname) {
-  if (newNickname.empty())
-		return (1);
-	this->_nickname = newNickname;
-  return (0);
-}
-int Contact::setIndex(int newIndex) {
-  if (newIndex >= 0 && newIndex <= 8)
-	{
-    this->_index = newIndex;
-		return (0);
-	}
   return (1);
 }
 
-void Contact::create(void) {
-	std::string fn;
-	std::string ln;
-	std::string nn;
-	std::string nb;
+int Contact::setFirstname(std::string newFirstname) {
+  if (newFirstname.empty() || ft_is_alpha_only(newFirstname)) {
+    std::cout << "Empty or not alpha not allowed!\n";
+    return (0);
+  }
+  this->_firstname = newFirstname;
+  return (1);
+}
 
-  std::cout << "Firstname: ";
-  std::cin >> fn;
-  std::cout << "Lastname: ";
-  std::cin >> ln;
-  std::cout << "Nickname: ";
-  std::cin >> nn;
-  std::cout << "Numero: ";
-  std::cin >> nb;
-	this->setFirstname(fn);
-	this->setLastname(ln);
-	this->setNickname(nn);
-	this->setNumber(nb);
+int Contact::setLastname(std::string newLastname) {
+  if (newLastname.empty() || ft_is_alpha_only(newLastname)) {
+    std::cout << "Empty or not alpha not allowed!\n";
+    return (0);
+  }
+  this->_lastname = newLastname;
+  return (1);
+}
+
+int Contact::setNickname(std::string newNickname) {
+  if (newNickname.empty() || ft_is_alpha_only(newNickname)) {
+    std::cout << "Empty or not alpha not allowed!\n";
+    return (0);
+  }
+  this->_nickname = newNickname;
+  return (1);
+}
+
+int Contact::setIndex(int newIndex) {
+  if (newIndex >= 0 && newIndex <= 8) {
+    this->_index = newIndex;
+    return (1);
+  }
+  return (0);
+}
+
+void Contact::create(void) {
+  std::string fn;
+  std::string ln;
+  std::string nn;
+  std::string nb;
+
+  int count = 0;
+  while (count != 1) {
+    std::cout << "Firstname: ";
+    std::cin >> fn;
+    count += this->setFirstname(fn);
+  }
+  while (count != 2) {
+    std::cout << "Lastname: ";
+    std::cin >> ln;
+    count += this->setLastname(ln);
+  }
+  while (count != 3) {
+    std::cout << "Nickname: ";
+    std::cin >> nn;
+    count += this->setNickname(nn);
+  }
+  while (count != 4) {
+    std::cout << "Numero: ";
+    std::cin >> nb;
+    count += this->setNumber(nb);
+  }
+}
+
+void Contact::generate(std::string fn, std::string ln, std::string nn,
+                       std::string nb) {
+  this->setFirstname(fn);
+  this->setLastname(ln);
+  this->setNickname(nn);
+  this->setNumber(nb);
 }

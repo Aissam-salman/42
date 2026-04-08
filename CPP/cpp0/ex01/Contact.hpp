@@ -33,6 +33,7 @@ public:
   int setNickname(std::string newNickname);
   int setIndex(int newIndex);
 	void create(void);
+	void generate(std::string fn, std::string ln, std::string nn, std::string nb);
 
 private:
   std::string _number;

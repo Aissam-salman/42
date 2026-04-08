@@ -1,4 +1,3 @@
-/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   PhoneBook.cpp                                      :+:      :+:    :+:   */
@@ -17,16 +16,17 @@
 #include <ios>
 #include <iostream>
 
-PhoneBook::PhoneBook(void) : _nbContact(0) {}
+PhoneBook::PhoneBook(void) : _decal(0), _nbContact(0) {}
 
 PhoneBook::~PhoneBook(void) {}
 
 void PhoneBook::start(void) {
-	std::cout << "\n";
+  std::cout << "\n";
   std::cout << "PHONE" << std::endl;
-  std::cout << "||" << std::setw(10) << "1 Contact" << "||";
-  std::cout << std::setw(10) << "2 add Contact" << "||\n";
-  std::cout << "||" << std::setw(10) << "3 Exit" << "||\n";
+  std::cout << "|" << std::setw(10) << "1 Contact" << "|";
+  std::cout << std::setw(10) << "2 add Contact" << "|\n";
+  std::cout << "|" << std::setw(10) << "3 Exit" << "|";
+  std::cout << std::setw(10) << "4 gen Contact" << "|\n";
   std::cout << "Input: ";
 }
 
@@ -45,8 +45,11 @@ void PhoneBook::add(void) {
 
   newContact.create();
   if (this->getNbContact() == 8) {
-    newContact.setIndex(0);
-    this->_contacts[0] = newContact;
+    if (this->_decal == 7)
+      this->_decal = 0;
+    newContact.setIndex(this->_decal);
+    this->_contacts[this->_decal] = newContact;
+    this->_decal += 1;
   } else if (this->getNbContact() < 8 && this->getNbContact() >= 0) {
     newContact.setIndex(this->getNbContact());
     this->_contacts[this->getNbContact()] = newContact;
@@ -75,35 +78,18 @@ static void print_contacts(Contact contact) {
   if (contact.getNickname().length() > 10)
     std::cout << contact.getNickname().substr(0, 7) << "..." << "|";
   else
-
     std::cout << std::setw(10) << contact.getNickname() << "|";
+  std::cout << "\n";
 }
-
-/*
-> choice a contact by index :
-1
-
----------------------------
-| index      |           1|
----------------------------
-| first name |     aisssam|
----------------------------
-| last name  |    lamjadab|
----------------------------
-| nickname   |      salman|
----------------------------
-| number     |  0620202002|
----------------------------
-*/
 
 static void print_contact(Contact contact) {
   if (contact.getFirstname().empty())
     return;
-  std::cout << contact.getFirstname() << std::endl;
-  std::cout << contact.getLastname() << std::endl;
-  std::cout << contact.getNickname() << std::endl;
-  std::cout << contact.getNumber() << std::endl;
-	std::cout << "\n";
+  std::cout << "First name: " << contact.getFirstname() << std::endl;
+  std::cout << "Last name: " << contact.getLastname() << std::endl;
+  std::cout << "Nickname: " << contact.getNickname() << std::endl;
+  std::cout << "Number: " << contact.getNumber() << std::endl;
+  std::cout << "\n";
   return;
 }
 
@@ -125,6 +111,32 @@ void PhoneBook::search(void) {
     }
     print_contact(this->_contacts[choice]);
   }
+}
+
+void PhoneBook::builder(std::string fn, std::string ln, std::string nn,
+                        std::string nb) {
+  if (this->getNbContact() == 8) {
+    if (this->_decal == 7)
+      this->_decal = 0;
+    this->_contacts[this->_decal].generate(fn, ln, nn, nb);
+    this->_contacts[this->_decal].setIndex(this->_decal);
+    this->_decal += 1;
+  } else if (this->getNbContact() < 8 && this->getNbContact() >= 0) {
+    this->_contacts[this->_nbContact].generate(fn, ln, nn, nb);
+    this->_contacts[this->_nbContact].setIndex(this->_nbContact);
+    this->increaseNbContact();
+  }
+}
+
+void PhoneBook::generate(void) {
+  this->builder("Aissam", "Lamjadab", "salman", "0620200220");
+  this->builder("Jean", "Dupont", "jdupont", "0102030405");
+  this->builder("Marie", "Curie", "radium", "0612345678");
+  this->builder("Montgomery", "Scott", "scotty", "0789456123");
+  this->builder("Lara", "Croft", "tombraider", "0147258369");
+  this->builder("Elon", "Musk", "xman", "0000000001");
+  this->builder("Ada", "Lovelace", "firstdev", "1010101010");
+  this->builder("Foo", "Boo", "fooboo", "1010101010");
 }
 
 void PhoneBook::exit(void) { std::exit(0); }
