@@ -29,5 +29,10 @@ public:
 
 int main()
 {
+	Student bob = Student("bob");
+	Student * jim = new Student("jim");
+
+	delete jim;
+	return (0);
 	
 }
