@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   HumanA.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/09 16:00:02 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/09 17:23:14 by alamjada         ###   ########.fr       */
+/*   Created: 2026/04/10 15:37:32 by alamjada          #+#    #+#             */
+/*   Updated: 2026/04/10 15:49:23 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "HumanA.hpp"
+#include "Weapon.hpp"
 #include <iostream>
-#include <string>
 
-class Student {
-private:
-  std::string _login;
+HumanA::HumanA(Weapon wp, std::string name): _weapon(wp), _name(name) {
+}
 
-public:
-	Student() : _login("ldefault")
-{
-    std::cout << "Student: " << this->_login << " is born" << std::endl;
-	}
+HumanA::~HumanA() {
+}
 
-  ~Student() {
-    std::cout << "Student: " << this->_login << " died" << std::endl;
-  }
-};
-
-int main() {
-  Student *students = new Student[42];
-
-  delete[] students;
-  return (0);
+void HumanA::attack(void){
+	std::cout << this->_name <<  " attacks with their " << this->_weapon.getType() << std::endl;
 }

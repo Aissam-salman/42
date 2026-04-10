@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Weapon.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/09 16:00:02 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/09 17:23:14 by alamjada         ###   ########.fr       */
+/*   Created: 2026/04/10 15:26:34 by alamjada          #+#    #+#             */
+/*   Updated: 2026/04/10 15:34:00 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
+#ifndef WEAPON_HPP
+#define WEAPON_HPP
+
 #include <string>
 
-class Student {
-private:
-  std::string _login;
-
+class Weapon {
 public:
-	Student() : _login("ldefault")
-{
-    std::cout << "Student: " << this->_login << " is born" << std::endl;
-	}
+  Weapon();
+  ~Weapon();
 
-  ~Student() {
-    std::cout << "Student: " << this->_login << " died" << std::endl;
-  }
+  std::string getType(void) const;
+  void setType(std::string type);
+
+private:
+  std::string _type;
 };
 
-int main() {
-  Student *students = new Student[42];
-
-  delete[] students;
-  return (0);
-}
+#endif

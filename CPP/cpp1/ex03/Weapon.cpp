@@ -1,36 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Weapon.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/09 16:00:02 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/09 17:23:14 by alamjada         ###   ########.fr       */
+/*   Created: 2026/04/10 15:30:33 by alamjada          #+#    #+#             */
+/*   Updated: 2026/04/10 15:37:16 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <string>
+#include "Weapon.hpp"
 
-class Student {
-private:
-  std::string _login;
+Weapon::Weapon() {}
 
-public:
-	Student() : _login("ldefault")
-{
-    std::cout << "Student: " << this->_login << " is born" << std::endl;
-	}
+Weapon::~Weapon() {}
 
-  ~Student() {
-    std::cout << "Student: " << this->_login << " died" << std::endl;
-  }
-};
+std::string Weapon::getType(void) const { return (this->_type); }
 
-int main() {
-  Student *students = new Student[42];
-
-  delete[] students;
-  return (0);
-}
+void Weapon::setType(std::string type) { this->_type = type; }

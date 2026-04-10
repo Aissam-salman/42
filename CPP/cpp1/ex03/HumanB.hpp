@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   HumanB.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/09 16:00:02 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/09 17:23:14 by alamjada         ###   ########.fr       */
+/*   Created: 2026/04/10 15:44:56 by alamjada          #+#    #+#             */
+/*   Updated: 2026/04/10 15:48:59 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <string>
+#ifndef HUMANB_HPP
+# define HUMANB_HPP
 
-class Student {
-private:
-  std::string _login;
-
+#include "Weapon.hpp"
+class HumanB {
 public:
-	Student() : _login("ldefault")
-{
-    std::cout << "Student: " << this->_login << " is born" << std::endl;
-	}
+	HumanB();
+	HumanB(std::string name);
+	~HumanB();
 
-  ~Student() {
-    std::cout << "Student: " << this->_login << " died" << std::endl;
-  }
+	void attack(void);
+	void setWeapon(Weapon wp);
+
+private:
+	Weapon _weapon;
+	std::string _name;
 };
 
-int main() {
-  Student *students = new Student[42];
 
-  delete[] students;
-  return (0);
-}
+#endif

@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   HumanA.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/09 16:00:02 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/09 17:23:14 by alamjada         ###   ########.fr       */
+/*   Created: 2026/04/10 15:34:20 by alamjada          #+#    #+#             */
+/*   Updated: 2026/04/10 15:49:06 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <string>
+#ifndef HUMANA_HPP
+# define HUMANA_HPP
 
-class Student {
-private:
-  std::string _login;
-
+#include "Weapon.hpp"
+class HumanA {
 public:
-	Student() : _login("ldefault")
-{
-    std::cout << "Student: " << this->_login << " is born" << std::endl;
-	}
+	HumanA();
+	HumanA(Weapon wp, std::string name);
+	~HumanA();
 
-  ~Student() {
-    std::cout << "Student: " << this->_login << " died" << std::endl;
-  }
+	void attack(void);
+
+private:
+	Weapon _weapon;
+	std::string _name;
 };
 
-int main() {
-  Student *students = new Student[42];
 
-  delete[] students;
-  return (0);
-}
+#endif

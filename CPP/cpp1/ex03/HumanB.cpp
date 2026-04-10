@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   HumanB.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/09 16:00:02 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/09 17:23:14 by alamjada         ###   ########.fr       */
+/*   Created: 2026/04/10 15:44:22 by alamjada          #+#    #+#             */
+/*   Updated: 2026/04/10 15:48:32 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "HumanB.hpp"
+#include "Weapon.hpp"
 #include <iostream>
-#include <string>
 
-class Student {
-private:
-  std::string _login;
+HumanB::HumanB(std::string name): _name(name) {
+}
 
-public:
-	Student() : _login("ldefault")
+HumanB::~HumanB() {
+}
+
+void HumanB::setWeapon(Weapon wp)
 {
-    std::cout << "Student: " << this->_login << " is born" << std::endl;
-	}
+	this->_weapon = wp;
+}
 
-  ~Student() {
-    std::cout << "Student: " << this->_login << " died" << std::endl;
-  }
-};
-
-int main() {
-  Student *students = new Student[42];
-
-  delete[] students;
-  return (0);
+void HumanB::attack(void){
+	std::cout << this->_name <<  " attacks with their " << this->_weapon.getType() << std::endl;
 }

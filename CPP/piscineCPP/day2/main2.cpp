@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   main2.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/09 16:00:02 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/09 17:23:14 by alamjada         ###   ########.fr       */
+/*   Created: 2026/04/10 11:42:53 by alamjada          #+#    #+#             */
+/*   Updated: 2026/04/10 11:45:35 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// REFERENCE : pointer constant, toujours dereferencer et jamais null
+
 #include <iostream>
-#include <string>
 
-class Student {
-private:
-  std::string _login;
-
-public:
-	Student() : _login("ldefault")
+int main(void)
 {
-    std::cout << "Student: " << this->_login << " is born" << std::endl;
-	}
+	int nbOfBalls = 42;
 
-  ~Student() {
-    std::cout << "Student: " << this->_login << " died" << std::endl;
-  }
-};
+	int *ballPtr = &nbOfBalls;
+	int &ballsRef = nbOfBalls;
 
-int main() {
-  Student *students = new Student[42];
+	std::cout << nbOfBalls << " " << *ballPtr << " " << ballsRef << std::endl;
 
-  delete[] students;
-  return (0);
+	*ballPtr = 21;
+	std::cout << nbOfBalls << std::endl;
+	ballsRef = 84;
+	std::cout << nbOfBalls << std::endl;
+	return (0);
 }

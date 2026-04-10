@@ -1,36 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   ref.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/09 16:00:02 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/09 17:23:14 by alamjada         ###   ########.fr       */
+/*   Created: 2026/04/10 11:50:25 by alamjada          #+#    #+#             */
+/*   Updated: 2026/04/10 11:57:46 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
 
-class Student {
-private:
-  std::string _login;
-
-public:
-	Student() : _login("ldefault")
+void byPtr(std::string *str)
 {
-    std::cout << "Student: " << this->_login << " is born" << std::endl;
-	}
-
-  ~Student() {
-    std::cout << "Student: " << this->_login << " died" << std::endl;
-  }
-};
-
-int main() {
-  Student *students = new Student[42];
-
-  delete[] students;
-  return (0);
+	*str += " and ponies";
 }
+
+void byConstPtr(std::string const *str)
+{
+	std::cout << *str << std::endl;
+}
+
+void byRef(std::string &str)
+{
+	str += " and ponies";
+}
+
+void byRefConst(std::string const &str)
+{
+	std::cout << str << std::endl;
+}
+
+int main()
+{
+	std::string str = "i like butter";
+	std::cout << str << std::endl;
+	byPtr(&str);
+	byConstPtr(&str);
+	str = "i like choco";
+	byRef(str);
+	byRefConst(str);
+	return (0);
+}
+
