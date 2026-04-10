@@ -1,6 +1,6 @@
 NAME = fight
 
-SRCS = main.cpp Weapon.hpp Weapon.cpp HumanA.cpp HumanB.cpp
+SRCS = main.cpp Weapon.cpp HumanA.cpp HumanB.cpp
 OBJS = $(SRCS:%.cpp=%.o)
 
 CXX = c++

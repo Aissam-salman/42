@@ -12,19 +12,21 @@
 
 #include "HumanB.hpp"
 #include "Weapon.hpp"
+#include <cstddef>
 #include <iostream>
 
-HumanB::HumanB(std::string name): _name(name) {
+HumanB::HumanB(std::string name): _weapon(NULL), _name(name){
 }
 
 HumanB::~HumanB() {
 }
 
-void HumanB::setWeapon(Weapon wp)
+void HumanB::setWeapon(Weapon &wp)
 {
-	this->_weapon = wp;
+	this->_weapon = &wp;
 }
 
 void HumanB::attack(void){
-	std::cout << this->_name <<  " attacks with their " << this->_weapon.getType() << std::endl;
+	if (this->_weapon)
+		std::cout << this->_name <<  " attacks with their " << this->_weapon->getType() << std::endl;
 }

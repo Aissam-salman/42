@@ -20,5 +20,6 @@ int main(void)
 	for (int i = 0; i < N ; i++) {
 		zbs[i].announce();
 	}
+	delete [] zbs;
 	return (0);
 }

@@ -14,16 +14,16 @@
 # define HUMANA_HPP
 
 #include "Weapon.hpp"
+
 class HumanA {
 public:
-	HumanA();
-	HumanA(Weapon wp, std::string name);
+	HumanA(std::string name, Weapon &wp);
 	~HumanA();
 
 	void attack(void);
 
 private:
-	Weapon _weapon;
+	Weapon &_weapon;
 	std::string _name;
 };
 

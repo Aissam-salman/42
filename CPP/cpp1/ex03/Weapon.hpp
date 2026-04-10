@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 15:26:34 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/10 15:34:00 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/10 17:28:38 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 class Weapon {
 public:
   Weapon();
+  Weapon(std::string type);
   ~Weapon();
 
   std::string getType(void) const;
