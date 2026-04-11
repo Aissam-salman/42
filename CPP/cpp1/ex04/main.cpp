@@ -10,45 +10,64 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
- * ./loser_sed <filename> <s1> <s2> (two string)
- *
- *
- * open filename and copy to filename.replace, and replace every s1 with s2
- */
+#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <string>
-// #include <system_error>
+
+std::string ft_replace(std::string line, char *s1, char *s2) {
+  std::string newLine;
+
+  if (!s1 && !s2)
+    return (line);
+  std::string s = s1;
+  std::string st = s2;
+  size_t match;
+  size_t pos = 0;
+  while ((match = line.find(s1, pos)) != std::string::npos) {
+    if (match != pos)
+      newLine.append(line, pos, match);
+    newLine.append(s2);
+    pos = match + s.length();
+  }
+  newLine.append(line, pos);
+  return (newLine);
+}
 
 int main(int ac, char **av) {
+  std::ifstream ifs;
+  std::ofstream ofs;
+  size_t extensionPos;
+  std::string line;
+  std::string path = av[1];
+  std::string destPath;
+  std::string modifLine;
+
   if (ac != 4) {
     std::cerr << "Error: ./loser_sed <filename> <s1> <s2>" << std::endl;
     return (1);
   }
-  if (!av[1] || !av[1][0]) {
+  if (path.empty()) {
     std::cerr << "Error: enter valid filename!" << std::endl;
     return (1);
   }
-  std::ifstream ifs(av[1], std::ifstream::in);
-
-
+  extensionPos = path.find_last_of('.');
+  destPath = path.substr(0, extensionPos).append(".replace");
+  ifs.open(av[1], std::ifstream::in);
+  if (ifs.is_open()) {
+    ofs.open(destPath.c_str(), std::ofstream::out);
+    if (ofs.is_open()) {
+      while (std::getline(ifs, line, '\n')) {
+        modifLine = ft_replace(line, av[2], av[3]);
+        ofs << modifLine << "\n";
+      }
+      ofs.close();
+    } else {
+      std::cerr << "Error: open & create fileout" << std::endl;
+    }
+    ifs.close();
+  } else {
+    std::cerr << "Error: open filein ->" << av[1] << std::endl;
+  }
   return (0);
 }
-
-// int main()
-// {
-// 	//read
-// 	std::ifstream ifs("numbers");
-// 	unsigned int dst;
-// 	unsigned int dst2;
-// 	ifs >> dst >> dst2;
-//
-// 	std::cout << dst << " " << dst2 << std::endl;
-// 	ifs.close();
-//
-// 	// write
-// 	std::ofstream ofs("test.out");
-// 	ofs << "i like a whole dawm" << std::endl;
-// 	ofs.close();
-// }
