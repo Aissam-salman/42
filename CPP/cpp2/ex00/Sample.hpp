@@ -10,3 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+class Sample {
+public:
+  Sample();
+  // Copy constructor
+  Sample(const Sample &other) = default;
+  // Copy assignment operator
+  Sample &operator=(const Sample &) = default;
+  ~Sample();
+
+private:
+};
