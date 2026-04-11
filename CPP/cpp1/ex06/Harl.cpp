@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 16:39:20 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/11 18:22:57 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/11 18:18:00 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,10 @@
 Harl::Harl() {};
 Harl::~Harl() {};
 
-void Harl::_debug(void) {
-  std::cout << "[DEBUG]: I love having extra bacon.\n";
-}
+void Harl::_debug(void) { std::cout << "[DEBUG]: I love having extra bacon.\n"; }
 
 void Harl::_info(void) {
-  std::cout
-      << "[INFO]: I cannot believe adding extra bacon costs more money.\n";
+  std::cout << "[INFO]: I cannot believe adding extra bacon costs more money.\n";
 }
 
 void Harl::_warning(void) {
@@ -38,6 +35,7 @@ void Harl::_error(void) {
 }
 
 void Harl::complain(std::string level) {
+  int levelIndex;
   std::string levels[4] = {"DEBUG", "INFO", "WARNING", "ERROR"};
 
   void (Harl::*log[4])(void) = {
@@ -47,12 +45,31 @@ void Harl::complain(std::string level) {
       &Harl::_error,
   };
 
-  for (int i = 0; i < 4; i++) {
+  levelIndex = 0;
+	int i = 0;
+  while (levelIndex < 4) {
     if (level == levels[i]) {
-      (this->*log[i])();
-      return;
+      levelIndex = i;
+			break;
     }
+		i++;
   }
-  std::cerr << "Error: level not found <LEVEL> = DEBUG, INFO, WARNING or ERROR"
-            << std::endl;
+  switch (levelIndex) {
+  case 0:
+    (this->*log[0])();
+    // fallthrough
+  case 1:
+    (this->*log[1])();
+    // fallthrough
+  case 2:
+    (this->*log[2])();
+    // fallthrough
+  case 3:
+    (this->*log[3])();
+    break;
+  default:
+    std::cerr
+        << "Error: level not found <LEVEL> = DEBUG, INFO, WARNING or ERROR"
+        << std::endl;
+  }
 }

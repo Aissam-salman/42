@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Harl.hpp                                           :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/11 16:38:05 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/11 18:22:59 by alamjada         ###   ########.fr       */
+/*   Created: 2026/04/11 16:37:04 by alamjada          #+#    #+#             */
+/*   Updated: 2026/04/11 17:54:32 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HARL_HPP
-#define HARL_HPP
-#include <string>
+#include "Harl.hpp"
+#include <iostream>
 
+int main(int ac, char **av)
+{
+	Harl harl;
 
-class Harl {
-public:
-  Harl(void);
-  ~Harl(void);
-
-  void complain(std::string level);
-
-private:
-  void _debug(void);
-  void _info(void);
-  void _warning(void);
-  void _error(void);
-};
-
-#endif
+	if (ac !=2)
+	{
+		std::cerr << "./harl <LEVEL>" << std::endl;
+		return (1);
+	}
+	if (!av[1])
+	{
+		std::cerr << "Error: empty <LEVEL> = DEBUG, INFO, WARNING or ERROR" << std::endl;
+		return (1);
+	}
+	harl.complain(av[1]);
+	return (0);
+}

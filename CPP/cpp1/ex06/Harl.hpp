@@ -6,12 +6,14 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 16:38:05 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/11 18:22:59 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/11 18:11:17 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HARL_HPP
 #define HARL_HPP
+#define CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
+
 #include <string>
 
 
