@@ -1,6 +1,6 @@
-NAME = loser_sed
+NAME = harl
 
-SRCS = main.cpp
+SRCS = main.cpp Harl.cpp
 OBJS = $(SRCS:%.cpp=%.o)
 
 CXX = c++
