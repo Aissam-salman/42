@@ -1,6 +1,3 @@
-" =============================================================================
-" 1. GESTION DES PLUGINS (Vim-Plug)
-" =============================================================================
 call plug#begin()
 
 Plug 'tpope/vim-sensible'
@@ -15,38 +12,34 @@ Plug 'tpope/vim-commentary'
 call plug#end()
 
 " =============================================================================
-" 2. PARAMÈTRES GÉNÉRAUX & 42 STANDARD
+" 2. PARAMETRES GENERAUX
 " =============================================================================
 filetype plugin indent on
 syntax on
 
-set termguicolors     " Couleurs 24-bit pour Ghostty
-set number            " Affiche les numéros de ligne
-set signcolumn=yes    " Toujours afficher la colonne de gauche (évite les sauts)
-set mouse=a           " Active la souris au cas où
+set termguicolors
+set number
+set signcolumn=yes
+set clipboard=unnamedplus
 
-" Configuration des tabulations (Standard C++ 42)
+" Config Tabulations 42
 set tabstop=4
 set shiftwidth=4
-set noexpandtab       " À 42, on utilise souvent les vraies Tabs (change en expandtab si besoin)
+set noexpandtab
 
-" Variables pour le Header 42
 let g:hdr42user = "alamjada"
 let g:hdr42mail = "alamjada@student.42.fr"
 
 " =============================================================================
-" 3. MAPPINGS (Raccourcis clavier)
+" 3. MAPPINGS
 " =============================================================================
-" Sortir du mode insertion rapidement
+let mapleader = " "
 inoremap jj <esc>
-
-" Compilation avec F5
+nnoremap <leader>pv :Ex<CR>
+nnoremap <leader>sf :Files<CR>
+nnoremap <leader><esc> :nohlseach<CR>
 nnoremap <F5> :!make<CR>
-
-" Switch rapide entre .cpp et .hpp
 nnoremap <F2> :e %:p:s,.cpp$,.hpp,:s,.hpp$,.cpp,<CR>
-
-" Voir la doc ou l'erreur sous le curseur avec 'K'
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
 function! ShowDocumentation()
@@ -58,33 +51,25 @@ function! ShowDocumentation()
 endfunction
 
 " =============================================================================
-" 4. CONFIGURATION DES PLUGINS (CoC, FZF, etc.)
+" 4. CONFIG PLUGINS & THEME
 " =============================================================================
-" Icônes pour CoC (nécessite une Nerd Font dans Ghostty)
-let g:coc_status_error_sign = '✘'
-let g:coc_status_warning_sign = '⚠'
+let g:coc_status_error_sign = 'x'
+let g:coc_status_warning_sign = '!'
 
-" Configuration de Catppuccin
 let g:catppuccin_options = {
     \ "transparent_background": v:true,
-    \ "term_colors": v:true,
-    \ "integrations": {
-    \   "coc_nvim": v:true,
-    \   "fzf": v:true,
-    \ }
+    \ "integrations": { "coc_nvim": v:true, "fzf": v:true }
     \ }
 
-" =============================================================================
-" 5. THÈME ET CORRECTIFS GRAPHIQUES (À laisser à la fin)
-" =============================================================================
 colorscheme catppuccin_mocha
 
-" Forcer la transparence sur tous les éléments
+" Correctifs Transparence
 hi Normal guibg=NONE ctermbg=NONE
 hi SignColumn guibg=NONE ctermbg=NONE
 hi LineNr guibg=NONE ctermbg=NONE
 hi CursorLineNr guibg=NONE ctermbg=NONE
 hi EndOfBuffer guibg=NONE ctermbg=NONE
 
-" Visibilité des erreurs CoC (Correction contraste sur fond transparent)
-hi CocErrorHighlight ctermfg=Red
+" Visibilite Erreurs
+hi CocErrorHighlight ctermfg=Red guifg=#f38ba8 gui=underline
+hi CocWarningHighlight ctermfg=Yellow guifg=#f9e2af gui=underline

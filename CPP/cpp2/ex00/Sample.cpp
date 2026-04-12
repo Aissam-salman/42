@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Sample.hpp                                         :+:      :+:    :+:   */
+/*   Sample.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/12 11:11:15 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/12 11:50:57 by alamjada         ###   ########.fr       */
+/*   Created: 2026/04/12 11:35:05 by alamjada          #+#    #+#             */
+/*   Updated: 2026/04/12 11:54:23 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SAMPLE_HPP
-# define SAMPLE_HPP
 
-class Sample {
-    public:
-        Sample(void);
-        ~Sample(void);
+#include "Sample.hpp"
 
-        void bar(char const c) const;
-        void bar(int const n) const;
-        void bar(float const z) const;
-        void bar(Sample const &i) const;
-};
+Sample::Sample(void){};
 
-#endif
+Sample::~Sample(void){};
+
+void Sample::bar(char const c) const {
+}
+void Sample::bar(int const c) const {
+}
+void Sample::bar(float const c) const {
+}
+
+void Sample::bar(Sample const &c) const {
+}
