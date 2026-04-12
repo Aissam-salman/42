@@ -5,19 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/11 19:18:15 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/11 19:18:17 by alamjada         ###   ########.fr       */
+/*   Created: 2026/04/12 11:11:15 by alamjada          #+#    #+#             */
+/*   Updated: 2026/04/12 11:34:56 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-class Sample {
-public:
-  Sample();
-  // Copy constructor
-  Sample(const Sample &other) = default;
-  // Copy assignment operator
-  Sample &operator=(const Sample &) = default;
-  ~Sample();
+#ifndef SAMPLE_HPP
+# define SAMPLE_HPP
 
-private:
+class Sample {
+    public:
+        Sample(void);
+        ~Sample(void);
+
+        void bar(char const c) const;
+        void bar(int const n) const;
+        void bar(float const z) const;
+        void bar(Sample const & i) const;
 };
+
+#endif
