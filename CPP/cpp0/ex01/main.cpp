@@ -21,6 +21,9 @@ int main() {
   while (input != 3) {
     phone.start();
     std::cin >> input;
+		//FIX: ctrl+D handle
+		//At program start-up, the phonebook is empty and the user is prompted to enter one
+		// of three commands. The program only accepts ADD, SEARCH and EXIT.
     std::cout << "\n";
     switch (input) {
     case 1:

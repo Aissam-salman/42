@@ -68,15 +68,15 @@ static void print_header(void) {
 static void print_contacts(Contact contact) {
   std::cout << "|" << std::setw(10) << contact.getIndex() << "|";
   if (contact.getFirstname().length() > 10)
-    std::cout << contact.getFirstname().substr(0, 7) << "..." << "|";
+    std::cout << contact.getFirstname().substr(0, 9) << "." << "|";
   else
     std::cout << std::setw(10) << contact.getFirstname() << "|";
   if (contact.getLastname().length() > 10)
-    std::cout << contact.getLastname().substr(0, 7) << "..." << "|";
+    std::cout << contact.getLastname().substr(0, 9) << "." << "|";
   else
     std::cout << std::setw(10) << contact.getLastname() << "|";
   if (contact.getNickname().length() > 10)
-    std::cout << contact.getNickname().substr(0, 7) << "..." << "|";
+    std::cout << contact.getNickname().substr(0, 9) << "." << "|";
   else
     std::cout << std::setw(10) << contact.getNickname() << "|";
   std::cout << "\n";
