@@ -73,14 +73,18 @@ Fixed Fixed::operator-(Fixed const &rhs) const {
 Fixed Fixed::operator*(Fixed const &rhs) const {
   Fixed r;
 
-  r.setRawBits(this->getRawBits() * rhs.getRawBits());
+  long long tmp = (long long)this->getRawBits() * (long long)rhs.getRawBits();
+  r.setRawBits((int)tmp >> this->_bits);
   return r;
 }
 
 Fixed Fixed::operator/(Fixed const &rhs) const {
   Fixed r;
 
-  r.setRawBits(this->getRawBits() / rhs.getRawBits());
+  if (rhs.getRawBits() == 0)
+    return Fixed(0);
+  long long tmp = (long long)this->getRawBits() << this->_bits;
+  r.setRawBits((int)(tmp / rhs.getRawBits()));
   return r;
 }
 
@@ -91,7 +95,7 @@ Fixed &Fixed::operator++(void) {
 
 Fixed Fixed::operator++(int) {
   Fixed tmp = *this;
-  ++this->_fixedPointValue;
+  this->_fixedPointValue++;
   return (tmp);
 }
 
@@ -102,7 +106,7 @@ Fixed &Fixed::operator--(void) {
 
 Fixed Fixed::operator--(int) {
   Fixed tmp = *this;
-  --this->_fixedPointValue;
+  this->_fixedPointValue--;
   return (tmp);
 }
 
@@ -135,7 +139,7 @@ void Fixed::setRawBits(int const raw) { this->_fixedPointValue = raw; }
 int Fixed::getRawBits(void) const { return (this->_fixedPointValue); }
 
 float Fixed::toFloat(void) const {
-  return ((float)this->getRawBits() / (1 << this->_bits));
+  return (float)this->getRawBits() / (1 << this->_bits);
 }
 
 int Fixed::toInt(void) const { return (this->getRawBits() >> this->_bits); }
