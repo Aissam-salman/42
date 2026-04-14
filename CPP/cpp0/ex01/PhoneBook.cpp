@@ -23,10 +23,10 @@ PhoneBook::~PhoneBook(void) {}
 void PhoneBook::start(void) {
   std::cout << "\n";
   std::cout << "PHONE" << std::endl;
-  std::cout << "|" << std::setw(10) << "1 Contact" << "|";
-  std::cout << std::setw(10) << "2 add Contact" << "|\n";
-  std::cout << "|" << std::setw(10) << "3 Exit" << "|";
-  std::cout << std::setw(10) << "4 gen Contact" << "|\n";
+  std::cout << "|" << std::setw(10) << "SEARCH" << "|";
+  std::cout << std::setw(10) << "ADD" << "|\n";
+  std::cout << "|" << std::setw(10) << "EXIT" << "|";
+  std::cout << std::setw(10) << "GENERATE" << "|\n";
   std::cout << "Input: ";
 }
 
@@ -105,6 +105,8 @@ void PhoneBook::search(void) {
     int choice = 0;
     std::cout << "What contact you want to display? ";
     std::cin >> choice;
+		if (std::cin.fail())
+			return;
     if (choice < 0 || choice > 7) {
       std::cout << "Outside ! pls enter under 0.7\n";
       return;

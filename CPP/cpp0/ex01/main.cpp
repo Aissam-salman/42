@@ -15,32 +15,24 @@
 
 int main() {
   PhoneBook phone;
-  int input;
+  std::string input;
 
-  input = 0;
-  while (input != 3) {
+  while (1) {
     phone.start();
     std::cin >> input;
-		//FIX: ctrl+D handle
-		//At program start-up, the phonebook is empty and the user is prompted to enter one
-		// of three commands. The program only accepts ADD, SEARCH and EXIT.
+    if (std::cin.fail())
+      return (1);
     std::cout << "\n";
-    switch (input) {
-    case 1:
+    if (input == "SEARCH")
       phone.search();
-      break;
-    case 2:
+    else if (input == "ADD")
       phone.add();
-      break;
-    case 3:
+    else if (input == "EXIT")
       phone.exit();
-      break;
-    case 4:
+    else if (input == "GENERATE")
       phone.generate();
-      break;
-    default:
-      std::cout << "1, 2 or 3 only!\n";
-    }
+    else
+      std::cout << "SEARCH, ADD, EXIT and GENERATE only!\n";
   }
   return (0);
 }

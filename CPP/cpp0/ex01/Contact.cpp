@@ -96,21 +96,29 @@ void Contact::create(void) {
   while (count != 1) {
     std::cout << "Firstname: ";
     std::cin >> fn;
+		if (std::cin.fail())
+			return;
     count += this->setFirstname(fn);
   }
   while (count != 2) {
     std::cout << "Lastname: ";
     std::cin >> ln;
+		if (std::cin.fail())
+			return;
     count += this->setLastname(ln);
   }
   while (count != 3) {
     std::cout << "Nickname: ";
     std::cin >> nn;
+		if (std::cin.fail())
+			return;
     count += this->setNickname(nn);
   }
   while (count != 4) {
     std::cout << "Numero: ";
     std::cin >> nb;
+		if (std::cin.fail())
+			return;
     count += this->setNumber(nb);
   }
 }
