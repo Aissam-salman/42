@@ -12,10 +12,8 @@
 
 #ifndef HARL_HPP
 #define HARL_HPP
-#define CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
 
 #include <string>
-
 
 class Harl {
 public:

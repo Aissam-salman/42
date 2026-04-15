@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "Harl.hpp"
-#include <functional>
 #include <iostream>
 #include <string>
 

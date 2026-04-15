@@ -12,7 +12,6 @@
 
 #include "HumanB.hpp"
 #include "Weapon.hpp"
-#include <cstddef>
 #include <iostream>
 
 HumanB::HumanB(std::string name): _weapon(NULL), _name(name){

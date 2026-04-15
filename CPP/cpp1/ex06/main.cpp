@@ -13,20 +13,19 @@
 #include "Harl.hpp"
 #include <iostream>
 
-int main(int ac, char **av)
-{
-	Harl harl;
+int main(int ac, char **av) {
+  Harl harl;
 
-	if (ac !=2)
-	{
-		std::cerr << "./harl <LEVEL>" << std::endl;
-		return (1);
-	}
-	if (!av[1])
-	{
-		std::cerr << "Error: empty <LEVEL> = DEBUG, INFO, WARNING or ERROR" << std::endl;
-		return (1);
-	}
-	harl.complain(av[1]);
-	return (0);
+  if (ac != 2) {
+    std::cerr << "./harl <LEVEL>" << std::endl;
+    std::cout << "DEBUG, INFO, WARNING or ERROR" << std::endl;
+    return (1);
+  }
+  if (!av[1]) {
+    std::cerr << "Error: empty <LEVEL> = DEBUG, INFO, WARNING or ERROR"
+              << std::endl;
+    return (1);
+  }
+  harl.complain(av[1]);
+  return (0);
 }

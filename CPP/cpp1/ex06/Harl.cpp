@@ -11,17 +11,19 @@
 /* ************************************************************************** */
 
 #include "Harl.hpp"
-#include <functional>
 #include <iostream>
 #include <string>
 
 Harl::Harl() {};
 Harl::~Harl() {};
 
-void Harl::_debug(void) { std::cout << "[DEBUG]: I love having extra bacon.\n"; }
+void Harl::_debug(void) {
+  std::cout << "[DEBUG]: I love having extra bacon.\n";
+}
 
 void Harl::_info(void) {
-  std::cout << "[INFO]: I cannot believe adding extra bacon costs more money.\n";
+  std::cout
+      << "[INFO]: I cannot believe adding extra bacon costs more money.\n";
 }
 
 void Harl::_warning(void) {
@@ -45,14 +47,14 @@ void Harl::complain(std::string level) {
       &Harl::_error,
   };
 
-  levelIndex = 0;
-	int i = 0;
-  while (levelIndex < 4) {
+  levelIndex = -1;
+  int i = 0;
+  while (i < 4) {
     if (level == levels[i]) {
       levelIndex = i;
-			break;
+      break;
     }
-		i++;
+    i++;
   }
   switch (levelIndex) {
   case 0:
