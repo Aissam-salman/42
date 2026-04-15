@@ -104,9 +104,10 @@ void PhoneBook::search(void) {
   if (this->getNbContact() > 0) {
     int choice = 0;
     std::cout << "What contact you want to display? ";
-    std::cin >> choice;
-		if (std::cin.fail())
-			return;
+    if (!(std::cin >> choice))
+			return ;
+    if (std::cin.fail() || std::cin.eof())
+      return ;
     if (choice < 0 || choice > 7) {
       std::cout << "Outside ! pls enter under 0.7\n";
       return;

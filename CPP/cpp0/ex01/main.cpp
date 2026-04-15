@@ -19,8 +19,9 @@ int main() {
 
   while (1) {
     phone.start();
-    std::cin >> input;
-    if (std::cin.fail())
+    if (!(std::cin >> input))
+			return (1);
+    if (std::cin.fail() || std::cin.eof())
       return (1);
     std::cout << "\n";
     if (input == "SEARCH")
