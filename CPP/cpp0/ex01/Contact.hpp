@@ -26,12 +26,14 @@ public:
   std::string getLastname(void) const;
   std::string getNickname(void) const;
   int getIndex(void) const;
+	std::string getDarkSecret(void) const;
 
   int setNumber(std::string newNumber);
   int setFirstname(std::string newFirstname);
   int setLastname(std::string newLastname);
   int setNickname(std::string newNickname);
   int setIndex(int newIndex);
+	int setDarkSecret(std::string secret);
 	void create(void);
 	void generate(std::string fn, std::string ln, std::string nn, std::string nb);
 
@@ -40,6 +42,7 @@ private:
   std::string _firstname;
   std::string _lastname;
   std::string _nickname;
+	std::string _darkSecret;
   int _index;
 };
 

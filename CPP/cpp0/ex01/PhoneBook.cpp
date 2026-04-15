@@ -89,6 +89,7 @@ static void print_contact(Contact contact) {
   std::cout << "Last name: " << contact.getLastname() << std::endl;
   std::cout << "Nickname: " << contact.getNickname() << std::endl;
   std::cout << "Number: " << contact.getNumber() << std::endl;
+  std::cout << "Darksecret: " << contact.getDarkSecret() << std::endl;
   std::cout << "\n";
   return;
 }
@@ -132,14 +133,14 @@ void PhoneBook::builder(std::string fn, std::string ln, std::string nn,
 }
 
 void PhoneBook::generate(void) {
-  this->builder("Aissam", "Lamjadab", "salman", "0620200220");
-  this->builder("Jean", "Dupont", "jdupont", "0102030405");
-  this->builder("Marie", "Curie", "radium", "0612345678");
-  this->builder("Montgomery", "Scott", "scotty", "0789456123");
-  this->builder("Lara", "Croft", "tombraider", "0147258369");
-  this->builder("Elon", "Musk", "xman", "0000000001");
-  this->builder("Ada", "Lovelace", "firstdev", "1010101010");
-  this->builder("Foo", "Boo", "fooboo", "1010101010");
+  this->builder("Aissam", "Lamjadab", "salman", "0620200220", "foo");
+  this->builder("Jean", "Dupont", "jdupont", "0102030405", "loi");
+  this->builder("Marie", "Curie", "radium", "0612345678", "doo");
+  this->builder("Montgomery", "Scott", "scotty", "0789456123", "boo");
+  this->builder("Lara", "Croft", "tombraider", "0147258369", "asd");
+  this->builder("Elon", "Musk", "xman", "0000000001", "qwec");
+  this->builder("Ada", "Lovelace", "firstdev", "1010101010", "asdaf");
+  this->builder("Foo", "Boo", "fooboo", "1010101010", "klj");
 }
 
 void PhoneBook::exit(void) { std::exit(0); }

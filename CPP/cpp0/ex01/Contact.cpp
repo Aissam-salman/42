@@ -25,6 +25,7 @@ std::string Contact::getFirstname(void) const { return this->_firstname; }
 std::string Contact::getLastname(void) const { return this->_lastname; }
 std::string Contact::getNickname(void) const { return this->_nickname; }
 int Contact::getIndex(void) const { return this->_index; }
+std::string Contact::getDarkSecret(void) const { return this->_darkSecret; }
 
 static int ft_is_digit_only(std::string nb) {
   for (size_t i = 0; i < nb.length(); i++) {
@@ -86,51 +87,68 @@ int Contact::setIndex(int newIndex) {
   return (0);
 }
 
+int Contact::setDarkSecret(std::string secret) {
+  if (secret.empty())
+    return (0);
+  this->_darkSecret = secret;
+  return (0);
+}
+
 void Contact::create(void) {
   std::string fn;
   std::string ln;
   std::string nn;
   std::string nb;
+  std::string ds;
 
   int count = 0;
   while (count != 1) {
     std::cout << "Firstname: ";
     if (!(std::cin >> fn))
-			return ;
+      return;
     if (std::cin.fail() || std::cin.eof())
-      return ;
+      return;
     count += this->setFirstname(fn);
   }
   while (count != 2) {
     std::cout << "Lastname: ";
     if (!(std::cin >> ln))
-			return ;
+      return;
     if (std::cin.fail() || std::cin.eof())
-      return ;
+      return;
     count += this->setLastname(ln);
   }
   while (count != 3) {
     std::cout << "Nickname: ";
     if (!(std::cin >> nn))
-			return ;
+      return;
     if (std::cin.fail() || std::cin.eof())
-      return ;
+      return;
     count += this->setNickname(nn);
   }
   while (count != 4) {
     std::cout << "Numero: ";
     if (!(std::cin >> nb))
-			return ;
+      return;
     if (std::cin.fail() || std::cin.eof())
-      return ;
+      return;
     count += this->setNumber(nb);
+  }
+  while (count != 5) {
+    std::cout << "Dark_secret: ";
+    if (!(std::cin >> ds))
+      return;
+    if (std::cin.fail() || std::cin.eof())
+      return;
+    count += this->setDarkSecret(ds);
   }
 }
 
 void Contact::generate(std::string fn, std::string ln, std::string nn,
-                       std::string nb) {
+                       std::string nb, std::string ds) {
   this->setFirstname(fn);
   this->setLastname(ln);
   this->setNickname(nn);
   this->setNumber(nb);
+  this->setDarkSecret(ds);
 }
