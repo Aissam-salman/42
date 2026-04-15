@@ -35,7 +35,7 @@ public:
   int setIndex(int newIndex);
 	int setDarkSecret(std::string secret);
 	void create(void);
-	void generate(std::string fn, std::string ln, std::string nn, std::string nb);
+	void generate(std::string fn, std::string ln, std::string nn, std::string nb, std::string ds);
 
 private:
   std::string _number;

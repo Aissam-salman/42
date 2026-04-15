@@ -89,9 +89,12 @@ int Contact::setIndex(int newIndex) {
 
 int Contact::setDarkSecret(std::string secret) {
   if (secret.empty())
+	{
+    std::cout << "Empty not allowed!\n";
     return (0);
+	}
   this->_darkSecret = secret;
-  return (0);
+  return (1);
 }
 
 void Contact::create(void) {
@@ -104,43 +107,43 @@ void Contact::create(void) {
   int count = 0;
   while (count != 1) {
     std::cout << "Firstname: ";
-    if (!(std::cin >> fn))
-      return;
+    std::cin >> fn;
     if (std::cin.fail() || std::cin.eof())
       return;
     count += this->setFirstname(fn);
+		std::cin.clear();
   }
   while (count != 2) {
     std::cout << "Lastname: ";
-    if (!(std::cin >> ln))
-      return;
+    std::cin >> ln;
     if (std::cin.fail() || std::cin.eof())
       return;
     count += this->setLastname(ln);
+		std::cin.clear();
   }
   while (count != 3) {
     std::cout << "Nickname: ";
-    if (!(std::cin >> nn))
-      return;
+    std::cin >> nn;
     if (std::cin.fail() || std::cin.eof())
       return;
     count += this->setNickname(nn);
+		std::cin.clear();
   }
   while (count != 4) {
     std::cout << "Numero: ";
-    if (!(std::cin >> nb))
-      return;
+    std::cin >> nb;
     if (std::cin.fail() || std::cin.eof())
       return;
     count += this->setNumber(nb);
+		std::cin.clear();
   }
   while (count != 5) {
     std::cout << "Dark_secret: ";
-    if (!(std::cin >> ds))
-      return;
+    std::cin >> ds;
     if (std::cin.fail() || std::cin.eof())
       return;
     count += this->setDarkSecret(ds);
+		std::cin.clear();
   }
 }
 

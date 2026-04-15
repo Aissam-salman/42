@@ -106,9 +106,13 @@ void PhoneBook::search(void) {
     int choice = 0;
     std::cout << "What contact you want to display? ";
     if (!(std::cin >> choice))
-			return ;
+      return;
     if (std::cin.fail() || std::cin.eof())
-      return ;
+      return;
+    if (choice > this->getNbContact()) {
+      std::cout << "Index not exist!\n";
+      return;
+    }
     if (choice < 0 || choice > 7) {
       std::cout << "Outside ! pls enter under 0.7\n";
       return;
@@ -118,15 +122,15 @@ void PhoneBook::search(void) {
 }
 
 void PhoneBook::builder(std::string fn, std::string ln, std::string nn,
-                        std::string nb) {
+                        std::string nb, std::string ds) {
   if (this->getNbContact() == 8) {
     if (this->_decal == 7)
       this->_decal = 0;
-    this->_contacts[this->_decal].generate(fn, ln, nn, nb);
+    this->_contacts[this->_decal].generate(fn, ln, nn, nb, ds);
     this->_contacts[this->_decal].setIndex(this->_decal);
     this->_decal += 1;
   } else if (this->getNbContact() < 8 && this->getNbContact() >= 0) {
-    this->_contacts[this->_nbContact].generate(fn, ln, nn, nb);
+    this->_contacts[this->_nbContact].generate(fn, ln, nn, nb, ds);
     this->_contacts[this->_nbContact].setIndex(this->_nbContact);
     this->increaseNbContact();
   }

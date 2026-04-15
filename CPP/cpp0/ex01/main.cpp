@@ -19,8 +19,7 @@ int main() {
 
   while (1) {
     phone.start();
-    if (!(std::cin >> input))
-			return (1);
+    std::cin >> input;
     if (std::cin.fail() || std::cin.eof())
       return (1);
     std::cout << "\n";
@@ -34,6 +33,7 @@ int main() {
       phone.generate();
     else
       std::cout << "SEARCH, ADD, EXIT and GENERATE only!\n";
+		std::cin.clear();
   }
   return (0);
 }

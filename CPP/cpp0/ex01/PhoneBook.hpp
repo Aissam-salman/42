@@ -21,7 +21,8 @@ public:
   ~PhoneBook(void);
 
   void start(void);
-  void builder(std::string fn, std::string ln, std::string nn, std::string nb);
+  void builder(std::string fn, std::string ln, std::string nn, std::string nb,
+               std::string ds);
   void add(void);
   void search(void);
   void exit(void);
