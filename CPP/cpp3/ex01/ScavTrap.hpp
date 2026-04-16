@@ -20,8 +20,9 @@ public:
   ScavTrap(const ScavTrap &src);
   ~ScavTrap();
   ScavTrap &operator=(const ScavTrap &rhs);
-  void attack(std::string const &target) override;
-	void guardGate(void);
+
+  void attack(std::string const &target);
+  void guardGate(void);
 };
 
 #endif

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
+#include "ScavTrap.hpp"
 #include <iostream>
 
 int main()
@@ -19,6 +20,7 @@ int main()
 	ClapTrap copya = ct;
 	ClapTrap cp = ClapTrap(ct);
 
+	std::cout << "PARENT CONSTRUCTOR BASE" << std::endl;
 	std::cout << "Name: " << ct.getName() << std::endl;
 	std::cout << "hitPoints: " << ct.getHitPoints() << std::endl;
 	std::cout << "EnergyPoints: " << ct.getEnergyPoints() << std::endl;
@@ -30,11 +32,20 @@ int main()
 	ct.beRepaired(3);
 	std::cout << "hitPoints: " << ct.getHitPoints() << std::endl;
 	std::cout << "EnergyPoints: " << ct.getEnergyPoints() << std::endl;
-	std::cout << "cp\n";
+	std::cout << "PARENT ASSIGNMENT =" << std::endl;
 	std::cout << "hitPoints: " << cp.getHitPoints() << std::endl;
 	std::cout << "EnergyPoints: " << cp.getEnergyPoints() << std::endl;
-	std::cout << "copya\n";
+	std::cout << "PARENT CONSTRUCTOR COPY" << std::endl;
 	std::cout << "hitPoints: " << copya.getHitPoints() << std::endl;
 	std::cout << "EnergyPoints: " << copya.getEnergyPoints() << std::endl;
+
+	ClapTrap child = ScavTrap("tim");
+
+	std::cout << "PARENT CONSTRUCTOR BASE" << std::endl;
+	std::cout << "Name: " << child.getName() << std::endl;
+	std::cout << "hitPoints: " << child.getHitPoints() << std::endl;
+	std::cout << "EnergyPoints: " << child.getEnergyPoints() << std::endl;
+	std::cout << "AttackDamage: " << child.getAttackDamage() << std::endl;
+
 	return (0);
 }
