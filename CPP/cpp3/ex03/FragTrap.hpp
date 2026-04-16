@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 15:26:29 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/16 15:52:51 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:09:40 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <string>
 
 
-class FragTrap : public ClapTrap {
+class FragTrap : virtual public ClapTrap {
 	public:
 		FragTrap(std::string name);
 		FragTrap(FragTrap const &src);

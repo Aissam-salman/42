@@ -6,13 +6,14 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 15:40:34 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/16 16:47:12 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/16 18:02:37 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
 #include "ScavTrap.hpp"
 #include "FragTrap.hpp"
+#include "DiamondTrap.hpp"
 #include <iostream>
 
 int main()
@@ -65,5 +66,21 @@ int main()
 	std::cout << "hitPoints: " << childfrag.getHitPoints() << std::endl;
 	childfrag.beRepaired(42);
 	std::cout << "hitPoints: " << childfrag.getHitPoints() << std::endl;
+
+	DiamondTrap dia = DiamondTrap("sam");
+	std::cout << "CHILD DIAMOND CONSTRUCTOR BASE" << std::endl;
+	std::cout << "Name: " << dia.getName() << std::endl;
+	std::cout << "hitPoints: " << dia.getHitPoints() << std::endl;
+	std::cout << "EnergyPoints: " << dia.getEnergyPoints() << std::endl;
+	std::cout << "AttackDamage: " << dia.getAttackDamage() << std::endl;
+	dia.attack("toro");
+	std::cout << "EnergyPoints: " << dia.getEnergyPoints() << std::endl;
+	dia.takeDamage(100);
+	std::cout << "hitPoints: " << dia.getHitPoints() << std::endl;
+	dia.beRepaired(42);
+	std::cout << "hitPoints: " << dia.getHitPoints() << std::endl;
+
+
+
 	return (0);
 }
