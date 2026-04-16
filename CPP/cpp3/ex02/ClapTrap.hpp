@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 15:16:40 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/16 15:36:52 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/15 18:13:17 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ public:
 	int getEnergyPoints(void) const;
 	int getAttackDamage(void) const;
 
-protected:
 	void setName(std::string name);
 	void setHitPoints(int hit);
 	void setEnergyPoints(int energy);

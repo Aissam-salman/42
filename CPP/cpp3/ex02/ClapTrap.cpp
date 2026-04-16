@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 15:19:21 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/16 15:37:29 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/15 18:19:08 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <string>
 
 ClapTrap::ClapTrap(std::string name)
-    : _name(name), _hitPoints(10), _energyPoints(10), _attackDamage(0) {
+    : _name(name), _hitPoints(100), _energyPoints(50), _attackDamage(20) {
   std::cout << name << " constructor Parent\n";
 }
 

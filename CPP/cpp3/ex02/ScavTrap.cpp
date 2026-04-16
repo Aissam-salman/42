@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 17:49:44 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/16 15:49:30 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/15 18:20:25 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 #include <iostream>
 
 ScavTrap::ScavTrap(std::string name): ClapTrap(name) {
-	this->setHitPoints(100);
-	this->setEnergyPoints(50);
-	this->setAttackDamage(20);
 	std::cout << name << " constructor Child Scav" << std::endl;
 }
 
