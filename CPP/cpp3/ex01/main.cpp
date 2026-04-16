@@ -39,13 +39,17 @@ int main()
 	std::cout << "hitPoints: " << copya.getHitPoints() << std::endl;
 	std::cout << "EnergyPoints: " << copya.getEnergyPoints() << std::endl;
 
-	ClapTrap child = ScavTrap("tim");
-
-	std::cout << "PARENT CONSTRUCTOR BASE" << std::endl;
+	ScavTrap child = ScavTrap("tim");
+	std::cout << "CHILD CONSTRUCTOR BASE" << std::endl;
 	std::cout << "Name: " << child.getName() << std::endl;
 	std::cout << "hitPoints: " << child.getHitPoints() << std::endl;
 	std::cout << "EnergyPoints: " << child.getEnergyPoints() << std::endl;
 	std::cout << "AttackDamage: " << child.getAttackDamage() << std::endl;
-
+	child.attack("tt");
+	std::cout << "EnergyPoints: " << child.getEnergyPoints() << std::endl;
+	child.takeDamage(100);
+	std::cout << "hitPoints: " << child.getHitPoints() << std::endl;
+	child.beRepaired(42);
+	std::cout << "hitPoints: " << child.getHitPoints() << std::endl;
 	return (0);
 }
