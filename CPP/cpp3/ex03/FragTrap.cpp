@@ -6,13 +6,20 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 15:52:55 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/16 16:47:29 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/16 20:42:20 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "FragTrap.hpp"
 #include "ClapTrap.hpp"
 #include <iostream>
+
+FragTrap::FragTrap(void) : ClapTrap() {
+  this->setHitPoints(100);
+  this->setEnergyPoints(100);
+  this->setAttackDamage(30);
+  std::cout << "Default constructor Child Frag" << std::endl;
+}
 
 FragTrap::FragTrap(std::string name) : ClapTrap(name) {
   this->setHitPoints(100);
@@ -51,3 +58,4 @@ void FragTrap::attack(std::string const &target) {
 void highFivesGuys(void) {
   std::cout << " FragTrap call high fives Guys!" << std::endl;
 }
+

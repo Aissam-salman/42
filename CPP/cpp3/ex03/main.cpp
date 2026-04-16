@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 15:40:34 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/16 18:02:37 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/16 20:41:50 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int main()
 	std::cout << "hitPoints: " << dia.getHitPoints() << std::endl;
 	dia.beRepaired(42);
 	std::cout << "hitPoints: " << dia.getHitPoints() << std::endl;
+	dia.whoAmI();
 
 
 

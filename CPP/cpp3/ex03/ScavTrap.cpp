@@ -14,6 +14,13 @@
 #include "ClapTrap.hpp"
 #include <iostream>
 
+ScavTrap::ScavTrap(void): ClapTrap() {
+	this->setHitPoints(100);
+	this->setEnergyPoints(50);
+	this->setAttackDamage(20);
+	std::cout << "Default constructor Child Scav" << std::endl;
+}
+
 ScavTrap::ScavTrap(std::string name): ClapTrap(name) {
 	this->setHitPoints(100);
 	this->setEnergyPoints(50);

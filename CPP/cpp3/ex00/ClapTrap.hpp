@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ClapTrap.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 15:16:40 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/15 15:40:14 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/16 21:05:29 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 class ClapTrap {
 public:
+	ClapTrap(void);
 	ClapTrap(std::string name);
   ClapTrap(ClapTrap const &src);
   ClapTrap &operator=(ClapTrap const &rhs);

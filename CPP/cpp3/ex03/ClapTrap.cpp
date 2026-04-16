@@ -14,6 +14,11 @@
 #include <iostream>
 #include <string>
 
+ClapTrap::ClapTrap(void)
+    : _name("void"), _hitPoints(100), _energyPoints(50), _attackDamage(20) {
+  std::cout << "Default constructor Parent\n";
+}
+
 ClapTrap::ClapTrap(std::string name)
     : _name(name), _hitPoints(100), _energyPoints(50), _attackDamage(20) {
   std::cout << name << " constructor Parent\n";

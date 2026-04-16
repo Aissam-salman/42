@@ -14,6 +14,13 @@
 #include "ClapTrap.hpp"
 #include <iostream>
 
+FragTrap::FragTrap(void) : ClapTrap() {
+  this->setHitPoints(100);
+  this->setEnergyPoints(100);
+  this->setAttackDamage(30);
+  std::cout << "Default constructor Child Frag" << std::endl;
+}
+
 FragTrap::FragTrap(std::string name) : ClapTrap(name) {
   this->setHitPoints(100);
   this->setEnergyPoints(100);
