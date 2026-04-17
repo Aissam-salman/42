@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 17:49:44 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/17 10:55:05 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/17 11:11:47 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void ScavTrap::guardGate(void){
 }
 
 void ScavTrap::attack(std::string const &target) {
-  if (this->getEnergyPoints() == 0 || this->getHitPoints() == 0)
+  if (this->getEnergyPoints() <= 0 || this->getHitPoints() == 0)
     return;
   this->setEnergyPoints(this->getEnergyPoints() - 1);
   std::cout << "SCAVTRAP: " <<this->getName() << " attacks " << target << ", causing "

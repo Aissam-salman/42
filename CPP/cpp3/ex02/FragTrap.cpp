@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 15:52:55 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/17 10:54:07 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/17 11:11:07 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ FragTrap &FragTrap::operator=(FragTrap const &rhs) {
 }
 
 void FragTrap::attack(std::string const &target) {
-  if (this->getEnergyPoints() == 0 || this->getHitPoints() == 0)
+  if (this->getEnergyPoints() <= 0 || this->getHitPoints() == 0)
     return;
   this->setEnergyPoints(this->getEnergyPoints() - 1);
   std::cout << "FRAGTRAP: " << this->getName() << " attacks " << target

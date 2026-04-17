@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 15:19:21 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/17 10:47:33 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/17 11:09:22 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int ClapTrap::getEnergyPoints(void) const { return (this->_energyPoints); }
 int ClapTrap::getAttackDamage(void) const { return (this->_attackDamage); }
 
 void ClapTrap::attack(std::string const &target) {
-  if (this->getEnergyPoints() == 0 || this->getHitPoints() == 0)
+  if (this->getEnergyPoints() <= 0 || this->getHitPoints() == 0)
     return;
   this->_energyPoints--;
   std::cout << this->getName() << " attacks " << target << ", causing "
@@ -55,7 +55,7 @@ void ClapTrap::attack(std::string const &target) {
 }
 
 void ClapTrap::takeDamage(unsigned int amount) {
-  if (this->getHitPoints() == 0)
+  if (this->getEnergyPoints() <= 0 || this->getHitPoints() == 0)
     return;
   if ((int)amount > this->getHitPoints())
     this->_hitPoints = 0;
@@ -65,7 +65,7 @@ void ClapTrap::takeDamage(unsigned int amount) {
 }
 
 void ClapTrap::beRepaired(unsigned int amount) {
-  if (this->getEnergyPoints() == 0 || this->getHitPoints() == 0)
+  if (this->getEnergyPoints() <= 0 || this->getHitPoints() == 0)
     return;
   this->_energyPoints--;
   this->_hitPoints += amount;

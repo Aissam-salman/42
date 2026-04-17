@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 17:13:32 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/17 11:03:10 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/17 11:12:54 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ DiamondTrap::DiamondTrap(DiamondTrap const &src)
 
 DiamondTrap &DiamondTrap::operator=(DiamondTrap const &rhs) {
   if (this != &rhs)
+  {
     ClapTrap::operator=(rhs);
+    this->_name = rhs._name;
+  }
   return (*this);
 }
 
