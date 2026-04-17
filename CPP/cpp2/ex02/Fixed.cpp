@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 15:16:32 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/14 15:23:39 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/17 10:22:38 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ Fixed Fixed::operator*(Fixed const &rhs) const {
   Fixed r;
 
   long long tmp = (long long)this->getRawBits() * (long long)rhs.getRawBits();
-  r.setRawBits((int)tmp >> this->_bits);
+  r.setRawBits((int)(tmp >> this->_bits));
   return r;
 }
 
