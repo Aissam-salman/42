@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 15:52:55 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/16 20:42:20 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/17 10:54:54 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,13 @@ FragTrap::~FragTrap(void) {
 
 FragTrap &FragTrap::operator=(FragTrap const &rhs) {
   if (this != &rhs) {
-    this->setName(rhs.getName());
-    this->setHitPoints(rhs.getHitPoints());
-    this->setEnergyPoints(rhs.getEnergyPoints());
-    this->setAttackDamage(rhs.getAttackDamage());
+    ClapTrap::operator=(rhs);
   }
   return (*this);
 }
 
 void FragTrap::attack(std::string const &target) {
-  if (this->getEnergyPoints() == 0)
+  if (this->getEnergyPoints() == 0 || this->getHitPoints() == 0)
     return;
   this->setEnergyPoints(this->getEnergyPoints() - 1);
   std::cout << "FRAGTRAP: " << this->getName() << " attacks " << target
@@ -55,7 +52,7 @@ void FragTrap::attack(std::string const &target) {
             << std::endl;
 }
 
-void highFivesGuys(void) {
+void FragTrap::highFivesGuys(void) {
   std::cout << " FragTrap call high fives Guys!" << std::endl;
 }
 

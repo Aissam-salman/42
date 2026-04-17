@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ClapTrap.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 15:19:21 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/16 21:07:15 by salman           ###   ########.fr       */
+/*   Updated: 2026/04/17 10:47:33 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int ClapTrap::getEnergyPoints(void) const { return (this->_energyPoints); }
 int ClapTrap::getAttackDamage(void) const { return (this->_attackDamage); }
 
 void ClapTrap::attack(std::string const &target) {
-  if (this->getEnergyPoints() == 0)
+  if (this->getEnergyPoints() == 0 || this->getHitPoints() == 0)
     return;
   this->_energyPoints--;
   std::cout << this->getName() << " attacks " << target << ", causing "
@@ -61,11 +61,13 @@ void ClapTrap::takeDamage(unsigned int amount) {
     this->_hitPoints = 0;
   else
     this->_hitPoints -= amount;
+	std::cout << "TAKE DAMAGE: " << amount << std::endl;
 }
 
 void ClapTrap::beRepaired(unsigned int amount) {
-  if (this->getEnergyPoints() == 0)
+  if (this->getEnergyPoints() == 0 || this->getHitPoints() == 0)
     return;
   this->_energyPoints--;
   this->_hitPoints += amount;
+	std::cout << "BE REPAIRED: " << amount << std::endl;
 }

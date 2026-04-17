@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   DiamondTrap.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 17:13:32 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/16 21:29:35 by salman           ###   ########.fr       */
+/*   Updated: 2026/04/17 11:03:10 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ DiamondTrap::DiamondTrap(void) : ClapTrap(), ScavTrap(), FragTrap(), _name() {
 DiamondTrap::DiamondTrap(std::string name)
     : ClapTrap(name + "_clap_name"), ScavTrap(name), FragTrap(name),
       _name(name) {
-  this->setHitPoints(100);
-  this->setEnergyPoints(50);
-  this->setAttackDamage(30);
+  this->_energyPoints = 50;
+  // this->setHitPoints(100);
+  // this->setEnergyPoints(50);
+  // this->setAttackDamage(30);
   std::cout << name << " constructor Diamond\n";
 }
 
