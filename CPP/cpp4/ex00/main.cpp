@@ -6,9 +6,16 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 21:38:08 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/16 21:40:08 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/17 21:38:54 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "Animal.hpp"
+#include "Dog.hpp"
+#include "Cat.hpp"
+#include "WrongAnimal.hpp"
+#include "WrongCat.hpp"
+#include <iostream>
 
 int main(void){
 	const Animal* meta = new Animal();
@@ -19,5 +26,14 @@ int main(void){
 	i->makeSound(); //will output the cat sound!
 	j->makeSound();
 	meta->makeSound();
+	std::cout << meta->getType() << " " << std::endl;
+
+	const WrongAnimal *WrongMeta = new WrongAnimal();
+	const WrongAnimal *wc = new WrongCat();
+
+	std::cout << WrongMeta->getType() << " " << std::endl;
+	std::cout << wc->getType() << " " << std::endl;
+	WrongMeta->makeSound();
+	wc->makeSound();
 	return 0;
 }

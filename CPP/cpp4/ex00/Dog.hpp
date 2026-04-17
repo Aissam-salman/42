@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   poly.cpp                                           :+:      :+:    :+:   */
+/*   Dog.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/17 15:25:01 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/17 15:28:10 by alamjada         ###   ########.fr       */
+/*   Created: 2026/04/17 21:02:16 by alamjada          #+#    #+#             */
+/*   Updated: 2026/04/17 21:21:50 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef DOG_HPP
+#define DOG_HPP
+
+#include "Animal.hpp"
 #include <string>
-#include <iostream>
 
-class Character {
+class Dog : public Animal {
 public:
-	void sayHello(std::string const &target);
+  Dog(void);
+  Dog(Dog const &src);
+  Dog &operator=(Dog const &rhs);
+  virtual ~Dog();
+
+  virtual void makeSound(void) const;
 
 };
 
-class Warrior: public Character {
-public:
-	void sayHello(std::string const &target);
-};
-
-class Cat {};
-
-Character::sayHello(std::string const &target){
-	std::cout << "Hello " << target << " bien ?" << std::endl;
-}
-
-Warrior::sayHello(std::string const &target){
-	std::cout << "F*** " << target << ", go P ?" << std::endl;
-}
+#endif
