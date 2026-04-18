@@ -18,7 +18,7 @@ AMateria::AMateria(void){
 	std::cout << "Default Constructor AMateria" << std::endl;
 }
 
-AMateria::AMateria(std::string const &type): _type(type) {
+AMateria::AMateria(std::string const &type): _type(type), _isEquiped(false) {
 	std::cout << type << " Constructor AMateria" << std::endl;
 }
 

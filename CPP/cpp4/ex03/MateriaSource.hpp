@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AMateria.hpp                                       :+:      :+:    :+:   */
+/*   MateriaSource.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/18 15:28:24 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/18 17:39:33 by alamjada         ###   ########.fr       */
+/*   Created: 2026/04/18 20:21:02 by alamjada          #+#    #+#             */
+/*   Updated: 2026/04/18 20:31:40 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AMATERIA_HPP
-#define AMATERIA_HPP
+#ifndef MATERIASOURCE_HPP
+#define MATERIASOURCE_HPP
 
+#include "AMateria.hpp"
+#include "IMateriaSource.hpp"
 #include <string>
 
-class ICharacter;
-
-class AMateria {
+class MateriaSource : public IMateriaSouce {
 	protected:
-		std::string _type;
-		bool _isEquiped;
+		AMateria *_inventory[4];
+		int _idx;
 	public:
-		AMateria(void);
-		AMateria(std::string const &type);
-		AMateria(AMateria const &src);
-		AMateria &operator=(AMateria const &rhs);
-		virtual ~AMateria(void);
+		MateriaSource(void);
+		MateriaSource(MateriaSource const &src);
+		MateriaSource &operator=(MateriaSource const &rhs);
+		~MateriaSource(void);
 
-		std::string const &getType() const;
-		virtual AMateria *clone() const = 0;
-		virtual void use(ICharacter &target);
+		virtual void learnMateria(AMateria *m) = 0;
+		virtual AMateria *createMateria(std::string const &type) = 0;
 };
 
 #endif

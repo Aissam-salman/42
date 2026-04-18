@@ -46,7 +46,7 @@ AMateria *Cure::clone() const {
 }
 
 void Cure::use(ICharacter &target){
-	std::cout << "* heals " << this->_name << "'s wounds *" std::endl;
+	std::cout << "* heals " << this->_name << "'s wounds *" << std::endl;
 }
 
 
