@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 21:38:08 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/18 15:15:14 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:12:03 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,24 @@ int main(void) {
   delete j; // should not create a leak
   delete i;
 
-  Animal **animals = new Animal*[10];
+  Animal **animals = new Animal *[10];
   for (int i = 0; i < 10; i++) {
     if (i % 2 == 0)
       animals[i] = new Cat();
     else
       animals[i] = new Dog();
   }
-	for (int i = 0; i < 10; i++) {
-		delete animals[i];
-	}
+
+  // test deep copy
+  Dog d;
+  {
+    Dog tmp = d;
+  }
+  d.makeSound();
+
+  for (int i = 0; i < 10; i++) {
+    delete animals[i];
+  }
   delete[] animals;
   return 0;
 }

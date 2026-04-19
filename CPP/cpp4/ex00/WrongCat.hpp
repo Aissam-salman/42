@@ -17,13 +17,11 @@
 #include <string>
 
 class WrongCat : public WrongAnimal {
-	public:
-		WrongCat(void);
-		WrongCat(WrongCat const &src);
-		WrongCat &operator=(WrongCat const &rhs);
-		virtual ~WrongCat(void);
+public:
+  WrongCat(void);
+  WrongCat(WrongCat const &src);
+  WrongCat &operator=(WrongCat const &rhs);
+  virtual ~WrongCat(void);
 };
 
 #endif
-
-

@@ -10,28 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "WrongAnimal.hpp"
 #include "WrongCat.hpp"
-#include <string>
+#include "WrongAnimal.hpp"
 #include <iostream>
+#include <string>
 
-WrongCat::WrongCat(void): WrongAnimal() {
-	std::cout << "Default Constructor WrongCat" << std::endl;
-	this->_type = "WrongCat";
+WrongCat::WrongCat(void) : WrongAnimal() {
+  std::cout << "Default Constructor WrongCat" << std::endl;
+  this->_type = "WrongCat";
 }
 
-WrongCat::WrongCat(WrongCat const &src): WrongAnimal() {
-	std::cout << "Copy Constructor WrongCat" << std::endl;
-	*this = src;
+WrongCat::WrongCat(WrongCat const &src) : WrongAnimal() {
+  std::cout << "Copy Constructor WrongCat" << std::endl;
+  *this = src;
 }
 
-WrongCat &WrongCat::operator=(WrongCat const &rhs){
-	std::cout << "Assignment operator WrongCat" << std::endl;
-	if (this != &rhs)
-		this->_type = rhs._type;
-	return (*this);
+WrongCat &WrongCat::operator=(WrongCat const &rhs) {
+  std::cout << "Assignment operator WrongCat" << std::endl;
+  if (this != &rhs)
+    this->_type = rhs._type;
+  return (*this);
 }
 
-WrongCat::~WrongCat(void){
-	std::cout << "Destructor WrongCat" << std::endl;
-}
+WrongCat::~WrongCat(void) { std::cout << "Destructor WrongCat" << std::endl; }

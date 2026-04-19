@@ -18,16 +18,16 @@
 #include <string>
 
 class Dog : public AAnimal {
-	public:
-		Dog(void);
-		Dog(Dog const &src);
-		Dog &operator=(Dog const &rhs);
-		virtual ~Dog();
+public:
+  Dog(void);
+  Dog(Dog const &src);
+  Dog &operator=(Dog const &rhs);
+  virtual ~Dog();
 
-		virtual void makeSound(void) const;
+  virtual void makeSound(void) const;
 
-	private:
-		Brain *_brain;
+private:
+  Brain *_brain;
 };
 
 #endif

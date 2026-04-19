@@ -16,9 +16,9 @@
 #include "AMateria.hpp"
 #include <string>
 
-class IMateriaSouce {
+class IMateriaSource {
 public:
-  virtual ~IMateriaSouce() {}
+  virtual ~IMateriaSource() {}
   virtual void learnMateria(AMateria *m) = 0;
   virtual AMateria *createMateria(std::string const &type) = 0;
 };

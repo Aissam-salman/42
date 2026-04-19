@@ -11,22 +11,23 @@
 /* ************************************************************************** */
 
 #ifndef ICE_HPP
-# define ICE_HPP
+#define ICE_HPP
 
 #include "AMateria.hpp"
 
 class Ice : public AMateria {
-	private:
-		std::string _name;
-	public:
-		Ice(void);
-		Ice(std::string const name);
-		Ice(Ice const &src);
-		Ice &operator=(Ice const &rhs);
-		~Ice(void);
+private:
+  std::string _name;
 
-		virtual AMateria *clone() const;
-		virtual void use(ICharacter &target);
+public:
+  Ice(void);
+  Ice(std::string const name);
+  Ice(Ice const &src);
+  Ice &operator=(Ice const &rhs);
+  ~Ice(void);
+
+  virtual AMateria *clone() const;
+  virtual void use(ICharacter &target);
 };
 
 #endif

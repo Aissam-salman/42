@@ -3,82 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   MateriaSource.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 20:24:18 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/18 20:31:41 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:27:45 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MateriaSource.hpp"
 #include "AMateria.hpp"
+#include "Cure.hpp"
+#include "Ice.hpp"
 #include <iostream>
 
-MateriaSource::MateriaSource() {
-	std::cout << "Default Constructor MateriaSource";
-	
+MateriaSource::MateriaSource() : _idx(0) {
+  std::cout << "Default Constructor MateriaSource" << std::endl;
+  for (int i = 0; i < 4; i++) {
+    this->_inventory[i] = NULL;
+  }
 }
-/*
-Character::Character(Character const &src) {
-  std::cout << "Copy Constructor Character" << std::endl;
-  this->_name = src._name;
+
+MateriaSource::MateriaSource(const MateriaSource &src) {
+  std::cout << "Copy Constructor MateriaSource" << std::endl;
+  for (int i = 0; i < 4; i++)
+    this->_inventory[i] = NULL;
   this->_idx = src._idx;
   for (int i = 0; i < 4; i++) {
-		this->_materials[i] = NULL;
-		if (src._materials[i])
-			this->_materials[i] = src._materials[i]->clone();
+    if (src._inventory[i])
+      this->_inventory[i] = src._inventory[i]->clone();
   }
 }
 
-Character &Character::operator=(Character const &rhs) {
+MateriaSource &MateriaSource::operator=(const MateriaSource &rhs) {
+  std::cout << "Assignment operator MateriaSource" << std::endl;
   if (this != &rhs) {
-		this->cleanGarbage();
-		for (int i = 0; i < 4; i++) {
-			if (this->_materials[i])
-			{
-				delete this->_materials[i];
-				this->_materials[i] = NULL;
-			}
-		}
-    this->_name = rhs._name;
-    this->_idx = rhs._idx;
+    // clean le current avant de deeep copy
     for (int i = 0; i < 4; i++) {
-			this->_materials[i] = NULL;
-			if (rhs._materials[i])
-				this->_materials[i] = rhs._materials[i]->clone();
+      if (this->_inventory[i]) {
+        delete this->_inventory[i];
+        this->_inventory[i] = NULL;
+      }
+      if (rhs._inventory[i])
+        this->_inventory[i] = rhs._inventory[i]->clone();
     }
+    this->_idx = rhs._idx;
   }
-  return (*this);
-}
-*/
-MateriaSource::MateriaSource(const MateriaSource& src) {
-	std::cout << "Copy Constructor MateriaSource";
-	*this = src;
-}
-
-MateriaSource& MateriaSource::operator=(const MateriaSource& rhs) {
-	std::cout << "Assignment operator MateriaSource";
-	if (this != &rhs) {
-// clean le current avant de deeep copy
-	}
-	return *this;
+  return *this;
 }
 
 MateriaSource::~MateriaSource() {
-	std::cout << "Destructor MateriaSource";
+  std::cout << "Destructor MateriaSource" << std::endl;
+  for (int i = 0; i < 4; i++) {
+    delete this->_inventory[i];
+  }
 }
 
-void MateriaSource::learnMateria(AMateria *m){
-// 	Copies the Materia passed as a parameter and stores it in memory so it can be cloned
-// later. Like the Character, the MateriaSource can know at most 4 Materias. They
-// are not necessarily unique
+void MateriaSource::learnMateria(AMateria *m) {
+  if (this->_idx == 4)
+    return;
+  this->_inventory[this->_idx++] = m->clone();
+  delete m;
 }
 
-AMateria *MateriaSource::createMateria(std::string const &type){
-// Returns a new Materia. The latter is a copy of the Materia previously learned by
-// the MateriaSource whose type equals the one passed as parameter. Returns 0 if
-// the type is unknown.
-	return (NULL);
+AMateria *MateriaSource::createMateria(std::string const &type) {
+  for (int i = 0; i < 4; i++) {
+    if (this->_inventory[i] && this->_inventory[i]->getType() == type)
+      return (this->_inventory[i]->clone());
+  }
+  return (0);
 }
-
-

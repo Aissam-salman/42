@@ -10,33 +10,29 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Animal.hpp"
 #include "Dog.hpp"
-#include <string>
+#include "Animal.hpp"
 #include <iostream>
+#include <string>
 
-Dog::Dog(void): Animal() {
-	std::cout << "Default Constructor Dog" << std::endl;
-	this->_type = "Dog";
+Dog::Dog(void) : Animal() {
+  std::cout << "Default Constructor Dog" << std::endl;
+  this->_type = "Dog";
 }
 
-Dog::Dog(Dog const &src): Animal() {
-	std::cout << "Copy Constructor Dog" << std::endl;
-	*this = src;
+Dog::Dog(Dog const &src) : Animal() {
+  std::cout << "Copy Constructor Dog" << std::endl;
+  *this = src;
 }
 
-Dog& Dog::operator=(Dog const &rhs) {
-	std::cout << "Copy Constructor Dog" << std::endl;
-	if (this != &rhs) {
-		this->_type = rhs._type;
-	}
-	return *this;
+Dog &Dog::operator=(Dog const &rhs) {
+  std::cout << "Copy Constructor Dog" << std::endl;
+  if (this != &rhs) {
+    this->_type = rhs._type;
+  }
+  return *this;
 }
 
-Dog::~Dog(void) {
-	std::cout << "Destructor Dog" << std::endl;
-}
+Dog::~Dog(void) { std::cout << "Destructor Dog" << std::endl; }
 
-void Dog::makeSound(void) const {
-	std::cout << "Dog: WHouuuffff" << std::endl;
-}
+void Dog::makeSound(void) const { std::cout << "Dog: WHouuuffff" << std::endl; }

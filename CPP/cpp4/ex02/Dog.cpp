@@ -10,35 +10,42 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AAnimal.hpp"
 #include "Dog.hpp"
-#include <string>
+#include "AAnimal.hpp"
 #include <iostream>
+#include <string>
 
-Dog::Dog(void): AAnimal() {
-	std::cout << "Default Constructor Dog" << std::endl;
-	this->_type = "Dog";
-	this->_brain = new Brain();
+Dog::Dog(void) : AAnimal() {
+  std::cout << "Default Constructor Dog" << std::endl;
+  this->_type = "Dog";
+  this->_brain = new Brain();
 }
 
-Dog::Dog(Dog const &src): AAnimal() {
-	std::cout << "Copy Constructor Dog" << std::endl;
-	*this = src;
+Dog::Dog(Dog const &src) : AAnimal() {
+  std::cout << "Copy Constructor Dog" << std::endl;
+  // *this = src;
+  this->_brain = NULL;
+  if (src._brain)
+    this->_brain = new Brain(*src._brain);
+  this->_type = src._type;
 }
 
-Dog& Dog::operator=(Dog const &rhs) {
-	std::cout << "Copy Constructor Dog" << std::endl;
-	if (this != &rhs) {
-		this->_type = rhs._type;
-	}
-	return *this;
+Dog &Dog::operator=(Dog const &rhs) {
+  std::cout << "Copy Constructor Dog" << std::endl;
+  if (this != &rhs) {
+    if (this->_brain) {
+      delete this->_brain;
+      this->_brain = NULL;
+    }
+    this->_brain = new Brain(*rhs._brain);
+    this->_type = rhs._type;
+  }
+  return *this;
 }
 
 Dog::~Dog(void) {
-	std::cout << "Destructor Dog" << std::endl;
-	delete this->_brain;
+  std::cout << "Destructor Dog" << std::endl;
+  delete this->_brain;
 }
 
-void Dog::makeSound(void) const {
-	std::cout << "Dog: WHouuuffff" << std::endl;
-}
+void Dog::makeSound(void) const { std::cout << "Dog: WHouuuffff" << std::endl; }

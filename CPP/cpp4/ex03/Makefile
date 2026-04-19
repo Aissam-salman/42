@@ -1,6 +1,6 @@
 NAME = material
 
-SRCS = main.cpp AMateria.cpp Ice.cpp Cure.cpp
+SRCS = main.cpp AMateria.cpp Ice.cpp Cure.cpp Character.cpp MateriaSource.cpp
 OBJS = $(SRCS:%.cpp=%.o)
 
 CXX = c++
@@ -18,7 +18,7 @@ $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(CCIFLAGS) $(OBJS) -o $(NAME)
 	@echo -e "$(GREEN)COMPILE DONE !$(RESET)"
 
-%.o:%cpp
+%.o:%.cpp
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 clean:

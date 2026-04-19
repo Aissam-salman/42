@@ -23,7 +23,7 @@ public:
   virtual ~WrongAnimal(void);
 
   void makeSound(void) const;
-	std::string getType(void) const;
+  std::string getType(void) const;
 
 protected:
   std::string _type;

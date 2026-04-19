@@ -18,15 +18,16 @@
 #include <string>
 
 class Cat : public Animal {
-	public:
-		Cat(void);
-		Cat(Cat const &src);
-		Cat &operator=(Cat const &rhs);
-		virtual ~Cat(void);
+public:
+  Cat(void);
+  Cat(Cat const &src);
+  Cat &operator=(Cat const &rhs);
+  virtual ~Cat(void);
 
-		virtual void makeSound(void) const;
-	private:
-		Brain *_brain;
+  virtual void makeSound(void) const;
+
+private:
+  Brain *_brain;
 };
 
 #endif

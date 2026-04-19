@@ -17,18 +17,19 @@
 #include "IMateriaSource.hpp"
 #include <string>
 
-class MateriaSource : public IMateriaSouce {
-	protected:
-		AMateria *_inventory[4];
-		int _idx;
-	public:
-		MateriaSource(void);
-		MateriaSource(MateriaSource const &src);
-		MateriaSource &operator=(MateriaSource const &rhs);
-		~MateriaSource(void);
+class MateriaSource : public IMateriaSource {
+protected:
+  AMateria *_inventory[4];
+  int _idx;
 
-		virtual void learnMateria(AMateria *m) = 0;
-		virtual AMateria *createMateria(std::string const &type) = 0;
+public:
+  MateriaSource(void);
+  MateriaSource(MateriaSource const &src);
+  MateriaSource &operator=(MateriaSource const &rhs);
+  ~MateriaSource(void);
+
+  virtual void learnMateria(AMateria *m);
+  virtual AMateria *createMateria(std::string const &type);
 };
 
 #endif

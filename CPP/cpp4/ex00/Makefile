@@ -18,7 +18,7 @@ $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(CCIFLAGS) $(OBJS) -o $(NAME)
 	@echo -e "$(GREEN)COMPILE DONE !$(RESET)"
 
-%.o:%cpp
+%.o:%.cpp
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 clean:

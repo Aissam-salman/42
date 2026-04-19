@@ -24,7 +24,6 @@ public:
   virtual ~Dog();
 
   virtual void makeSound(void) const;
-
 };
 
 #endif
