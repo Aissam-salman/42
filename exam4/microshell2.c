@@ -45,8 +45,8 @@ int ft_exec(char **av, char **envp, int i) {
     return (ft_error("error: fatal\n"));
 
   if (pid == 0) {
-    if (have_pipe && (dup2(pipe_fd[1], STDOUT_FILENO) == -1 || close(pipe_fd[0]) == -1 ||
-                      close(pipe_fd[1]) == -1))
+    if (have_pipe && (dup2(pipe_fd[1], STDOUT_FILENO) == -1 ||
+                      close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
       return (ft_error("error: fatal\n"));
 
     av[i] = 0;
@@ -57,8 +57,8 @@ int ft_exec(char **av, char **envp, int i) {
     ft_error("\n");
     exit(1);
   }
-  if (have_pipe && (dup2(pipe_fd[0], STDIN_FILENO) == -1 || close(pipe_fd[0]) == -1 ||
-                    close(pipe_fd[1]) == -1))
+  if (have_pipe && (dup2(pipe_fd[0], STDIN_FILENO) == -1 ||
+                    close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
     return (ft_error("error: fatal\n"));
   if (!have_pipe) {
     waitpid(pid, &status, 0);

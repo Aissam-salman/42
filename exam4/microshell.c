@@ -12,8 +12,8 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
 int ft_error(char *msg) {
   int i;
@@ -49,14 +49,15 @@ int ft_exec(char **argv, char **envp, int i) {
     if (have_pipe && (dup2(pipe_fd[1], 1) == -1 || close(pipe_fd[0]) == -1 ||
                       close(pipe_fd[1]) == -1))
       return (ft_error("error: fatal\n"));
-		execve(*argv, argv, envp);
-		return (ft_error("error: cannot execute "), ft_error(*argv), ft_error("\n"));
+    execve(*argv, argv, envp);
+    return (ft_error("error: cannot execute "), ft_error(*argv),
+            ft_error("\n"));
   }
-	waitpid(pid, &status, 0);
-    if (have_pipe && (dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]) == -1 ||
-                      close(pipe_fd[1]) == -1))
-      return (ft_error("error: fatal\n"));
-		return (WIFEXITED(status) && WEXITSTATUS(status));
+  waitpid(pid, &status, 0);
+  if (have_pipe && (dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]) == -1 ||
+                    close(pipe_fd[1]) == -1))
+    return (ft_error("error: fatal\n"));
+  return (WIFEXITED(status) && WEXITSTATUS(status));
 }
 
 int microshell(char **argv, char **envp) {
