@@ -6,11 +6,14 @@
 /*   By: salman </var/spool/mail/salman>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:29:39 by salman            #+#    #+#             */
-/*   Updated: 2026/04/20 18:57:34 by salman           ###   ########.fr       */
+/*   Updated: 2026/04/21 17:38:12 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
+#include "AForm.hpp"
+#include <exception>
+#include <iostream>
 
 Bureaucrat::Bureaucrat() : _name(""), _grade(150) {}
 
@@ -44,11 +47,32 @@ void Bureaucrat::decrement(void) {
     throw Bureaucrat::GradeTooLowException();
 }
 
+void Bureaucrat::executeForm(AForm const & form) const {
+	try {
+		form.execute(*this);
+		std::cout << this->getName() << " executed " << form.getName() << std::endl;
+	}
+	catch(Bureaucrat::FormNotSignedException &e){
+		std::cout << e.what() << std::endl;
+	}
+	catch(Bureaucrat::GradeTooLowException &e){
+		std::cout << e.what() << std::endl;
+	}
+	catch (std::exception & e)
+	{
+		std::cout << e.what() << std::endl;
+	}
+}
+
 const char *Bureaucrat::GradeTooHighException::what() const throw() {
   return ("Grade is too high !!");
 }
 const char *Bureaucrat::GradeTooLowException::what() const throw() {
   return ("Grade is too low !!");
+}
+
+const char *Bureaucrat::FormNotSignedException::what() const throw() {
+  return ("Form not signed");
 }
 
 std::ostream &operator<<(std::ostream &o, Bureaucrat const &rhs) {

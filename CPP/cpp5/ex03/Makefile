@@ -1,6 +1,7 @@
 NAME = formNeed
 
-SRCS = main.cpp Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp
+SRCS = main.cpp Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp \
+				PresidentialPardonForm.cpp RobotomyRequestForm.cpp Intern.cpp
 OBJS = $(SRCS:%.cpp=%.o)
 
 CXX = c++

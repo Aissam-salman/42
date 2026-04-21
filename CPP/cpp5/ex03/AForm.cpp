@@ -6,7 +6,7 @@
 /*   By: salman </var/spool/mail/salman>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:53:05 by salman            #+#    #+#             */
-/*   Updated: 2026/04/20 20:30:31 by salman           ###   ########.fr       */
+/*   Updated: 2026/04/21 20:06:22 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,18 @@ void AForm::signAForm(Bureaucrat const &bureaucrat) {
     std::cout << bureaucrat.getName() << " couldn't sign " << this->_name
               << " because " << e.what() << "." << std::endl;
   }
+}
+
+bool AForm::isExecutable(Bureaucrat const &executor) const {
+  if (this->getIsSigned() &&
+      executor.getGrade() <= this->getGradeRequiredToEx()) {
+		return true;
+  }
+	if (this->getIsSigned() == false)
+		throw Bureaucrat::FormNotSignedException();
+	if (executor.getGrade() > this->getGradeRequiredToEx())
+		throw Bureaucrat::GradeTooLowException();
+	return false;
 }
 
 const char *AForm::GradeTooHighException::what() const throw() {
