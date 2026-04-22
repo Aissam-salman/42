@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ShrubberyCreationForm.cpp                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman </var/spool/mail/salman>            +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 20:37:16 by salman            #+#    #+#             */
-/*   Updated: 2026/04/21 19:30:50 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/22 13:05:57 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ ShrubberyCreationForm::ShrubberyCreationForm(std::string target)
 
 ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm &src)
     : AForm(src.getName(), src.getGradeRequiredToSign(),
-            src.getGradeRequiredToEx()) {}
+            src.getGradeRequiredToEx()), _target(src._target) {}
 
 ShrubberyCreationForm &
 ShrubberyCreationForm::operator=(const ShrubberyCreationForm &rhs) {
@@ -36,7 +36,7 @@ void ShrubberyCreationForm::execute(Bureaucrat const &executor) const {
   if (AForm::isExecutable(executor)) {
     std::ofstream ofs;
 
-		std::string filename = executor.getName() + "_shrubbery";
+		std::string filename = this->_target + "_shrubbery";
 
     ofs.open(filename.c_str());
     if (ofs.is_open()) {

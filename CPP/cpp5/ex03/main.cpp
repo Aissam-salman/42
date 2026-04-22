@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman </var/spool/mail/salman>            +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:54:14 by salman            #+#    #+#             */
-/*   Updated: 2026/04/21 20:16:33 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/22 12:46:35 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "AForm.hpp"
 #include "Intern.hpp"
-
 
 int main(void) {
 	Intern someRandomIntern;

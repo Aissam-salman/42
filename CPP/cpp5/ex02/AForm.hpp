@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AForm.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman </var/spool/mail/salman>            +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 20:25:54 by salman            #+#    #+#             */
-/*   Updated: 2026/04/21 17:00:21 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/22 12:36:16 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ public:
   int getGradeRequiredToEx(void) const;
 
   void beSigned(Bureaucrat const &bureaucrat);
-  void signAForm(Bureaucrat const &bureaucrat);
 
 	virtual void execute(Bureaucrat const & executor) const = 0;
 	bool isExecutable(Bureaucrat const &executor) const;

@@ -14,7 +14,6 @@
 #define BUREAUCRAT_HPP
 
 #include <exception>
-#include <fstream>
 #include <ostream>
 #include <string>
 
@@ -27,6 +26,8 @@ public:
   Bureaucrat(void);
   Bureaucrat(std::string name);
   Bureaucrat(std::string name, int grade);
+	Bureaucrat(const Bureaucrat &src);
+	Bureaucrat &operator=(const Bureaucrat &rhs);
   ~Bureaucrat(void);
 
   std::string getName(void) const;

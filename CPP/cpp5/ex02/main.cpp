@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman </var/spool/mail/salman>            +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:54:14 by salman            #+#    #+#             */
-/*   Updated: 2026/04/21 17:50:52 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/22 12:46:24 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main(void) {
 	AForm *f =  new RobotomyRequestForm("baa");
 	Bureaucrat a = Bureaucrat("bob", 5);
 
-	f->signAForm(a);
+	a.signForm(*f);
 	a.executeForm(*f);
 
 	delete f;

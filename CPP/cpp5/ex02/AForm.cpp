@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AForm.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman </var/spool/mail/salman>            +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:53:05 by salman            #+#    #+#             */
-/*   Updated: 2026/04/21 17:46:06 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/22 12:36:04 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,6 @@ void AForm::beSigned(Bureaucrat const &bureaucrat) {
     this->_isSigned = true;
   else
     throw AForm::GradeTooLowException();
-}
-
-void AForm::signAForm(Bureaucrat const &bureaucrat) {
-  try {
-    this->beSigned(bureaucrat);
-    std::cout << bureaucrat.getName() << " signed " << this->_name << std::endl;
-  } catch (std::exception &e) {
-    std::cout << bureaucrat.getName() << " couldn't sign " << this->_name
-              << " because " << e.what() << "." << std::endl;
-  }
 }
 
 bool AForm::isExecutable(Bureaucrat const &executor) const {

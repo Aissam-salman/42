@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:34:52 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/21 20:18:31 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/22 12:43:56 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "PresidentialPardonForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "ShrubberyCreationForm.hpp"
+#include <iostream>
 
 Intern::Intern() {}
 
@@ -61,9 +62,11 @@ AForm *Intern::makeForm(std::string nameForm, std::string targetForm) {
 
   for (int i = 0; i < 3; i++) {
     if (nameForm == forms[i]) {
+      std::cout << "Intern creates " << nameForm << std::endl;
       return (this->*make[i])(targetForm);
     }
   }
   // throw Intern::FormNotFoundException(targetForm);
-	return NULL;
+  std::cout << "Intern cannot create " << nameForm << " is not existing!" << std::endl;
+  return NULL;
 }

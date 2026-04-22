@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Form.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman </var/spool/mail/salman>            +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:41:48 by salman            #+#    #+#             */
-/*   Updated: 2026/04/20 18:59:06 by salman           ###   ########.fr       */
+/*   Updated: 2026/04/22 12:27:58 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ public:
   int getGradeRequiredToEx(void) const;
 
   void beSigned(Bureaucrat const &bureaucrat);
-  void signForm(Bureaucrat const &bureaucrat);
 
   class GradeTooHighException : public std::exception {
   public:
