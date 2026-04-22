@@ -14,25 +14,13 @@
 
 int main()
 {
-	// conversion identitaire ?? valeur de base garde les memes 
-	// bits dans le meme ordre
-	// reinterpretation 
-	float a = 420.042f; // ref value
-	
-	void *b = &a; // Implicit reinterpretation cast
-	void *c = (void *)&a; // Explicit reinterpretation cast
-	
-	void *d = &a; // Implicit promotion > Ok
-	int *e = d; // Implicit demotion > Hazardeux
-	int *f = (int *)d; // Explicit demotion > ok, you are the boss
-	
-	printf("%p, %f\n", &a, a);
+	int a = 42;
 
-	printf("%p\n", b);
-	printf("%p\n", c);
+	int const *b =&a;  // Implicit type qualifier cast
+	int const *c = (int const *)&a; // Explicit type qualifier cast
 	
-	printf("%p\n", d);
-	printf("%p, %d\n", e, *e);
-	printf("%p, %d\n", f, *f);
+	int const *d = &a; //Implicit promotion > ok
+	int *e = d; // Implicit demotion > noooo
+	int *f = (int *)d; // Explicit demotion > ok, you're in charge
 	return 0;
 }
