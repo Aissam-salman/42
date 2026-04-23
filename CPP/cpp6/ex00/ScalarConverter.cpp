@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
+#include <cctype>
+#include <climits>
 #include <cstdlib>
 #include <iostream>
 #include <limits>
@@ -88,7 +90,7 @@ void ScalarConverter::convert(std::string str) {
     }
     std::cout << "char: " << c << std::endl;
     std::cout << "int: " << nb << std::endl;
-    std::cout << "float: " << f << std::endl;
+    std::cout << "float: " << f << "f" << std::endl;
     std::cout << "double: " << d << std::endl;
     return;
   }
@@ -100,6 +102,7 @@ void ScalarConverter::convert(std::string str) {
     std::cerr << "Input not convertible !" << std::endl;
     return;
   }
+
   f = static_cast<float>(d);
   nb = static_cast<int>(d);
   c = static_cast<char>(d);
@@ -107,9 +110,16 @@ void ScalarConverter::convert(std::string str) {
   std::cout << "char: ";
   if (d < 0 || d > 127)
     std::cout << "impossible" << std::endl;
+  else if (my_isprint(static_cast<int>(d)) == false)
+    std::cout << "not printable" << std::endl;
   else
     std::cout << c << std::endl;
-  std::cout << "int: " << nb << std::endl;
-  std::cout << "float: " << f << std::endl;
+
+  std::cout << "int: ";
+  if (d < INT_MIN || d > INT_MAX)
+    std::cout << "overflow int" << std::endl;
+  else
+    std::cout << nb << std::endl;
+  std::cout << "float: " << f << "f" << std::endl;
   std::cout << "double: " << d << std::endl;
 }
