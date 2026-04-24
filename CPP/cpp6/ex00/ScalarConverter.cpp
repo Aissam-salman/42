@@ -14,6 +14,7 @@
 #include <cctype>
 #include <climits>
 #include <cstdlib>
+#include <iomanip>
 #include <iostream>
 #include <limits>
 #include <string>
@@ -74,7 +75,7 @@ void ScalarConverter::convert(std::string str) {
 
   if (str.length() == 1) {
     if (my_isprint(str[0]) == false) {
-      std::cerr << "Not printable char" << std::endl;
+      std::cerr << "Not displayable" << std::endl;
       return;
     }
     if (!std::isdigit(str[0])) {
@@ -88,7 +89,7 @@ void ScalarConverter::convert(std::string str) {
       nb = static_cast<int>(d);
       c = static_cast<char>(d);
     }
-    std::cout << "char: " << c << std::endl;
+    std::cout << "char: '" << c << "'" << std::endl;
     std::cout << "int: " << nb << std::endl;
     std::cout << "float: " << f << "f" << std::endl;
     std::cout << "double: " << d << std::endl;
@@ -111,15 +112,17 @@ void ScalarConverter::convert(std::string str) {
   if (d < 0 || d > 127)
     std::cout << "impossible" << std::endl;
   else if (my_isprint(static_cast<int>(d)) == false)
-    std::cout << "not printable" << std::endl;
+    std::cout << "Not displayable" << std::endl;
   else
-    std::cout << c << std::endl;
+    std::cout << "'" << c << "'" << std::endl;
 
   std::cout << "int: ";
   if (d < INT_MIN || d > INT_MAX)
-    std::cout << "overflow int" << std::endl;
+    std::cout << "impossible" << std::endl;
   else
     std::cout << nb << std::endl;
+
+	std::cout << std::fixed << std::setprecision(2);
   std::cout << "float: " << f << "f" << std::endl;
   std::cout << "double: " << d << std::endl;
 }

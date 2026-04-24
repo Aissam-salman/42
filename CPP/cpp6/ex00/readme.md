@@ -1,16 +1,4 @@
-# Pistes d'amélioration et Corrections Potentielles - Module 06 ex00
 
-Ce fichier contient des pistes de réflexion pour améliorer ton implémentation du `ScalarConverter` et éviter de perdre des points lors de la correction, tout en respectant l'esprit du sujet de l'école 42.
-
-## 1. Instanciation de la classe `ScalarConverter`
-**Le problème :** Ton constructeur par défaut, par copie, ton opérateur d'assignation et ton destructeur sont `public` dans ton `.hpp`.
-**Piste :** Le sujet stipule généralement que cette classe ne doit contenir qu'une méthode statique et _ne doit pas être instanciée par l'utilisateur_.
-*Que se passe-t-il si quelqu'un fait `ScalarConverter a;` dans le main ?*
-Pour empêcher cela, déclare ton constructeur par défaut, par copie, ton destructeur et ton opérateur d'assignation dans la section `private`.
-
-## 2. Affichage des caractères (`char`)
-**Le problème :** Tu affiches correctement "impossible" ou "not printable", mais quand le caractère est imprimable, tu l'affiches tout seul.
-**Piste :** Le sujet de 42 demande que les caractères affichables soient toujours entourés par des guillemets simples (ex: `char: 'a'`). Tu devrais adapter ton `std::cout` pour entourer la variable `c`.
 
 ## 3. Précision de l'affichage des `float` et `double`
 **Le problème :** Si tu passes la valeur "42", ton programme affiche `float: 42f` et `double: 42`.
