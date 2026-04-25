@@ -47,31 +47,23 @@ void Base::identify(Base *p) {
     std::cout << "type C" << std::endl;
 }
 
-// prints the actual type of the object referenced by p: "A", "B", or "C".
-// Using a pointer
-// inside this function is forbidden.
 void Base::identify(Base &p) {
   std::cout << "IDENTIFY WITH REFERENCE" << std::endl;
   try {
-    A &a = dynamic_cast<A &>(p);
+    (void)dynamic_cast<A &>(p);
     std::cout << "type A" << std::endl;
-    (void)a;
-		return;
+    return;
   } catch (std::exception &bc) {
   }
-
   try {
-    B &b = dynamic_cast<B &>(p);
+    (void)dynamic_cast<B &>(p);
     std::cout << "type B" << std::endl;
-    (void)b;
-		return;
+    return;
   } catch (std::exception &bc) {
   }
-
   try {
-    C &c = dynamic_cast<C &>(p);
+    (void)dynamic_cast<C &>(p);
     std::cout << "type C" << std::endl;
-    (void)c;
   } catch (std::exception &bc) {
     std::cout << bc.what() << std::endl;
   }
