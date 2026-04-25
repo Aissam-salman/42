@@ -26,6 +26,7 @@ public:
   void pushBack(const std::string &value);
   void pushFirst(const std::string &value);
   void printData(void) const;
+	void clear(void);
 
 private:
 	struct Node {
@@ -39,7 +40,6 @@ private:
   Node *_tail;
 	int _size;
 
-	void _clear(void);
 };
 
 #endif

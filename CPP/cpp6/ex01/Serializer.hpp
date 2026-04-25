@@ -13,9 +13,10 @@
 #ifndef SERIALIZER
 #define SERIALIZER
 
-#include <cstdint>
+#include <stdint.h>
+#include "Data.hpp"
 
-class Data;
+
 
 class Serializer {
 private:

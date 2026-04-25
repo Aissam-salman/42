@@ -1,6 +1,6 @@
-NAME = convert_scalar
+NAME = serializer
 
-SRCS = main.cpp ScalarConverter.cpp Data.cpp
+SRCS = main.cpp Serializer.cpp Data.cpp
 OBJS = $(SRCS:%.cpp=%.o)
 
 CXX = c++
@@ -18,7 +18,7 @@ $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(CCIFLAGS) $(OBJS) -o $(NAME)
 	@echo -e "$(GREEN)COMPILE DONE !$(RESET)"
 
-%.o:%.cpp ScalarConverter.hpp
+%.o:%.cpp
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 clean:

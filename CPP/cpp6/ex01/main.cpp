@@ -10,32 +10,55 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
- *
- *
-Implement a class Serializer, which will not be initializable by the user in any way,
-with the following static methods:
-
-uintptr_t serialize(Data* ptr);
-It takes a pointer and converts it to the unsigned integer type uintptr_t.
-
-Data* deserialize(uintptr_t raw);
-It takes an unsigned integer parameter and converts it to a pointer to Data.
-Write a program to test that your class works as expected.
-
-You must create a non-empty (meaning it has data members) Data structure.
-Use serialize() on the address of the Data object and pass its return value to
-deserialize(). Then, ensure the return value of deserialize() compares equal to the
-original pointer.
-
-Do not forget to turn in the files of your Data structure.
-
-*/
 #include "Data.hpp"
+#include "Serializer.hpp"
+#include <iostream>
+#include <stdint.h>
 
-int main()
-{
-	Data *linkedList;
+void pp(std::string const msg) {
+  std::cout << std::endl;
+  std::cout << msg << std::endl;
+}
 
-	linkedList->pushBack(Data *ptr)
+int main() {
+  Data *linkedList = new Data();
+
+  linkedList->pushBack("pomme");
+  linkedList->pushBack("banane");
+  linkedList->pushBack("fraise");
+  pp("==== ORIGINAL ====");
+	std::cout << "original ptr: " << linkedList << std::endl;
+  linkedList->printData();
+
+  uintptr_t serialPtr = Serializer::serialize(linkedList);
+	std::cout << "serial: " << serialPtr << std::endl;
+
+  Data *deserialPtr = Serializer::deserialize(serialPtr);
+
+  pp("==== SERIAL ====");
+	std::cout << "deserial ptr: " << deserialPtr << std::endl;
+  deserialPtr->printData();
+
+  pp("==== COMPARE ORIGINAL AND SERIAL ====");
+  if (deserialPtr == linkedList)
+	{
+    std::cout << "Ptr equal!" << std::endl;
+		std::cout << "original ptr: " << linkedList << std::endl;
+		std::cout << "deserial ptr: " << deserialPtr << std::endl;
+	}
+
+  deserialPtr->pushFirst("kiwi");
+
+  pp("==== SERIAL MODIF ====");
+  deserialPtr->printData();
+
+  pp("==== COMPARE ORIGINAL AND SERIAL AFTER MODIF ====");
+  if (deserialPtr == linkedList)
+	{
+    std::cout << "Same object" << std::endl;
+		std::cout << "original ptr: " << linkedList << std::endl;
+		std::cout << "deserial ptr: " << deserialPtr << std::endl;
+	}
+  deserialPtr->clear();
+  return 0;
 }

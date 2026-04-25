@@ -14,48 +14,78 @@
 #include <cstddef>
 #include <iostream>
 
-Data::Data() : _head(NULL), _tail(NULL), _node(""), _next(NULL) {}
+Data::Data(void) : _head(NULL), _tail(NULL), _size(0) {}
 
-Data::Data(const Data &src) { *this = src; }
+Data::Node::Node(const std::string &value): _value(value), _next(NULL){}
+
+Data::Data(const Data &src) : _head(NULL), _tail(NULL), _size(0) {
+  Node *cur = src._head;
+  while (cur) {
+    this->pushBack(cur->_value);
+    cur = cur->_next;
+  }
+}
 
 Data &Data::operator=(const Data &rhs) {
   if (this != &rhs) {
-    this->_head = rhs._head;
-    this->_tail = rhs._tail;
-    this->_node = rhs._node;
-    this->_next = NULL;
-    this->_next = rhs._next;
+    this->clear();
+    Node *cur = rhs._head;
+    while (cur) {
+      this->pushBack(cur->_value);
+      cur = cur->_next;
+    }
   }
-  return *this;
+  return (*this);
 }
 
-Data::~Data() {}
+Data::~Data() { this->clear(); }
 
-void Data::pushBack(Data *ptr) {
+void Data::pushBack(const std::string &value) {
+  Node *newNode = new Node(value);
   if (this->_head == NULL) {
-    this->_head = ptr;
-    this->_tail = ptr;
-  } else
-    this->_tail->_next = ptr;
-}
-
-void Data::pushFirst(Data *ptr) {
-  if (this->_head == NULL) {
-    this->_head = ptr;
-    this->_tail = ptr;
+    this->_head = newNode;
+    this->_tail = newNode;
   } else {
-    Data *tmp = this->_head;
-    this->_head = ptr;
-    this->_head->_next = tmp;
+    this->_tail->_next = newNode;
+    this->_tail = newNode;
   }
+  this->_size++;
 }
 
-void Data::printData(void) {
-  Data *head = this->_head;
+void Data::pushFirst(const std::string &value) {
+  Node *newNode = new Node(value);
+  if (this->_head == NULL) {
+    this->_head = newNode;
+    this->_tail = newNode;
+  } else {
+		newNode->_next = this->_head;
+    this->_head = newNode;
+  }
+	this->_size++;
+}
+
+void Data::printData(void) const {
+  Node *head = this->_head;
   int i = 0;
   while (head) {
-    std::cout << "node [" << i << "] = " << head->_node << std::endl;
+		std::cout << head->_value;
+		if (head->_next)
+			std::cout << " -> ";
     i++;
     head = head->_next;
   }
+	std::cout << std::endl;
+}
+
+void Data::clear(void) {
+	Node *cur = this->_head;
+	while (cur)
+	{
+		Node *tmp = cur->_next;
+		delete cur;
+		cur = tmp;
+	}
+	_head = NULL;
+	_tail = NULL;
+	_size = 0;
 }
