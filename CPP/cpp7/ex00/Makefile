@@ -1,4 +1,4 @@
-NAME = 
+NAME = whatever
 
 SRCS = main.cpp
 OBJS = $(SRCS:%.cpp=%.o)
@@ -18,7 +18,7 @@ $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(CCIFLAGS) $(OBJS) -o $(NAME)
 	@echo -e "$(GREEN)COMPILE DONE !$(RESET)"
 
-%.o:%.cpp
+%.o:%.cpp whatever.hpp
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 clean:
