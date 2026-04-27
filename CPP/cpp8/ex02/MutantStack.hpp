@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 19:48:04 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/27 20:05:23 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/27 20:06:16 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,7 @@
 // DEQUE used if not stant
 //
 // T Type of the elements.
-		// Aliased as member type stack::value_type.
-// Container
-// Type of the internal underlying container object where the elements are stored.
-// Its value_type shall be T.
-// Aliased as member type stack::container_type.
+// Container Type of the internal underlying container object where the elements are stored.
 
 #include <deque>
 template <typename T, typename Container = std::deque<T>>
