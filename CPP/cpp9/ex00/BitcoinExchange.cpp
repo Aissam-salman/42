@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 11:24:58 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/28 13:14:53 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/28 13:33:04 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,12 @@ BitcoinExchange::~BitcoinExchange(void) {
   this->_out.clear();
 }
 
-void BitcoinExchange::openD(std::string filename) const {
+void BitcoinExchange::openAndStore(std::string filename) {
   std::ifstream ifs;
 
   ifs.open(filename.c_str(), std::ios_base::in);
-  if (!ifs.is_open()) {
+  if (!ifs.is_open())
     throw BitcoinExchange::ErrorOpenFileException();
-  }
 
   std::string line;
   int lineNb = 0;
@@ -92,8 +91,8 @@ void BitcoinExchange::openD(std::string filename) const {
     }
     if (value == 0)
       std::cout << std::endl;
+
     (void)value;
   }
-
   ifs.close();
 }

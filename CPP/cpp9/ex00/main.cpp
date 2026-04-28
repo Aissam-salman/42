@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 10:59:15 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/28 12:54:45 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/28 13:27:20 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main(int ac, char **av) {
   BitcoinExchange btc = BitcoinExchange("data.csv");
 
   try {
-    btc.openD(av[1]);
+    btc.openAndStore(av[1]);
   } catch (BitcoinExchange::ErrorOpenFileException &eo) {
     std::cout << eo.what() << std::endl;
   } catch (std::exception &e) {

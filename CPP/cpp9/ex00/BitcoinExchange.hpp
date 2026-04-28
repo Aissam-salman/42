@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 10:06:33 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/28 12:03:14 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/28 13:32:07 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define BITCOINEXCHANGE_HPP
 
 #include <exception>
+#include <fstream>
 #include <map>
 #include <string>
 
@@ -24,7 +25,7 @@ public:
   BitcoinExchange &operator=(const BitcoinExchange &rhs);
   ~BitcoinExchange(void);
 
-  void openD(std::string filename) const;
+  void openAndStore(std::string filename);
 
   class ErrorOpenFileException : std::exception {
   public:
