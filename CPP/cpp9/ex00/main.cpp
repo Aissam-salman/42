@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 10:59:15 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/28 13:27:20 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/28 19:51:18 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,41 +23,11 @@ int main(int ac, char **av) {
 
   try {
     btc.openAndStore(av[1]);
+		btc.exchange();
   } catch (BitcoinExchange::ErrorOpenFileException &eo) {
     std::cout << eo.what() << std::endl;
   } catch (std::exception &e) {
     std::cout << e.what() << std::endl;
   }
-
-  // try open av[1]
-  // not "Error: could not open file."
-  // read data.csv
-  // stock line   key date, value exchange_rate dans map
-  // read av[i]
-  // stock line key date, value value dans une map
-  // check data , value [0, 1000]
-  //   print error
-  // search date in data , or lower date (closest)
-  // compute exchange_rate * value
-  // print YYYY-MM-DD => value = compute
-  // handle error
-
   return 0;
 }
-
-// const std::string _dataPath;
-// std::map<std::string, float> _data;
-// std::map<std::string, float> _file;
-// std::map<std::string, std::string> _out;
-
-// bool isOpen(char *filename) const;
-// void storeData(std::string const &data);
-// void storeFile(ofstream &oFile);
-// void checkLine(std::string const &line);
-// float find(std::string const date);
-// int find(std::string const date);
-// void print();
-//  NotPositiveNumberException
-//  BadInputException
-//  ToLargeNumberException
-//  ErrorOpenFileException

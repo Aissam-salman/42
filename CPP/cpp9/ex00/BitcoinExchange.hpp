@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 10:06:33 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/28 17:59:59 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/28 19:40:38 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,12 @@ public:
   ~BitcoinExchange(void);
 
   void openAndStore(std::string filename);
+	void exchange(void);
 
   class ErrorOpenFileException : std::exception {
   public:
     virtual const char *what() const throw() {
       return ("Error: could not open file.");
-    }
-  };
-
-  class NotPositiveNumberException : std::exception {
-  public:
-    virtual const char *what() const throw() {
-      return ("Error: not a positive number.");
-    }
-  };
-
-  class BadInputException : std::exception {
-  public:
-    virtual const char *what() const throw() { return ("Error: bad input"); }
-  };
-
-  class ToLargeNumberException : std::exception {
-  public:
-    virtual const char *what() const throw() {
-      return ("Error: too large a number.");
     }
   };
 

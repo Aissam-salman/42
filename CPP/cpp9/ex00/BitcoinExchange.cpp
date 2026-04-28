@@ -6,13 +6,14 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 11:24:58 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/28 18:03:27 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/28 19:51:14 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 #include <cstddef>
 #include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <iomanip>
 #include <ios>
@@ -59,13 +60,14 @@ void BitcoinExchange::openData(void) {
   if (!ifs.is_open())
     throw BitcoinExchange::ErrorOpenFileException();
   std::string line;
-  int lineNb = 0;
   while (std::getline(ifs, line, '\n')) {
-    lineNb++;
-    if (lineNb == 1 && line.find("date") != std::string::npos &&
+    if (line.find("date") != std::string::npos &&
         line.find(",") != std::string::npos &&
-        line.find("exchange_rate") != std::string::npos)
+        line.find("exchange_rate") != std::string::npos) {
       continue;
+    } else if (line.empty()) {
+      continue;
+    }
     std::stringstream ss(line);
     std::string item;
     std::string data;
@@ -92,12 +94,12 @@ void BitcoinExchange::openAndStore(std::string filename) {
   if (!ifs.is_open())
     throw BitcoinExchange::ErrorOpenFileException();
   std::string line;
-  int lineNb = 0;
   while (std::getline(ifs, line, '\n')) {
-    lineNb++;
-    if (lineNb == 1 && line.find("date") != std::string::npos &&
+    if (line.find("date") != std::string::npos &&
         line.find("|") != std::string::npos &&
         line.find("value") != std::string::npos) {
+      continue;
+    } else if (line.empty()) {
       continue;
     }
     std::stringstream ss(line);
@@ -119,20 +121,55 @@ void BitcoinExchange::openAndStore(std::string filename) {
     this->_file.push_back(Row(data, value));
   }
   ifs.close();
-  // std::list<Row>::iterator it = this->_file.begin();
-  // std::list<Row>::iterator ite = this->_file.end();
-  // for (; it != ite; ++it)
-  //   std::cout << *it << std::endl;
   try {
     this->openData();
-    std::map<std::string, float>::iterator it = this->_data.begin();
-    std::map<std::string, float>::iterator ite = this->_data.end();
-
-    for (; it != ite; ++it)
-    	std::cout << it->first << ", " << it->second << std::endl;
   } catch (BitcoinExchange::ErrorOpenFileException &e) {
     std::cerr << "Data source" << std::endl;
     throw BitcoinExchange::ErrorOpenFileException();
+  }
+}
+
+int checkDate(std::string date) {
+  struct tm tm;
+  std::setlocale(LC_ALL, NULL);
+  if (strptime(date.c_str(), "%Y-%m-%d", &tm) == NULL)
+    return 1;
+  return 0;
+}
+
+int checkValue(float value) {
+  if (value > 1000)
+    return 1;
+  else if (value < 0)
+    return -1;
+  return 0;
+}
+
+void BitcoinExchange::exchange(void) {
+  std::list<Row>::iterator it = this->_file.begin();
+  std::list<Row>::iterator ite = this->_file.end();
+  for (; it != ite; ++it) {
+    if (checkDate(it->_date) == 1) {
+      std::cout << "Error: bad input => " << it->_date << std::endl;
+      continue;
+    }
+    int cv = checkValue(it->_value);
+    if (cv == -1) {
+      std::cout << "Error: not a positive number." << std::endl;
+      continue;
+    } else if (cv == 1) {
+      std::cout << "Error: too large a number." << std::endl;
+      continue;
+    }
+    std::map<std::string, float>::iterator low =
+        this->_data.lower_bound(it->_date);
+
+    if (low->first != it->_date) {
+      if (low != this->_data.begin())
+        low--;
+    }
+    std::cout << it->_date << " => " << std::setprecision(2) << it->_value
+              << " = " << (low->second * it->_value) << std::endl;
   }
 }
 
