@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 10:06:33 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/28 13:32:07 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/28 17:59:59 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 #include <exception>
 #include <fstream>
-#include <map>
+#include <list>
 #include <string>
+#include <map>
 
 class BitcoinExchange {
 public:
@@ -53,12 +54,23 @@ public:
     }
   };
 
+	class Row {
+		public:
+			Row(std::string date, float value): _date(date), _value(value){}
+
+			std::string _date;
+			float _value;
+	};
+
 private:
   BitcoinExchange(void);
+	void openData(void);
   const std::string _dataPath;
   std::map<std::string, float> _data;
-  std::map<std::string, float> _file;
-  std::map<std::string, std::string> _out;
+  std::list<Row> _file;
+  std::list<std::string> _out;
 };
+
+std::ostream &operator<<(std::ostream &o, const BitcoinExchange::Row &rhs);
 
 #endif
