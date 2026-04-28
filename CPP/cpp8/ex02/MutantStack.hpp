@@ -13,23 +13,33 @@
 #ifndef MUTANTSTACK_HPP
 #define MUTANTSTACK_HPP
 
-// LIFO last in first out
-// DEQUE used if not stant
-//
-// T Type of the elements.
-// Container Type of the internal underlying container object where the elements are stored.
-
 #include <deque>
+#include <stack>
 template <typename T, typename Container = std::deque<T>>
-class MutantStack  {
-	public:
+class MutantStack : public std::stack<T, Container> {
+public:
+  MutantStack(void) : std::stack<T, Container>() {}
 
-	private:
+  MutantStack(const MutantStack<T, Container> &src)
+      : std::stack<T, Container>(src) {}
 
+  virtual ~MutantStack(void) {}
 
-// 	It will be implemented in terms of a std::stack.
-// It will offer all its member functions, plus an additional feature: iterators.
+  MutantStack<T, Container> &operator=(const MutantStack<T, Container> &rhs) {
+    if (this != &rhs)
+      std::stack<T, Container>::operator=(rhs);
+    return *this;
+  }
 
+  typedef typename std::stack<T, Container>::container_type::iterator iterator;
+  typedef typename std::stack<T, Container>::container_type::const_iterator
+      const_iterator;
+
+  iterator begin() { return this->c.begin(); }
+  iterator end() { return this->c.end(); }
+
+  const_iterator begin() const { return this->c.begin(); }
+  const_iterator end() const { return this->c.end(); }
 };
 
 #endif
