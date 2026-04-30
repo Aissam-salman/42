@@ -15,10 +15,10 @@
 #include <cctype>
 #include <cmath>
 #include <iostream>
+#include <ostream>
+#include <sstream>
 #include <stack>
 #include <string>
-
-#define CHARSET
 
 RPN::RPN() : _line(NULL), _size(0) {}
 
@@ -38,10 +38,7 @@ RPN &RPN::operator=(const RPN &rhs) {
   return *this;
 }
 
-RPN::~RPN() {
-  while (!this->_c.empty())
-    this->_c.pop();
-}
+RPN::~RPN() {}
 
 bool inCharset(char c) {
   std::string charset = "+-*/ ";
@@ -79,40 +76,49 @@ bool RPN::parsing(void) {
   return true;
 }
 
-std::string choiceC(int first, int second, char charset){
-	int r = 0;
+std::string toString(int nbr) {
+  std::ostringstream oss;
 
-	if (charset == '*')
-		r = first * second;
-	else if (charset == '+')
-		r = first + second;
-	else if (charset == '-')
-		r = first - second;
-	else if (charset == '/')
-		r = std::floor(first / second);
-	return std::to_string(r);
+  oss << nbr;
+  return oss.str();
 }
 
-void RPN::compute(void) { 
-	std::cout << this->_line << std::endl; 
-	int second = 0;
-	int first = 0;
+std::string choiceC(int first, int second, char charset) {
+  int r = 0;
 
-	for (size_t i = 0; i < this->_line.size(); i++) {
-		if (!std::isspace(this->_line[i]) && !inCharset(this->_line[i]))
-			this->_c.push(&this->_line[i]);
-		if (inCharset(this->_line[i]))
-		{
-			second = std::stoi(this->_c.top());
-			this->_c.pop();
-			first = std::stoi(this->_c.top());
-			this->_c.push(choiceC(first, second, this->_line[i]));
-		}
-	}
-	if (this->_c.size() > 1)
+  if (charset == '*')
+    r = first * second;
+  else if (charset == '+')
+    r = first + second;
+  else if (charset == '-')
+    r = first - second;
+  else if (charset == '/')
+    r = std::floor(first / second);
+  return toString(r);
+}
+
+void RPN::compute(void) {
+  int second = 0;
+  int first = 0;
+  char c = 0;
+
+  for (size_t i = 0; i < this->_line.size(); i++) {
+    c = this->_line[i];
+    if (!std::isspace(this->_line[i]) && !inCharset(this->_line[i])) {
+      this->_c.push(&c);
+      continue;
+    } else if (!std::isspace(this->_line[i]) && inCharset(c)) {
+      second = std::atoi(this->_c.top().c_str());
+      this->_c.pop();
+      first = std::atoi(this->_c.top().c_str());
+      this->_c.pop();
+      this->_c.push(choiceC(first, second, this->_line[i]));
+    }
+  }
+  if (this->_c.size() > 1)
     std::cout << "Error" << std::endl;
-	else
-		std::cout << this->_c.top() << std::endl;
+  else
+    std::cout << this->_c.top() << std::endl;
 }
 
 void RPN::run(void) {

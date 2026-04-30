@@ -47,11 +47,7 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &rhs) {
   return (*this);
 }
 
-BitcoinExchange::~BitcoinExchange(void) {
-  this->_data.clear();
-  this->_file.clear();
-  this->_out.clear();
-}
+BitcoinExchange::~BitcoinExchange(void) {}
 
 void BitcoinExchange::openData(void) {
   std::ifstream ifs;
