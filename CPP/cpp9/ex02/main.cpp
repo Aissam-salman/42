@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 16:07:30 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/30 19:24:51 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/30 19:54:04 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include <iostream>
 
 int main(int ac, char **av){
-	if (ac < 2)
+	if (ac < 2 || (av[1] && !*av[1]))
 	{
-		std::cerr << "Error" << std::endl;
+		PmergeMe::err();
 		return 1;
 	}
 	PmergeMe pm = PmergeMe(ac, av);

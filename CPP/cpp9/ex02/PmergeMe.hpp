@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 18:57:53 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/30 19:17:11 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/30 19:58:11 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ public:
 
   bool checkParams(void);
   void sort(void);
+	static void err(void);
 
 private:
+	//TODO: maybe _size need
   std::vector<int> _origin;
   std::vector<std::string> _params;
 };

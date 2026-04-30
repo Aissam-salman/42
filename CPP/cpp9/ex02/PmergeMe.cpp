@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 19:00:35 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/30 19:36:21 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/04/30 20:05:12 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,49 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &rhs) {
 }
 
 
-bool PmergeMe::checkParams(void) { return true; }
+bool PmergeMe::checkParams(void) {
+	//TODO: 
+	// check only digit
+	// no doublon
+	// si len string > 10 depasse int_max sur
+	return true;
+}
+
+// void mergeInsert(void){}
+// TODO:
+// Fonction tri(liste_input) :
+//     Si taille(liste_input) < 2 :
+//         retourner liste_input
+//
+//     // 1. Pairage et séparation
+//     Paires = créer_paires(liste_input)
+//     Gagnants = extraire_gagnants(Paires)
+//     Perdants = extraire_perdants(Paires)
+//
+//     // 2. La récursivité
+//     Main_Chain = tri(Gagnants) // <--- C'est ici que la magie opère
+//
+//     // 3. Insertion des perdants (La partie non récursive)
+//     Tant que Pend n'est pas vide :
+//         // Logique de Jacobsthal + Binary Search
+//         ... insérer perdant dans Main_Chain ...
+//
+//     retourner Main_Chain
 
 void PmergeMe::sort(void) {
   std::vector<std::string>::iterator it = this->_params.begin();
   std::vector<std::string>::iterator ite = this->_params.end();
   for (; it != ite; ++it)
     std::cout << *it << std::endl;
+	if (!checkParams())
+		return this->err();
+	//TODO:
+	// convertir string en long 
+	// controler pas overflow int_max 
+	// remplir origin en static_cast<int>
+	// call mergeInsert();
+}
+
+void PmergeMe::err(void){
+	std::cout << "Error" << std::endl;
 }
