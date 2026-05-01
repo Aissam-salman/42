@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 19:00:35 by alamjada          #+#    #+#             */
-/*   Updated: 2026/05/01 09:28:35 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/05/01 20:06:48 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,18 +160,6 @@ bool PmergeMe::prepare(void) {
   return true;
 }
 
-bool PmergeMe::isSorted(void) {
-  std::vector<int>::const_iterator start = this->_originV.begin();
-  std::vector<int>::const_iterator end = this->_originV.end();
-
-  std::vector<int>::const_iterator next = start;
-  while (++next != end) {
-    if (*next < *start)
-      return false;
-    ++start;
-  }
-  return true;
-}
 
 void PmergeMe::sort(void) {
   if (!this->checkParams()) {
@@ -186,18 +174,21 @@ void PmergeMe::sort(void) {
     PmergeMe::err();
     return;
   }
-  if (this->isSorted()) {
+  if (this->isSorted(this->_originV)) {
     std::cout << "Already sort" << std::endl;
     this->printEnd();
     return;
   }
   this->_timeStartV = getTime();
-  this->_sortedV = this->mergeInsertV(this->_originV, this->_orphelinV);
+  this->_sortedV = this->mergeInsertV(this->_originV);
   this->_timeEndV = getTime();
+
   this->_timeStartD = getTime();
   this->mergeInsertD(this->_originD);
   this->_timeEndD = getTime();
   this->printEnd();
+  if (this->isSorted(this->_sortedV))
+    std::cout << "WINNNN !!!" << std::endl;
 }
 
 std::vector< std::pair<int, int> > createPair(const std::vector<int> &lst,
@@ -225,46 +216,61 @@ std::vector<int> extractWinners(const std::vector< std::pair<int, int> > &pairs)
   return win;
 }
 
-std::vector<int> extractLosers(const std::vector< std::pair<int, int> > &pairs) {
+std::vector<int> extractLosers(const std::vector<int> &mainChain, const std::vector< std::pair<int, int> > &pairs) {
   std::vector<int> losers;
-  std::vector< std::pair<int, int> >::const_iterator it = pairs.begin();
-  std::vector< std::pair<int, int> >::const_iterator ed = pairs.end();
-  for (; it != ed; ++it)
-    losers.push_back(it->first);
+  losers.reserve(mainChain.size());
+  for (size_t i = 0; i < mainChain.size(); i++) {
+    for (size_t j = 0; j < pairs.size(); j++) {
+      if (pairs[j].second == mainChain[i]) {
+        losers.push_back(pairs[j].first);
+        break;
+      }
+    }
+  }
   return losers;
 }
 
-std::vector<int> jacobsthal(int n) {
+std::vector<int> jacobsthal(const int &n) {
   std::vector<int> jacob;
-  jacob.push_back(0);
   jacob.push_back(1);
-  for (int i = 2; i <= n; i++)
-    jacob.push_back(jacob[i - 1] + 2 * jacob[i - 2]);
+  jacob.push_back(3);
+  while (jacob.back() < n)
+  {
+    int next = jacob.back() + 2 * jacob[jacob.size() - 2];
+    jacob.push_back(next);
+  }
   return jacob;
 }
 
-std::vector<int> generateOrder(int loserLen) {
-  std::vector<int> jacobSuite = jacobsthal(loserLen);
+std::vector<int> generateOrder(const int &loserLen) {
   std::vector<int> order;
 
-  int prevIndex = 1;
-  for (size_t i = 3; i < jacobSuite.size(); i++) {
-    int curJ = jacobSuite[i];
-    for (int k = curJ - 1; k >= prevIndex; --k) {
-      if (k < loserLen)
-        order.push_back(k);
+  if (loserLen == 0)
+    return order;
+
+  order.push_back(0);
+
+  if (loserLen > 1) {
+    std::vector<int> jacobSuite = jacobsthal(loserLen);
+    int prevIndex = 1;
+    for (size_t i = 0; i < jacobSuite.size(); ++i) {
+      int curJ = jacobSuite[i];
+      for (int k = (curJ  < loserLen ? curJ : loserLen - 1); k >= prevIndex; --k) {
+        if (k < loserLen)
+          order.push_back(k);
+      }
+      prevIndex = curJ + 1;
+      if (prevIndex >= loserLen)
+        break;
     }
-    prevIndex = curJ;
   }
-  for (int i = loserLen - 1; i >= prevIndex; --i) {
-    order.push_back(i);
-  }
+
   return order;
 }
 
-std::vector<int>::iterator binarySearch(std::vector<int>::iterator start,
-                                        std::vector<int>::iterator end,
-                                        int val) {
+std::vector<int>::iterator binarySearch(std::vector<int>::iterator &start,
+                                        std::vector<int>::iterator &end,
+                                        const int val) {
   while (start != end) {
     std::vector<int>::iterator mid = start + (std::distance(start, end) / 2);
     if (*mid < val)
@@ -275,7 +281,7 @@ std::vector<int>::iterator binarySearch(std::vector<int>::iterator start,
   return start;
 }
 
-int findPairsOfLower(std::vector< std::pair<int, int> >::iterator begin, std::vector< std::pair<int, int> >::iterator end, int val) {
+int findPairsOfLower(std::vector< std::pair<int, int> >::iterator begin, std::vector< std::pair<int, int> >::iterator end, const int &val) {
 	for (; begin != end; ++begin) {
 		if (begin->first == val)
 			return begin->second;
@@ -283,46 +289,32 @@ int findPairsOfLower(std::vector< std::pair<int, int> >::iterator begin, std::ve
 	return -1;
 }
 
-int findPairsOfWinner(std::vector< std::pair<int, int> >::iterator begin, std::vector< std::pair<int, int> >::iterator end, int val) {
-	for (; begin != end; ++begin) {
-		if (begin->second == val)
-			return begin->first;
-	}
-	return -1;
-}
-
-std::vector<int> PmergeMe::mergeInsertV(std::vector<int> lst, std::vector<int> &orp) {
+std::vector<int> PmergeMe::mergeInsertV(std::vector<int> &lst) {
   if (lst.size() < 2)
     return lst;
-  std::vector< std::pair<int, int> > pairs = createPair(lst, this->_orphelinV);
-  std::vector<int> winners = extractWinners(pairs);
-  std::vector<int> losers = extractLosers(pairs);
-
-  std::vector<int> mainChain = this->mergeInsertV(winners, orp);
-
-	int minP = findPairsOfWinner(pairs.begin(), pairs.end(), mainChain.front());
-	std::vector<int>::iterator posMin = std::find(losers.begin(), losers.end(), minP);
-	
-	losers.erase(posMin);
-  mainChain.insert(mainChain.begin(), minP);
-
-  std::vector<int> order = generateOrder(losers.size());
-
-    for (size_t i = 0; i < order.size(); i++) {
-      int v = losers[order[i]];
-
-			int maxP = findPairsOfLower(pairs.begin(), pairs.end(), v);
-
-      std::vector<int>::iterator ma =
-          std::find(mainChain.begin(), mainChain.end(), maxP);
-
-      // std::vector<int>::iterator it = binarySearch(mainChain.begin(), ma, v);
-      std::vector<int>::iterator it =
-          std::lower_bound(mainChain.begin(), ma, v);
-      mainChain.insert(it, v);
-    }
-
-
+	std::vector<int> orp;
+	orp.reserve(1);
+  std::vector< std::pair<int, int> > pairs;
+	pairs = createPair(lst, orp);
+  std::vector<int> winners;
+	winners = extractWinners(pairs);
+  std::vector<int> mainChain;
+	mainChain = this->mergeInsertV(winners);
+  std::vector<int> losers;
+  losers.reserve(mainChain.size());
+  losers = extractLosers(mainChain, pairs);
+  std::vector<int> order;
+	order = generateOrder(losers.size());
+	mainChain.insert(mainChain.begin(), losers[0]);
+  for (size_t i = 1; i < order.size(); i++) {
+    int v = losers[order[i]];
+    int maxP = findPairsOfLower(pairs.begin(), pairs.end(), v);
+    std::vector<int>::iterator ma =
+        std::find(mainChain.begin(), mainChain.end(), maxP);
+    std::vector<int>::iterator it =
+        std::lower_bound(mainChain.begin(), ma, v);
+    mainChain.insert(it, v);
+  }
 	std::vector<int>::iterator o = orp.begin();
 	std::vector<int>::iterator g = orp.end();
 	for (; o != g; ++o) {
@@ -330,10 +322,9 @@ std::vector<int> PmergeMe::mergeInsertV(std::vector<int> lst, std::vector<int> &
           std::lower_bound(mainChain.begin(), mainChain.end(), *o);
       mainChain.insert(it, *o);
 	}
-
   return mainChain;
 }
 
-std::deque<int> PmergeMe::mergeInsertD(std::deque<int> lst) { return lst; }
+std::deque<int> PmergeMe::mergeInsertD(std::deque<int> &lst) { return lst; }
 
 void PmergeMe::err(void) { std::cout << "Error" << std::endl; }

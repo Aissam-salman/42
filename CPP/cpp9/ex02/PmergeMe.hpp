@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 18:57:53 by alamjada          #+#    #+#             */
-/*   Updated: 2026/05/01 09:27:44 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/05/01 19:54:16 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,19 @@ public:
 
   void sort(void);
 	static void err(void);
+	template <typename T>
+	bool isSorted(T container) {
+		typename T::const_iterator start = container.begin();
+		typename T::const_iterator end = container.end();
+
+		typename T::const_iterator next = start;
+		while (++next != end) {
+			if (*next < *start)
+			return false;
+			++start;
+		}
+		return true;
+	}
 
 private:
 	//TODO: maybe _size need
@@ -37,17 +50,15 @@ private:
 	double _timeStartV;
 	double _timeEndV;
   std::vector<int> _originV;
-	std::vector<int> _orphelinV;
 	std::vector<int> _sortedV;
 	std::vector<int> _sortedD;
   std::deque<int> _originD;
-	std::deque<int> _orphelinD;
 	void printEnd();
   bool checkParams(void);
 	bool prepare(void);
 	bool isSorted(void);
-	std::vector<int> mergeInsertV(std::vector<int> lst, std::vector<int> &orp);
-	std::deque<int> mergeInsertD(std::deque<int> lst);
+	std::vector<int> mergeInsertV(std::vector<int> &lst);
+	std::deque<int> mergeInsertD(std::deque<int> &lst);
 };
 
 #endif
