@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 19:00:35 by alamjada          #+#    #+#             */
-/*   Updated: 2026/05/01 20:06:48 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/05/01 20:22:14 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,12 +300,12 @@ std::vector<int> PmergeMe::mergeInsertV(std::vector<int> &lst) {
   losers = extractLosers(pairs);
   std::vector<int> order;
 	order = generateOrder(losers.size());
-	
+
   for (size_t i = 0; i < order.size(); i++) {
     int v = losers[order[i]];
     int maxP = findPairsOfLower(pairs.begin(), pairs.end(), v);
     std::vector<int>::iterator ma =
-        std::find(mainChain.begin(), mainChain.end(), maxP);
+        std::lower_bound(mainChain.begin(), mainChain.end(), maxP);
     std::vector<int>::iterator it =
         std::lower_bound(mainChain.begin(), ma, v);
     mainChain.insert(it, v);

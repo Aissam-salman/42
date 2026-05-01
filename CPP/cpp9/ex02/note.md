@@ -5,9 +5,9 @@
 - check if only digit
 - try to convert item to int, check if not overflow INT_MAX
 - remplir vector<int>
-- create vector<pair<int,int> 
+- create vector<pair<int,int>
 - trier les pairs, gauche petit | droite grand
-- si item orphelin stocker dans une variable a part 
+- si item orphelin stocker dans une variable a part
 
 # tri des gagnants
 - parcourir origine structure, recup les gagnants
@@ -49,17 +49,17 @@ La récursivité ne sert pas à insérer les perdants. Elle sert uniquement à t
 //         ... insérer perdant dans Main_Chain ...
 //
 //     retourner Main_Chain
-- une fois tries, squelette definitif good 
+- une fois tries, squelette definitif good
 
 # Pre insertion
-- prendre le perdant associe au premier gagnant dans main, 
+- prendre le perdant associe au premier gagnant dans main,
 et l'inserer directement position 0
 
 # insertion strategique
 j'ai ma liste de depart qui devient la pend,  la mainChain
 - calcul de Jacobsthal : determiner la suite selon la taille de liste de perdant
 
-- iteration par groupes 
+- iteration par groupes
 Utilise les nombres de Jacobsthal pour définir des "blocs" d'indices.
 
 Pour chaque index de perdant dans ton bloc :
@@ -72,3 +72,34 @@ Pour chaque index de perdant dans ton bloc :
 
 Le cas de l'Orphelin : Une fois que tous les perdants liés ont été insérés, insère l'orphelin à la fin. Puisqu'il n'a pas de gagnant lié, sa recherche binaire se fait sur l'intégralité de la Main_Chain.
 
+deque
+// 1. Créer une structure ou utiliser std::pair pour lier le winner et le loser
+// std::pair<int, int> -> first = winner, second = loser
+
+Fontion mergeInsertD_helper(deque< paire<int, int> > pairs) :
+    SI pairs.size() < 2:
+        retourner pairs
+
+    Nouveau deque< paire<int, int> > nextPairs
+    Pour i de 0 à pairs.size() avec pas de 2:
+        // Comparer les winners actuels pour créer les paires du niveau suivant
+        SI pairs[i].winner > pairs[i+1].winner:
+            nextPairs.push( {pairs[i].winner, pairs[i+1].winner} )
+        SINON
+            nextPairs.push( {pairs[i+1].winner, pairs[i].winner} )
+
+    // Tri récursif
+    deque< paire<int, int> > mainChain = mergeInsertD_helper(nextPairs)
+
+    // A ce stade, mainChain est triée par les winners.
+    // Magie : Grâce aux structures/paires, on sait EXACTEMENT quel loser
+    // appartient à chaque winner sans faire de std::find !
+
+    // On extrait les losers dans l'ordre de la séquence de Jacobsthal
+    // Et au lieu de chercher "où est le winner dans la mainChain",
+    // on sait que l'itérateur de limite pour le lower_bound est simplement
+    // l'index actuel mis à jour du winner qu'on traque par association.
+
+    // ... Logique d'insertion avec lower_bound ...
+
+    Retourner mainChain
