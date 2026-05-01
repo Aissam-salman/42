@@ -14,6 +14,7 @@
 #define PMERGEME_HPP
 
 #include <ctime>
+#include <deque>
 #include <string>
 #include <vector>
 
@@ -25,18 +26,26 @@ public:
   PmergeMe &operator=(const PmergeMe &rhs);
   ~PmergeMe(void);
 
-  bool checkParams(void);
   void sort(void);
 	static void err(void);
 
 private:
 	//TODO: maybe _size need
-  std::vector<int> _origin;
   std::vector<std::string> _params;
-	double _timeStart;
-	double _timeEnd;
-	void printEnd(void);
+	double _timeStartD;
+	double _timeEndD;
+	double _timeStartV;
+	double _timeEndV;
+  std::vector<int> _originV;
+	std::vector<int> _orphelinV;
+  std::deque<int> _originD;
+	std::deque<int> _orphelinD;
+	void printEnd();
+  bool checkParams(void);
 	bool prepare(void);
+	bool isSorted(void);
+	std::vector<int> mergeInsertV(std::vector<int> lst);
+	std::deque<int> mergeInsertD(std::deque<int> lst);
 };
 
 #endif

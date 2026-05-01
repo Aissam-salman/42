@@ -31,6 +31,24 @@ La récursivité ne sert pas à insérer les perdants. Elle sert uniquement à t
     Retour de récursion : Une fois que tri(winners) a fini son travail et renvoie une liste triée, tu récupères cette liste (ta Main_Chain triée) et tu passes à la phase d'insertion des perdants (le pend).
 
 
+// Fonction tri(liste_input) :
+//     Si taille(liste_input) < 2 :
+//         retourner liste_input
+//
+//     // 1. Pairage et séparation
+//     Paires = créer_paires(liste_input)
+//     Gagnants = extraire_gagnants(Paires)
+//     Perdants = extraire_perdants(Paires)
+//
+//     // 2. La récursivité
+//     Main_Chain = tri(Gagnants) // <--- C'est ici que la magie opère
+//
+//     // 3. Insertion des perdants (La partie non récursive)
+//     Tant que Pend n'est pas vide :
+//         // Logique de Jacobsthal + Binary Search
+//         ... insérer perdant dans Main_Chain ...
+//
+//     retourner Main_Chain
 - une fois tries, squelette definitif good 
 
 # Pre insertion
