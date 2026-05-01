@@ -13,6 +13,24 @@
 - parcourir origine structure, recup les gagnants
 - mettre dans un vector<int> mainChain
 - appliquer algo de tri recursif sur cette liste
+
+La récursivité ne sert pas à insérer les perdants. Elle sert uniquement à trier tes gagnants. Voici le flux logique :
+
+    Ta fonction tri(liste) reçoit une liste brute.
+
+    Elle crée les paires.
+
+    Elle sépare les gagnants (winners) et les perdants (pend).
+
+    C'est ici que se trouve la récursivité : Tu appelles tri(winners).
+
+        Ton programme "met en pause" l'insertion des perdants et descend dans un nouveau niveau de récursion pour trier les gagnants du niveau précédent.
+
+        Cela continue jusqu'à ce que la liste soit trop petite (cas de base : taille 0 ou 1, on retourne la liste).
+
+    Retour de récursion : Une fois que tri(winners) a fini son travail et renvoie une liste triée, tu récupères cette liste (ta Main_Chain triée) et tu passes à la phase d'insertion des perdants (le pend).
+
+
 - une fois tries, squelette definitif good 
 
 # Pre insertion
