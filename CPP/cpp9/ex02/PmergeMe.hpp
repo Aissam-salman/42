@@ -38,13 +38,15 @@ private:
 	double _timeEndV;
   std::vector<int> _originV;
 	std::vector<int> _orphelinV;
+	std::vector<int> _sortedV;
+	std::vector<int> _sortedD;
   std::deque<int> _originD;
 	std::deque<int> _orphelinD;
 	void printEnd();
   bool checkParams(void);
 	bool prepare(void);
 	bool isSorted(void);
-	std::vector<int> mergeInsertV(std::vector<int> lst);
+	std::vector<int> mergeInsertV(std::vector<int> lst, std::vector<int> &orp);
 	std::deque<int> mergeInsertD(std::deque<int> lst);
 };
 
