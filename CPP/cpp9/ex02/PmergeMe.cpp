@@ -216,17 +216,12 @@ std::vector<int> extractWinners(const std::vector< std::pair<int, int> > &pairs)
   return win;
 }
 
-std::vector<int> extractLosers(const std::vector<int> &mainChain, const std::vector< std::pair<int, int> > &pairs) {
+std::vector<int> extractLosers(const std::vector< std::pair<int, int> > &pairs) {
   std::vector<int> losers;
-  losers.reserve(mainChain.size());
-  for (size_t i = 0; i < mainChain.size(); i++) {
-    for (size_t j = 0; j < pairs.size(); j++) {
-      if (pairs[j].second == mainChain[i]) {
-        losers.push_back(pairs[j].first);
-        break;
-      }
-    }
-  }
+  std::vector< std::pair<int, int> >::const_iterator it = pairs.begin();
+  std::vector< std::pair<int, int> >::const_iterator ed = pairs.end();
+  for (; it != ed; ++it)
+    losers.push_back(it->first);
   return losers;
 }
 
@@ -301,12 +296,12 @@ std::vector<int> PmergeMe::mergeInsertV(std::vector<int> &lst) {
   std::vector<int> mainChain;
 	mainChain = this->mergeInsertV(winners);
   std::vector<int> losers;
-  losers.reserve(mainChain.size());
-  losers = extractLosers(mainChain, pairs);
+  losers.reserve(pairs.size());
+  losers = extractLosers(pairs);
   std::vector<int> order;
 	order = generateOrder(losers.size());
-	mainChain.insert(mainChain.begin(), losers[0]);
-  for (size_t i = 1; i < order.size(); i++) {
+	
+  for (size_t i = 0; i < order.size(); i++) {
     int v = losers[order[i]];
     int maxP = findPairsOfLower(pairs.begin(), pairs.end(), v);
     std::vector<int>::iterator ma =
