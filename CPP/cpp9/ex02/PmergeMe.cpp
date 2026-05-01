@@ -241,12 +241,13 @@ std::vector<int> PmergeMe::mergeInsertV(std::vector<int> lst) {
 
 	std::vector<int> mainChain = this->mergeInsertV(winners);
 
-//     // 3. Insertion des perdants (La partie non récursive)
-//     Tant que Pend n'est pas vide :
-//         // Logique de Jacobsthal + Binary Search
-//         ... insérer perdant dans Main_Chain ...
-//
-//     retourner Main_Chain
+	std::vector<std::pair<int,int>>::iterator mi = std::find(pairs.begin(), pairs.end(), mainChain.front());
+	mainChain.insert(mainChain.begin(), mi->first);
+
+	while (!losers.empty()) {
+ // Logique de Jacobsthal + Binary Search
+// ... insérer perdant dans Main_Chain ...
+	}
 
   return mainChain;
 }
