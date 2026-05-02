@@ -184,45 +184,14 @@ void PmergeMe::sort(void) {
   this->_timeEndV = getTime();
 
   this->_timeStartD = getTime();
-  this->mergeInsertD(this->_originD);
+  this->_sortedD = this->mergeInsertD(this->_originD);
   this->_timeEndD = getTime();
+
   this->printEnd();
   if (this->isSorted(this->_sortedV))
     std::cout << "WINNNN !!!" << std::endl;
-}
-
-std::vector< std::pair<int, int> > createPair(const std::vector<int> &lst,
-                                            std::vector<int> &orp) {
-  std::vector< std::pair<int, int> > pair;
-  for (size_t i = 0; i + 1 < lst.size(); i += 2) {
-    int a = lst[i];
-    int b = lst[i + 1];
-    if (a > b)
-      pair.push_back(std::make_pair(b, a));
-    else
-      pair.push_back(std::make_pair(a, b));
-  }
-  if (lst.size() % 2 != 0)
-    orp.push_back(lst.back());
-  return pair;
-}
-
-std::vector<int> extractWinners(const std::vector< std::pair<int, int> > &pairs) {
-  std::vector<int> win;
-  std::vector< std::pair<int, int> >::const_iterator it = pairs.begin();
-  std::vector< std::pair<int, int> >::const_iterator ed = pairs.end();
-  for (; it != ed; ++it)
-    win.push_back(it->second);
-  return win;
-}
-
-std::vector<int> extractLosers(const std::vector< std::pair<int, int> > &pairs) {
-  std::vector<int> losers;
-  std::vector< std::pair<int, int> >::const_iterator it = pairs.begin();
-  std::vector< std::pair<int, int> >::const_iterator ed = pairs.end();
-  for (; it != ed; ++it)
-    losers.push_back(it->first);
-  return losers;
+  if (this->isSorted(this->_sortedD))
+    std::cout << "WINNNN 2 !!!" << std::endl;
 }
 
 std::vector<int> jacobsthal(const int &n) {
@@ -263,19 +232,6 @@ std::vector<int> generateOrder(const int &loserLen) {
   return order;
 }
 
-std::vector<int>::iterator binarySearch(std::vector<int>::iterator &start,
-                                        std::vector<int>::iterator &end,
-                                        const int val) {
-  while (start != end) {
-    std::vector<int>::iterator mid = start + (std::distance(start, end) / 2);
-    if (*mid < val)
-      start = ++mid;
-    else
-      end = mid;
-  }
-  return start;
-}
-
 int findPairsOfLower(std::vector< std::pair<int, int> >::iterator begin, std::vector< std::pair<int, int> >::iterator end, const int &val) {
 	for (; begin != end; ++begin) {
 		if (begin->first == val)
@@ -284,20 +240,21 @@ int findPairsOfLower(std::vector< std::pair<int, int> >::iterator begin, std::ve
 	return -1;
 }
 
+
 std::vector<int> PmergeMe::mergeInsertV(std::vector<int> &lst) {
   if (lst.size() < 2)
     return lst;
 	std::vector<int> orp;
 	orp.reserve(1);
   std::vector< std::pair<int, int> > pairs;
-	pairs = createPair(lst, orp);
+	pairs = createPairs<std::vector< std::pair<int,int> > >(lst, orp);
   std::vector<int> winners;
-	winners = extractWinners(pairs);
+	winners = extractWinners<std::vector<int>, std::vector< std::pair<int,int> > >(pairs);
   std::vector<int> mainChain;
 	mainChain = this->mergeInsertV(winners);
   std::vector<int> losers;
   losers.reserve(pairs.size());
-  losers = extractLosers(pairs);
+  losers = extractLosers<std::vector<int>, std::vector< std::pair<int,int> > >(pairs);
   std::vector<int> order;
 	order = generateOrder(losers.size());
 
@@ -320,6 +277,32 @@ std::vector<int> PmergeMe::mergeInsertV(std::vector<int> &lst) {
   return mainChain;
 }
 
-std::deque<int> PmergeMe::mergeInsertD(std::deque<int> &lst) { return lst; }
+std::deque<int> PmergeMe::mergeInsertD(std::deque<int> &lst) { 
+	if (lst.size() < 2)
+		return (lst);
+	std::deque<int> orp;
+	dequePair pairs = createPairs<dequePair, std::deque<int> >(lst, orp);
+	std::deque<int> winners = extractWinners< std::deque<int>, dequePair >(pairs);
+	std::deque<int> mainChain = this->mergeInsertD(winners);
+
+	std::vector<int> order = generateOrder(pairs.size());
+	for (size_t i = 0; i < order.size(); i++) {
+		int index = order[i];
+		int loserV = pairs[index].first;
+		int winV = pairs[index].second;
+		std::deque<int>::iterator itWin = std::lower_bound(mainChain.begin(), mainChain.end(), winV);
+
+		std::deque<int>::iterator itInsert = std::lower_bound(mainChain.begin(), itWin, loserV);
+		mainChain.insert(itInsert, loserV);
+	}
+	std::deque<int>::iterator o = orp.begin();
+	std::deque<int>::iterator g = orp.end();
+	for (; o != g; ++o) {
+      std::deque<int>::iterator it =
+          std::lower_bound(mainChain.begin(), mainChain.end(), *o);
+      mainChain.insert(it, *o);
+	}
+  return mainChain;
+}
 
 void PmergeMe::err(void) { std::cout << "Error" << std::endl; }
