@@ -103,3 +103,40 @@ Fontion mergeInsertD_helper(deque< paire<int, int> > pairs) :
     // ... Logique d'insertion avec lower_bound ...
 
     Retourner mainChain
+
+
+    Amelioration
+
+1. Organisation des fichiers et dossiers
+Actuellement, tout est à la racine. Pour un projet plus propre, il est conseillé de séparer les sources, les en-têtes et les objets compilés :
+
+src/ : contient main.cpp, PmergeMe.cpp
+include/ (ou inc/) : contient PmergeMe.hpp
+obj/ : dossier généré par le Makefile pour stocker les .o
+Dans le Makefile : Cela évite de polluer votre répertoire avec les fichiers .o. Vous pouvez utiliser des règles de pattern (ex: $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp) pour rediriger la compilation.
+
+2. Isoler les fonctions utilitaires (Encapsulation)
+Dans PmergeMe.cpp, vous avez des fonctions libres comme getTime(), onlyDigit(), jacobsthal(), generateOrder() et findPairsOfLower().
+En C++, déclarer des fonctions globales expose au risque de conflits de noms (pollution de l'espace de noms global).
+
+Option A (Espace de noms anonyme) : Enveloppez ces fonctions dans un namespace { ... } au début de votre .cpp. Elles deviendront invisibles en dehors de ce fichier.
+Option B (Méthodes statiques) : Transformez-les en méthodes privées statiques dans votre classe PmergeMe (déclarées dans le .hpp).
+3. Gestion des Templates
+Vous avez bien placé vos templates dans PmergeMe.hpp, ce qui est indispensable.
+Cependant, pour garder la définition de la classe la plus lisible possible, une bonne pratique (surtout quand les templates s'allongent) est de :
+
+Déclarer les prototypes des templates dans la classe.
+Définir le corps des templates en dessous de la classe, voire dans un fichier séparé (souvent nommé PmergeMe.tpp ou PmergeMe.ipp) qui est inclus tout à la fin du PmergeMe.hpp.
+4. Régler les "TODOs" oubliés
+Dans votre constructeur de copie et votre opérateur d'affectation (operator=) dans PmergeMe.cpp:48 et [PmergeMe.cpp#L78], vous avez laissé des //TODO: add sortedD and _sortedV , _orpD.
+
+Pensez à bien copier la totalité des attributs pour respecter à 100% la forme de Coplien, sinon les copies de l'objet ou les affectations auront des comportements non définis.
+5. Utilisation des Exceptions pour les erreurs
+Plutôt que d'utiliser un retour booléen pour checkParams() ou prepare() et d'appeler PmergeMe::err() qui fait juste un std::cout, il est idiomatique en C++ de lancer des exceptions (throw std::invalid_argument("Error: bad input");) et de les attraper dans votre main.cpp avec un bloc try { ... } catch (const std::exception& e) { ... }. Cela sépare la logique métier de la gestion d'affichage des erreurs.
+
+6. Passage d'arguments lourds
+Dans mergeInsertV et mergeInsertD :
+
+
+std::vector<int> mergeInsertV(std::vector<int> &lst);
+Vous passez la liste en référence, mais pour les algorithmes récursifs comme le vôtre, on s'attend parfois à ce que la méthode crée et renvoie de nouvelles collections. Assurez-vous que vos paramètres récursifs n'entraînent pas de copies inutiles de vecteurs massifs. Si vous passez une collection qui ne doit pas être modifiée en entrée, passez-

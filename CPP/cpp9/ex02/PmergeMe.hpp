@@ -30,6 +30,7 @@ public:
 
   void sort(void);
   static void err(void);
+
   template <typename T> bool isSorted(T container) {
     typename T::const_iterator start = container.begin();
     typename T::const_iterator end = container.end();
@@ -42,6 +43,30 @@ public:
     }
     return true;
   }
+
+private:
+  std::vector<std::string> _params;
+  double _timeStartD;
+  double _timeEndD;
+  double _timeStartV;
+  double _timeEndV;
+  std::vector<int> _originV;
+  std::vector<int> _sortedV;
+  std::deque<int> _sortedD;
+  std::deque<int> _originD;
+  std::deque<int> _orpD;
+  void printEnd();
+  bool checkParams(void);
+  bool prepare(void);
+  bool isSorted(void);
+  std::vector<int> mergeInsertV(std::vector<int> &lst);
+  std::deque<int> mergeInsertD(std::deque<int> &lst);
+
+  /*-----------------------------------------------------------------
+   *
+   *  TEMPLATE
+   *
+   ------------------------------------------------------------------*/
   template <typename T, typename C> T createPairs(const C &lst, C &orp) {
     T pair;
     for (size_t i = 0; i + 1 < lst.size(); i += 2) {
@@ -74,24 +99,6 @@ public:
       losers.push_back(it->first);
     return losers;
   }
-
-private:
-  std::vector<std::string> _params;
-  double _timeStartD;
-  double _timeEndD;
-  double _timeStartV;
-  double _timeEndV;
-  std::vector<int> _originV;
-  std::vector<int> _sortedV;
-  std::deque<int> _sortedD;
-  std::deque<int> _originD;
-  std::deque<int> _orpD;
-  void printEnd();
-  bool checkParams(void);
-  bool prepare(void);
-  bool isSorted(void);
-  std::vector<int> mergeInsertV(std::vector<int> &lst);
-  std::deque<int> mergeInsertD(std::deque<int> &lst);
 };
 
 #endif

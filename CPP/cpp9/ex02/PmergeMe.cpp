@@ -52,6 +52,8 @@ PmergeMe::PmergeMe(const PmergeMe &src) {
   this->_timeEndD = src._timeEndD;
   this->_timeStartV = src._timeStartV;
   this->_timeEndV = src._timeEndV;
+	//TODO: 
+	//add  sortedD and _sortedV , _orpD
 }
 
 PmergeMe &PmergeMe::operator=(const PmergeMe &rhs) {
@@ -74,6 +76,8 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &rhs) {
     this->_timeEndD = rhs._timeEndD;
     this->_timeStartV = rhs._timeStartV;
     this->_timeEndV = rhs._timeEndV;
+		//TODO: 
+		//add  sortedD and _sortedV , _orpD
   }
   return *this;
 }
@@ -295,6 +299,7 @@ std::deque<int> PmergeMe::mergeInsertD(std::deque<int> &lst) {
 		std::deque<int>::iterator itInsert = std::lower_bound(mainChain.begin(), itWin, loserV);
 		mainChain.insert(itInsert, loserV);
 	}
+
 	std::deque<int>::iterator o = orp.begin();
 	std::deque<int>::iterator g = orp.end();
 	for (; o != g; ++o) {
