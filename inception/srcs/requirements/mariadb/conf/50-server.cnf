@@ -22,10 +22,10 @@ datadir                 = /var/lib/mysql
 # safe to skip if there are no "host by domain name" access grants
 #skip-name-resolve
 
-skip-networking
+# skip-networking
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
-bind-address            =*
+bind-address            = 0.0.0.0
 port = 3306
 user = mysql
 # socket =/run/mysqld/mysqld.sock
