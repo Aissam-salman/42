@@ -1,12 +1,12 @@
-FROM alpine:3.22
+FROM debian:stable-backports
 
 ## install package needed 
-RUN apk update 
-RUN apk upgrade 
-RUN apk add nginx curl vim openssl
+RUN apt update -y
+RUN apt install nginx curl openssl -y
 
 ## create user www for nginx
-RUN adduser -D -g 'www' www
+RUN groupadd -r www
+RUN useradd -r -g www www
 
 ## for html file
 RUN mkdir /www
@@ -18,7 +18,6 @@ RUN  mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 
 ## copy conf to container
 COPY conf/nginx.conf /etc/nginx/nginx.conf
-COPY tools/index.html /www/index.html
 
 
 ## add ssl support for TSL

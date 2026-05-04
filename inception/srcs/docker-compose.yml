@@ -1,0 +1,61 @@
+services:
+
+  mariadb:
+    env_file: ".env"
+    volumes:
+      - mariadb:/var/lib/mysql
+    build:
+      context: requirements/mariadb/
+      dockerfile: Dockerfile
+    networks:
+        - inceptions
+    restart: unless-stopped
+    expose:
+      - "3306"
+
+  nginx:
+    ports:
+      - 443:443
+    env_file: ".env"
+    volumes:
+      - wordpress:/var/www/wordpress
+    build:
+      context: requirements/nginx/
+      dockerfile: Dockerfile
+    depends_on:
+      - wordpress
+    networks:
+        - inceptions
+    restart: on-failure
+
+  wordpress:
+    env_file: ".env"
+    volumes:
+      - wordpress:/var/www/wordpress
+    build:
+      context: requirements/wordpress/
+      dockerfile: Dockerfile
+    networks:
+        - inceptions
+    depends_on:
+      - mariadb
+    restart: on-failure
+    expose:
+      - "9000"
+
+volumes:
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind  # use folder exist in host
+      device: "/home/salman/data/wordpress"
+  mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/home/salman/data/mariadb"
+networks:
+  inceptions:
+    driver: bridge

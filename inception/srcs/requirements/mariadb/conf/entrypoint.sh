@@ -31,13 +31,13 @@ if [ ! -d "$DATADIR"/mysql ]; then
 mariadb << EOF
 ALTER USER 'root'@'localhost' IDENTIFIED BY '$ROOT_PASS';
 CREATE DATABASE IF NOT EXISTS \`$DB_NAME\`;
-CREATE USER IF NOT EXISTS \`$DB_USER\`@localhost IDENTIFIED BY '$DB_PASS';
+CREATE USER IF NOT EXISTS \`$DB_USER\`@'%' IDENTIFIED BY '$DB_PASS';
 GRANT ALL PRIVILEGES ON \`$DB_NAME\`.* TO \`$DB_USER\`@'%';
 FLUSH PRIVILEGES;
 EOF
 
 	echo "Stop MariaDB..."
-	mariadb-admin -u root -p$ROOT_PASS shutdown
+	mariadb-admin -u root -p"$ROOT_PASS" shutdown
 
 	wait "$pid"
 fi
