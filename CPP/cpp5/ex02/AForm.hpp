@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 20:25:54 by salman            #+#    #+#             */
-/*   Updated: 2026/04/22 12:36:16 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/05/04 21:39:57 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ public:
   AForm(std::string name, int gradeRToS, int gradeRToE);
   AForm(AForm const &src);
   AForm &operator=(AForm const &rhs);
-  virtual ~AForm(void) = 0;
+  virtual ~AForm(void);
 
   std::string getName(void) const;
   bool getIsSigned(void) const;
