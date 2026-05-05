@@ -15,14 +15,14 @@ WP_USER=${WORDPRESS_USER:-alamjada}
 WP_USER_PASS=${WORDPRESS_USER_PASS:-passwordComplicat}
 WP_USER_EMAIL=${WORDPRESS_USER_EMAIL:-salman.59560@gmail.com}
 
-cat << EOF
+cat << EOF > /etc/php/8.4/fpm/conf.d/www.conf
 [www]
 
 user = $WP_USER
 listen = 9000
 clear_env = no
 EOF
-> /etc/php/8.4/fpm/conf.d/www.conf
+
 
 cd /var/www/wordpress
 
