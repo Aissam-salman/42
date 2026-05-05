@@ -12,7 +12,7 @@
 # * Basic Settings
 #
 
-#user                    = mysql
+user                    = mysql
 pid-file                = /run/mysqld/mysqld.pid
 basedir                 = /usr
 datadir                 = /var/lib/mysql
@@ -27,8 +27,7 @@ datadir                 = /var/lib/mysql
 # localhost which is more compatible and is not less secure.
 bind-address            = 0.0.0.0
 port = 3306
-user = mysql
-# socket =/run/mysqld/mysqld.sock
+socket =/run/mysqld/mysqld.sock
 
 #
 # * Fine Tuning
