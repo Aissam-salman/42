@@ -16,7 +16,6 @@
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
-#include <limits>
 #include <string>
 
 ScalarConverter::ScalarConverter() {}
@@ -28,7 +27,6 @@ ScalarConverter &ScalarConverter::operator=(const ScalarConverter &rhs) {
   return *this;
 }
 
-// nanf nan
 void displayNaN(void) {
   std::cout << "char: impossible" << std::endl;
   std::cout << "int: impossible" << std::endl;
@@ -36,8 +34,6 @@ void displayNaN(void) {
   std::cout << "double: nan" << std::endl;
 }
 
-// -inff +inff
-// -inf +inf
 void displayInf(std::string str) {
   std::cout << "char: impossible" << std::endl;
   std::cout << "int: impossible" << std::endl;
