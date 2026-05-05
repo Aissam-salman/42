@@ -54,7 +54,6 @@ bool my_isprint(char ch) {
 }
 
 void ScalarConverter::convert(std::string str) {
-  (void)str;
   if (str.empty()) {
     std::cerr << "Empty not allowed!" << std::endl;
     return;
@@ -70,10 +69,6 @@ void ScalarConverter::convert(std::string str) {
   unsigned char c;
 
   if (str.length() == 1) {
-    if (my_isprint(str[0]) == false) {
-      std::cerr << "Not displayable" << std::endl;
-      return;
-    }
     if (!std::isdigit(str[0])) {
       c = static_cast<unsigned char>(str[0]);
       d = static_cast<double>(c);
@@ -85,7 +80,10 @@ void ScalarConverter::convert(std::string str) {
       nb = static_cast<int>(d);
       c = static_cast<char>(d);
     }
-    std::cout << "char: '" << c << "'" << std::endl;
+    if (!my_isprint(c) || str[0] == '0') {
+      std::cout << "char: Not displayable" << std::endl;
+    } else
+      std::cout << "char: '" << c << "'" << std::endl;
     std::cout << "int: " << nb << std::endl;
     std::cout << "float: " << f << "f" << std::endl;
     std::cout << "double: " << d << std::endl;
@@ -118,7 +116,7 @@ void ScalarConverter::convert(std::string str) {
   else
     std::cout << nb << std::endl;
 
-	std::cout << std::fixed << std::setprecision(2);
+  std::cout << std::fixed <<  std::setprecision(1);
   std::cout << "float: " << f << "f" << std::endl;
   std::cout << "double: " << d << std::endl;
 }
