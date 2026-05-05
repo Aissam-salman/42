@@ -15,14 +15,22 @@ WP_USER=${WORDPRESS_USER:-alamjada}
 WP_USER_PASS=${WORDPRESS_USER_PASS:-passwordComplicat}
 WP_USER_EMAIL=${WORDPRESS_USER_EMAIL:-salman.59560@gmail.com}
 
-cat << EOF > /etc/php/8.4/fpm/conf.d/www.conf
+cat << EOF > /etc/php/8.4/fpm/pool.d/www.conf
 [www]
 
-user = $WP_USER
-listen = 9000
+user = www-data
+group = www-data
+listen = 0.0.0.0:9000
 clear_env = no
+
+pm = dynamic
+pm.max_children = 30
+pm.start_servers = 1
+pm.min_spare_servers = 1
+pm.max_spare_servers = 30
 EOF
 
+chown -R www-data:www-data /var/www/wordpress
 
 cd /var/www/wordpress
 
@@ -50,6 +58,9 @@ if [ ! -f /var/www/.mountFirst ]; then
 			--admin_user="$WP_ADMIN" \
 			--admin_password="$WP_ADMIN_PASS" \
 			--admin_email="$WP_ADMIN_EMAIL"
+
+		wp config set --allow-root WP_HOME "https://$WP_URL"
+		wp config set --allow-root WP_SITEURL "https://$WP_URL"
 
 		if ! wp user get --allow-root "$WP_USER" >/dev/null 2>&1; then
 			echo "Create user..."

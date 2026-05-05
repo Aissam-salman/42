@@ -5,14 +5,25 @@ DOMAIN=${DOMAIN_NAME:-localhost}
 
 if [ ! -f /etc/nginx/.first ]; then
 
-## add ssl support for TSL
-mkdir -p /etc/nginx/ssl
-openssl req -x509 -nodes -out /etc/nginx/ssl/server.crt -keyout /etc/nginx/ssl/server.key -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=$DOMAIN/UID=alamjada"
+	## add ssl support for TSL
+	mkdir -p /etc/nginx/ssl
+	openssl req -x509 -nodes -out /etc/nginx/ssl/server.crt -keyout /etc/nginx/ssl/server.key -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=$DOMAIN/UID=alamjada"
 
-chmod 600 /etc/nginx/ssl/server.key
-chmod 644 /etc/nginx/ssl/server.crt 
+	chmod 600 /etc/nginx/ssl/server.key
+	chmod 644 /etc/nginx/ssl/server.crt 
 
 	cat << EOF > /etc/nginx/sites-available/wordpress
+upstream php {
+    server wordpress:9000;
+}
+
+server {
+	listen 80;
+	listen [::]:80;
+	server_name  $DOMAIN;
+	return 301 https://$DOMAIN\$request_uri;
+}
+
 server {
 	listen       *:443 ssl;
 	listen      [::]:443 ssl;
@@ -29,7 +40,7 @@ server {
 	ssl_prefer_server_ciphers  on;
 
 	location / {
-		try_files $uri $uri/ /index.php?$args;
+		try_files \$uri \$uri/ /index.php?\$args;
 	}
 
 	location ~ \.php$ {

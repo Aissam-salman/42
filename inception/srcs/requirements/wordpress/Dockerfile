@@ -17,5 +17,6 @@ RUN sed -i 's/memory_limit = .*/memory_limit = 512M/' /etc/php/*/cli/php.ini
 COPY conf/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
+EXPOSE 9000
 
 ENTRYPOINT ["sh", "/usr/local/bin/entrypoint.sh"]
