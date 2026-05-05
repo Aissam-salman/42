@@ -116,7 +116,7 @@ void ScalarConverter::convert(std::string str) {
   else
     std::cout << nb << std::endl;
 
-  std::cout << std::fixed <<  std::setprecision(1);
+  std::cout << std::fixed << std::setprecision(1);
   std::cout << "float: " << f << "f" << std::endl;
   std::cout << "double: " << d << std::endl;
 }
