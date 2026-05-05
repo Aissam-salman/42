@@ -15,35 +15,53 @@ WP_USER=${WORDPRESS_USER:-alamjada}
 WP_USER_PASS=${WORDPRESS_USER_PASS:-passwordComplicat}
 WP_USER_EMAIL=${WORDPRESS_USER_EMAIL:-salman.59560@gmail.com}
 
-until mysql -h mariadb -u"$DB_USER" -p"$DB_PASS" -e "SELECT 1" "$DB_NAME" >/dev/null 2>&1; do
-	echo "wait db..."
-	sleep 2
-done
+cat << EOF
+[www]
 
-if [ ! -f /var/www/wordpress/wp-config.php ]; then
+user = $WP_USER
+listen = 9000
+clear_env = no
+EOF
+> /etc/php/8.4/fpm/conf.d/www.conf
+
+cd /var/www/wordpress
+
+if [ ! -f /var/www/.mountFirst ]; then
+	mariadb-admin ping --protocol=tcp --host=mariadb -u"$DB_USER" -p"$DB_PASS" --wait > /dev/null
 	echo "Downloading WordPress..."
-	wp core download --path=/var/www/wordpress --allow-root
-	chown -R www-data:www-data /var/www/wordpress
+	pwd
+	cat $(ls)
 
-	echo "Create config..."
-	wp config create --allow-root \
-		--dbname="$DB_NAME" \
-		--dbuser="$DB_USER" \
-		--dbpass="$DB_PASS" \
-		--dbhost="mariadb:3306" \
-		--path='/var/www/wordpress'
+	if [ ! -f /var/www/wordpress/wp-config.php ]; then
+
+		wp core download --allow-root || true
+
+		echo "Create config..."
+		wp config create --allow-root \
+			--dbname="$DB_NAME" \
+			--dbuser="$DB_USER" \
+			--dbpass="$DB_PASS" \
+			--dbhost="mariadb" \
+			--path='/var/www/wordpress'
+
+		wp core install --allow-root \
+			--skip-email \
+			--url="$WP_URL" --title="Inception" \
+			--admin_user="$WP_ADMIN" \
+			--admin_password="$WP_ADMIN_PASS" \
+			--admin_email="$WP_ADMIN_EMAIL"
+
+		if ! wp user get --allow-root "$WP_USER" >/dev/null 2>&1; then
+			echo "Create user..."
+			wp user create --allow-root  \
+				"$WP_USER" "$WP_USER_EMAIL" --role=author --user_pass="$WP_USER_PASS"
+		fi
+
+	fi
+	chmod o+w -R /var/www/wordpress
+	touch /var/www/.mountFirst
 fi
 
-if ! wp core is-installed --allow-root --path=/var/www/wordpress >/dev/null 2>&1; then
-	echo "Core install..."
-	wp core install --allow-root --skip-email --path=/var/www/wordpress --url="$WP_URL" --title="Inception" \
-		--admin_user="$WP_ADMIN" --admin_password="$WP_ADMIN_PASS" --admin_email="$WP_ADMIN_EMAIL"
-fi
-
-if ! wp user get --allow-root --path=/var/www/wordpress "$WP_USER" >/dev/null 2>&1; then
-	echo "Create user..."
-	wp user create --allow-root --path=/var/www/wordpress "$WP_USER" "$WP_USER_EMAIL" --role=author --user_pass="$WP_USER_PASS"
-fi
 
 
 echo "Run wordpress..."

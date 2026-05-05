@@ -4,15 +4,6 @@ FROM debian:stable-backports
 RUN apt update -y
 RUN apt install nginx curl openssl -y
 
-## create user www for nginx
-RUN groupadd -r www
-RUN useradd -r -g www www
-
-## for html file
-RUN mkdir /www
-RUN chown -R www:www /var/lib/nginx
-RUN chown -R www:www /www
-
 ## backup the conf
 RUN  mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 
