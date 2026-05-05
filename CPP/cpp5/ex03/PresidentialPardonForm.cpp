@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PresidentialPardonForm.cpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman </var/spool/mail/salman>            +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 20:37:16 by salman            #+#    #+#             */
-/*   Updated: 2026/04/21 19:20:14 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/05/05 14:22:43 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ PresidentialPardonForm::PresidentialPardonForm(std::string target)
 
 PresidentialPardonForm::PresidentialPardonForm(
     const PresidentialPardonForm &src)
-    : AForm(src.getName(), src.getGradeRequiredToSign(),
-            src.getGradeRequiredToEx()),
+    : AForm(src),
       _target(src._target) {}
 
 PresidentialPardonForm &
@@ -39,10 +38,7 @@ PresidentialPardonForm::operator=(const PresidentialPardonForm &rhs) {
 PresidentialPardonForm::~PresidentialPardonForm() {}
 
 void PresidentialPardonForm::execute(const Bureaucrat &executor) const {
-  if (AForm::isExecutable(executor)) {
-    std::cout << this->_target << " has been pardoned by Zaphod Beeblebrox."
-              << std::endl;
-  } else {
-    throw AForm::GradeTooLowException();
-  }
+  AForm::isExecutable(executor);
+  std::cout << this->_target << " has been pardoned by Zaphod Beeblebrox."
+            << std::endl;
 }

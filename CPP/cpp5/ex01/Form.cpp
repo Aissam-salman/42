@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:53:05 by salman            #+#    #+#             */
-/*   Updated: 2026/04/22 12:35:26 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/05/05 14:24:07 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ Form::Form(void)
 
 Form::Form(std::string name, int gradeRToS, int gradeRToE)
     : _name(name), _isSigned(false), _gradeRequiredToSign(gradeRToS),
-      _gradeRequiredToEx(gradeRToE) {}
+      _gradeRequiredToEx(gradeRToE) {
+  if (gradeRToS < 1 || gradeRToE < 1)
+    throw Form::GradeTooHighException();
+  else if (gradeRToS > 150 || gradeRToE > 150)
+    throw Form::GradeTooLowException();
+}
 
 Form::Form(const Form &src)
     : _name(src.getName()), _isSigned(src.getIsSigned()),

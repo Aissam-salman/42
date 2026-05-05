@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RobotomyRequestForm.cpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salman </var/spool/mail/salman>            +#+  +:+       +#+        */
+/*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 20:37:16 by salman            #+#    #+#             */
-/*   Updated: 2026/04/21 19:21:10 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/05/05 14:22:54 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ RobotomyRequestForm::RobotomyRequestForm(std::string target)
     : AForm("robotomy request", 72, 45), _target(target) {}
 
 RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm &src)
-    : AForm(src.getName(), src.getGradeRequiredToSign(),
-            src.getGradeRequiredToEx()),
+    : AForm(src),
       _target(src._target) {}
 
 RobotomyRequestForm &
@@ -38,13 +37,10 @@ RobotomyRequestForm::operator=(const RobotomyRequestForm &rhs) {
 RobotomyRequestForm::~RobotomyRequestForm() {}
 
 void RobotomyRequestForm::execute(const Bureaucrat &executor) const {
-  if (AForm::isExecutable(executor)) {
-		std::cout << "ZZZZZZzzzzzzzz....." << std::endl;
-		if (std::rand() % 2 == 0)
-			std::cout << this->_target << " has been robotomized" << std::endl;
-		else
-			std::cout << this->_target << " fail the robotomize" << std::endl;
-  } else {
-    throw AForm::GradeTooLowException();
-  }
+  AForm::isExecutable(executor);
+  std::cout << "ZZZZZZzzzzzzzz....." << std::endl;
+  if (std::rand() % 2 == 0)
+    std::cout << this->_target << " has been robotomized" << std::endl;
+  else
+    std::cout << this->_target << " fail the robotomize" << std::endl;
 }

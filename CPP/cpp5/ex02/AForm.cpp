@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:53:05 by salman            #+#    #+#             */
-/*   Updated: 2026/04/22 12:36:04 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/05/05 14:16:37 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ AForm::AForm(void)
 
 AForm::AForm(std::string name, int gradeRToS, int gradeRToE)
     : _name(name), _isSigned(false), _gradeRequiredToSign(gradeRToS),
-      _gradeRequiredToEx(gradeRToE) {}
+      _gradeRequiredToEx(gradeRToE) {
+        if (gradeRToS < 1 || gradeRToE < 1)
+          throw AForm::GradeTooHighException();
+        else if (gradeRToS > 150 || gradeRToE > 150)
+          throw AForm::GradeTooLowException();
+}
 
 AForm::AForm(const AForm &src)
     : _name(src.getName()), _isSigned(src.getIsSigned()),

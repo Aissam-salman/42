@@ -6,7 +6,7 @@
 /*   By: alamjada <alamjada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:54:14 by salman            #+#    #+#             */
-/*   Updated: 2026/04/22 12:52:05 by alamjada         ###   ########.fr       */
+/*   Updated: 2026/05/05 14:28:51 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int main(void) {
   try {
     Form c = Form("c", 1, 12);
 
-    Bureaucrat e("pigeon", 3); // change grade here
+    Bureaucrat e("pigeon", 120); // change grade here
     c.beSigned(e);
   } catch (Form::GradeTooLowException &e) {
     std::cout << "other way: " << e.what() << std::endl;
