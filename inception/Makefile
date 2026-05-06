@@ -12,8 +12,8 @@ stop:
 
 clean:
 	docker compose -f ./srcs/docker-compose.yml down -v
-	sudo rm -rf /home/salman/data/*
-	sudo rm -rf /home/salman/data
+	rm -rf /home/salman/data/*
+	rm -rf /home/salman/data
 
 
 

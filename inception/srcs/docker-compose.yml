@@ -56,13 +56,13 @@ volumes:
     driver_opts:
       type: none
       o: bind  # use folder exist in host
-      device: "${HOME}/data/wordpress"
+      device: "${HOMEP}/data/wordpress"
   mariadb:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: "${HOME}/data/mariadb"
+      device: "${HOMEP}/data/mariadb"
 networks:
   inceptions:
     driver: bridge
