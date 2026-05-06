@@ -150,6 +150,6 @@ echo -e "----------------\n"
 echo -e "----------------\n"
 
 
-echo "char deguise"
+echo "CHAR DEGUISE"
 ./convert_scalar 'a'
 echo -e "----------------\n"
