@@ -14,13 +14,11 @@
 #define ITER_HPP
 
 #include <cstddef>
-#include <string>
 #include <iostream>
+#include <string>
 
-
-template <typename T>
-void print(T const &val) {
-	std::cout << val << std::endl;
+template <typename T> void print(T const &val) {
+  std::cout << val << std::endl;
 }
 
 template <typename T, typename F>
@@ -30,7 +28,4 @@ void iter(T *arr, size_t const lengthArr, F callback) {
   }
 }
 
-
 #endif
-
-
