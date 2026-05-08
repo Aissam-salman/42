@@ -23,9 +23,9 @@ Span::Span(void) : _N(0), _size(0) {}
 Span::Span(unsigned int n) : _N(n), _size(0) {}
 
 Span::Span(std::vector<int>::iterator begin, std::vector<int>::iterator end) {
-	this->_span.assign(begin, end);
-	this->_N = std::distance(begin, end);
-	this->_size = std::distance(begin, end);
+  this->_span.assign(begin, end);
+  this->_N = std::distance(begin, end);
+  this->_size = std::distance(begin, end);
 }
 
 Span::Span(const Span &src) : _N(src._N), _size(src._size) {
@@ -52,7 +52,7 @@ Span &Span::operator=(const Span &rhs) {
   return *this;
 }
 
-Span::~Span() { this->_span.clear(); }
+Span::~Span() {}
 
 void Span::print(void) {
   std::vector<int>::iterator it = this->_span.begin();
@@ -81,7 +81,7 @@ int Span::shortestSpan(void) {
   Span cp = Span(*this);
   std::sort(cp._span.begin(), cp._span.end());
 
-  int min = INT_MAX - 1;
+  int min = INT_MAX;
   for (size_t i = 0; i < cp._size - 1; i++) {
     int res = cp._span[i + 1] - cp._span[i];
     if (res < min)

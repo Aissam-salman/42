@@ -40,13 +40,13 @@ int main()  {
 		sp.print();
 		std::cout << sp.shortestSpan() << std::endl;
 		std::cout << sp.longestSpan() << std::endl;
-		sp.print();
 
 
 		std::vector<int> s(100000);
 		std::generate(s.begin(), s.end(), Incr());
 		
 		Span ra = Span(s.begin(), s.end());
+
 		std::cout << ra.shortestSpan() << std::endl;
 		std::cout << ra.longestSpan() << std::endl;
 		

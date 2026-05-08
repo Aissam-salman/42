@@ -19,7 +19,6 @@
 #include <iterator>
 
 template <typename T> int easyfind(T &container, int const needle) {
-
   typename T::iterator it =
       std::find(container.begin(), container.end(), needle);
   if (it != container.end())
