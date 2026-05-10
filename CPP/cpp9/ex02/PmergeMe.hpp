@@ -61,6 +61,13 @@ private:
   bool isSorted(void);
   std::vector<int> mergeInsertV(std::vector<int> &lst);
   std::deque<int> mergeInsertD(std::deque<int> &lst);
+	static bool onlyDigit(std::string const &item);
+	static double getTime(void);
+	static std::vector<int> jacobsthal(const int &n);
+	static std::vector<int> generateOrder(const int &loserLen);
+	static int findPairsOfLower(std::vector<std::pair<int, int> >::iterator begin,
+                     std::vector<std::pair<int, int> >::iterator end,
+                     const int &val);
 
   /*-----------------------------------------------------------------
    *
