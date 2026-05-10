@@ -30,8 +30,9 @@ RPN::RPN(const RPN &src) : _line(src._line), _size(src._size) {
 
 RPN &RPN::operator=(const RPN &rhs) {
   if (this != &rhs) {
-    while (!this->_c.empty())
-      this->_c.pop();
+		for (size_t i = 0; i < this->_c.size(); i++){
+			this->_c.pop();
+		}
     this->_size = rhs._size;
     this->_c = std::stack<std::string>(rhs._c);
   }
@@ -93,13 +94,17 @@ std::string choiceC(int first, int second, char charset) {
   else if (charset == '-')
     r = first - second;
   else if (charset == '/')
+	{
+		if (second == 0)
+			return (std::string("impossible"));
     r = std::floor(first / second);
+	}
   return toString(r);
 }
 
 void RPN::compute(void) {
-  int second = 0;
-  int first = 0;
+  int second = -1;
+  int first = -1;
   char c = 0;
 
   for (size_t i = 0; i < this->_line.size(); i++) {
@@ -108,14 +113,19 @@ void RPN::compute(void) {
       this->_c.push(&c);
       continue;
     } else if (!std::isspace(this->_line[i]) && inCharset(c)) {
+			if (this->_c.size() < 2)
+			{
+				std::cout << "Error" << std::endl;
+				return;
+			}
       second = std::atoi(this->_c.top().c_str());
       this->_c.pop();
-      first = std::atoi(this->_c.top().c_str());
+			first = std::atoi(this->_c.top().c_str());
       this->_c.pop();
       this->_c.push(choiceC(first, second, this->_line[i]));
     }
   }
-  if (this->_c.size() > 1)
+  if (this->_c.empty() || this->_c.size() > 1)
     std::cout << "Error" << std::endl;
   else
     std::cout << this->_c.top() << std::endl;

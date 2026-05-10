@@ -1,34 +1,3 @@
-Ex00 : BitcoinExchange (btc)
-Ce programme est principalement un exercice de parsing (lecture et vérification minutieuse des données).
-
-Les dates impossibles :
-Que se passe-t-il si tu mets 2001-02-29 ? (2001 n'est pas bissextile).
-Et 2022-13-01 ou 2022-01-32 ?
-Une année négative ou formatée bizarrement : -200-01-01 ou 20-01-01.
-Les erreurs de formatage du fichier d'entrée :
-Des espaces en trop ou manquants autour du | (ex: 2011-01-03|3 ou 2011-01-03  |  3).
-Des lignes vides au milieu du fichier.
-L'en-tête du fichier est-il strictement respecté ? Que faire s'il n'y a pas d'en-tête ?
-Les valeurs numériques :
-Une valeur négative : 2012-01-11 | -1.
-Une valeur trop grande (le sujet précise généralement une limite comme 1000 pour l'input).
-Un texte au lieu d'un nombre : 2012-01-11 | abcd.
-La recherche dans la base (data.csv) :
-Que fait ton programme si la date demandée dans input.txt est antérieure à la toute première date de data.csv ?
-Que fait-il s'il cherche une date qui n'est pas dans le CSV ? Pense à vérifier qu'il prend bien la date inférieure la plus proche (et pas la supérieure).
-Ex01 : RPN (Reverse Polish Notation)
-L'important ici est la gestion de la pile (stack) et la validité de l'expression.
-
-Erreurs de syntaxe :
-Trop d'opérateurs : 1 2 + + (Que se passe-t-il quand tu essaies de dépiler mais qu'il n'y a plus de nombres ?).
-Trop de nombres à la fin : 1 2 3 + (L'opération se termine, mais il reste plus d'un élément dans la pile).
-Caractères invalides :
-La présence de lettres ou de parenthèses : 1 2 + a * ou (1 + 2).
-Des nombres à plusieurs chiffres (si le sujet impose des nombres de 0 à 9 uniquement) : 10 2 +.
-Mathématiques impossibles :
-La division par zéro : 4 0 /.
-Arguments vides ou multiples :
-Que se passe-t-il si tu lances ./RPN "" ou sans arguments ./RPN ?
 Ex02 : PmergeMe
 Ici, on évalue ton implémentation de l'algorithme de Ford-Johnson (Merge-Insert Sort) sur deux conteneurs différents.
 
