@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
+#include <cctype>
 #include <cstddef>
 #include <cstdlib>
 #include <ctime>
@@ -83,6 +84,19 @@ void BitcoinExchange::openData(void) {
   ifs.close();
 }
 
+bool onlyDigit(std::string value) {
+  bool p = false;
+  for (size_t i = 0; i < value.size(); i++) {
+    if (std::isspace(value[i]))
+      continue;
+    else if (!std::isdigit(value[i]) || value[i] != '.') {
+      return false;
+    } else if (value[i] == '.' && p != false)
+      p = true;
+  }
+  return true;
+}
+
 void BitcoinExchange::openAndStore(std::string filename) {
   std::ifstream ifs;
 
@@ -100,23 +114,20 @@ void BitcoinExchange::openAndStore(std::string filename) {
     }
     std::stringstream ss(line);
     std::string item;
-    std::string data;
+    std::string date;
+    std::string err = "";
     float value = 0;
-    int row = 0;
-    while (std::getline(ss, item, ' ')) {
-      if (item.compare("|") == 0)
-        continue;
-      if (row == 0) {
-        data = item;
-        row++;
-      } else {
-        value = strtof(item.c_str(), NULL);
-        row = 0;
-      }
+
+    date = line.substr(0, 10);
+    if (line.find("|") != std::string::npos) {
+      if (!onlyDigit(line.substr(line.find("|") + 1)))
+        err = line.substr(line.find("|") + 1);
+      value = strtof(line.substr(line.find("|") + 1).c_str(), NULL);
     }
-    this->_file.push_back(Row(data, value));
+    this->_file.push_back(Row(date, value, err));
   }
   ifs.close();
+
   try {
     this->openData();
   } catch (BitcoinExchange::ErrorOpenFileException &e) {
@@ -125,9 +136,39 @@ void BitcoinExchange::openAndStore(std::string filename) {
   }
 }
 
+// digit, -,  len > 10
+
+bool isFormat(std::string data) {
+  if (data.length() > 10)
+    return false;
+  int i = 0;
+  while (i < 4) {
+    if (!std::isdigit(data[i]))
+      return false;
+    i++;
+  }
+  if (data[i++] != '-')
+    return false;
+  while (i < 7) {
+    if (!std::isdigit(data[i]))
+      return false;
+    i++;
+  }
+  if (data[i++] != '-')
+    return false;
+  while (i < 10) {
+    if (!std::isdigit(data[i]))
+      return false;
+    i++;
+  }
+  return true;
+}
+
 int checkDate(std::string date) {
   struct tm tm;
   std::setlocale(LC_ALL, NULL);
+  if (!isFormat(date))
+    return 1;
   if (strptime(date.c_str(), "%Y-%m-%d", &tm) == NULL)
     return 1;
   return 0;
@@ -147,6 +188,10 @@ void BitcoinExchange::exchange(void) {
   for (; it != ite; ++it) {
     if (checkDate(it->_date) == 1) {
       std::cout << "Error: bad input => " << it->_date << std::endl;
+      continue;
+    } else if (!it->_value) {
+      std::cout << "Error: bad input => " << it->_date << " -> " << it->_err
+                << std::endl;
       continue;
     }
     int cv = checkValue(it->_value);

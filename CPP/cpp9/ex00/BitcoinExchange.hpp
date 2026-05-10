@@ -38,10 +38,12 @@ public:
 
 	class Row {
 		public:
-			Row(std::string date, float value): _date(date), _value(value){}
+			Row(std::string date, float value): _date(date), _value(value), _err(""){}
+			Row(std::string date, float value, std::string e): _date(date), _value(value), _err(e){}
 
 			std::string _date;
 			float _value;
+			std::string _err;
 	};
 
 private:

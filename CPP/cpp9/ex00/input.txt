@@ -19,9 +19,8 @@ date | value
 
 
 
-//FIX: 
-2011-01-03| 1     // bad input
-2011-01-03|1      // bad input
-2011-01-03  |  1  // bad input   data  | 1
+2011-01-03| 1    
+2011-01-03|1      
+2011-01-03  |  1  
 
-2011-01-04 | abcd  // error: bad input => abcd
+2011-01-04 | abcd
