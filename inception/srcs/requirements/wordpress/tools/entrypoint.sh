@@ -15,6 +15,9 @@ WP_USER=${WORDPRESS_USER:-alamjada}
 WP_USER_PASS=${WORDPRESS_USER_PASS:-passwordComplicat}
 WP_USER_EMAIL=${WORDPRESS_USER_EMAIL:-salman.59560@gmail.com}
 
+
+if [ ! -f /var/www/wordpress/.mountFirst ]; then
+
 cat << EOF > /etc/php/8.4/fpm/pool.d/www.conf
 [www]
 
@@ -30,11 +33,10 @@ pm.min_spare_servers = 1
 pm.max_spare_servers = 30
 EOF
 
-chown -R www-data:www-data /var/www/wordpress
+	chown -R www-data:www-data /var/www/wordpress
 
-cd /var/www/wordpress
+	cd /var/www/wordpress
 
-if [ ! -f /var/www/.mountFirst ]; then
 	mariadb-admin ping --protocol=tcp --host=mariadb -u"$DB_USER" -p"$DB_PASS" --wait > /dev/null
 	echo "Downloading WordPress..."
 	pwd
@@ -70,7 +72,7 @@ if [ ! -f /var/www/.mountFirst ]; then
 
 	fi
 	chmod o+w -R /var/www/wordpress
-	touch /var/www/.mountFirst
+	touch /var/www/wordpress/.mountFirst
 fi
 
 
