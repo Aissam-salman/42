@@ -1,4 +1,6 @@
-buid:
+all: build
+
+build:
 	mkdir -p /home/salman/data
 	mkdir -p /home/salman/data/wordpress
 	mkdir -p /home/salman/data/mariadb
@@ -8,12 +10,13 @@ start:
 	docker compose -f ./srcs/docker-compose.yml up
 
 stop:
-	docker compose -f ./srcs/docker-compose.yml stop	
+	docker compose -f ./srcs/docker-compose.yml stop
 
 clean:
 	docker compose -f ./srcs/docker-compose.yml down -v
 	rm -rf /home/salman/data/*
 	rm -rf /home/salman/data
 
+re: clean build
 
-
+.PHONY: all build start stop clean re
