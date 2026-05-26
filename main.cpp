@@ -115,10 +115,11 @@ int main()
         // DROP <id> - when you are next to your shack and carry items
         cout << "MOVE 0 7 7" << endl;
 
+				// one move par tour 
 				for(int i = 0; i < trees_count; i++) {
 					for(int j = 0; j < trolls_count; j++) {
 						if (troll[i][1] == 0)
-							goBack(trees[i][0], trees[i][1], troll[j][2], troll[j][2], troll[j][0]);
+						
 					}
 				}
     }
