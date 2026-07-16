@@ -6,7 +6,7 @@
 /*   By: salman <salman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 21:38:08 by alamjada          #+#    #+#             */
-/*   Updated: 2026/04/19 12:12:03 by salman           ###   ########.fr       */
+/*   Updated: 2026/06/23 12:06:06 by alamjada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ int main(void) {
     else
       animals[i] = new Dog();
   }
+
+  AA
+
 
   // test deep copy
   Dog d;
