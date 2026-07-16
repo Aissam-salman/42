@@ -6,19 +6,19 @@
 /*   By: salman <alamjada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 13:36:40 by salman            #+#    #+#             */
-/*   Updated: 2026/07/16 13:46:05 by salman           ###   ########.fr       */
+/*   Updated: 2026/07/16 20:11:25 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BSQ4_H
 #define BSQ4_H
 
-#include <sys/types.h>
 #define SUCCESS 0
 #define ERROR 1
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 
 typedef unsigned int ui;
 typedef unsigned short us;
