@@ -1,0 +1,200 @@
+Assignment name  : mini_serv
+Expected files   : mini_serv.c
+Allowed functions: write, close, select, socket, accept, listen, send, recv, bind, strstr, malloc, realloc, free, calloc, bzero, atoi, sprintf, strlen, exit, strcpy, strcat, memset
+--------------------------------------------------------------------------------
+
+Write a program that will listen for client to connect on a certain port on 127.0.0.1 and will let clients to speak with each other
+
+This program will take as first argument the port to bind to
+If no argument is given, it should write in stderr "Wrong number of arguments" followed by a
+ and exit with status 1
+If a System Calls returns an error before the program start accepting connection, it should write in stderr "Fatal error" followed by a
+ and exit with status 1
+If you cant allocate memory it should write in stderr "Fatal error" followed by a
+ and exit with status 1
+
+Your program must be non-blocking but client can be lazy and if they don't read your message you must NOT disconnect them...
+
+Your program must not contains #define preproc
+Your program must only listen to 127.0.0.1
+The fd that you will receive will already be set to make 'recv' or 'send' to block if select hasn't be called before calling them, but will not block otherwise.
+
+When a client connect to the server:
+- the client will be given an id. the first client will receive the id 0 and each new client will received the last client id + 1
+- %d will be replace by this number
+- a message is sent to all the client that was connected to the server: "server: client %d just arrived
+"
+
+clients must be able to send messages to your program.
+- message will only be printable characters, no need to check
+- a single message can contains multiple
+
+- when the server receive a message, it must resend it to all the other client with "client %d: " before every line!
+
+When a client disconnect from the server:
+- a message is sent to all the client that was connected to the server: "server: client %d just left
+"
+
+Memory or fd leaks are forbidden
+
+To help you, you will find the file main.c with the beginning of a server and maybe some useful functions. (Beware this file use forbidden functions or write things that must not be there in your final program)
+
+Warning our tester is expecting that you send the messages as fast as you can. Don't do un-necessary buffer.
+
+Evaluation can be a bit longer than usual...
+
+Hint: you can use nc to test your program
+Hint: you should use nc to test your program
+Hint: To test you can use fcntl(fd, F_SETFL, O_NONBLOCK) but use select and NEVER check EAGAIN (man 2 send)
+
+
+==============================================================================
+=============================================================================
+==============================================================================
+
+// ============================================================
+// 1. STRUCTURE POUR REPRESENTER UN CLIENT
+// ============================================================
+// Il te faut une liste chaînée (ou tableau dynamique) de clients connectés.
+// Chaque client doit stocker :
+//   - son fd
+//   - son id (0, 1, 2...)
+//   - un buffer d'écriture EN ATTENTE (ce qu'on n'a pas encore réussi à send())
+//     -> indispensable pour gérer les clients "lents" sans les déconnecter
+//   - un buffer de LECTURE (ce qu'on a reçu mais qui ne forme pas encore
+//     une ligne complète, càd pas de '\n' à la fin)
+//   - un pointeur vers le client suivant (si liste chaînée)
+//
+// typedef struct s_client {
+//     int fd;
+//     int id;
+//     char *msg_to_send;   // buffer alloué dynamiquement, à envoyer dès que possible
+//     char *pending_read;  // ce qui a été reçu mais pas encore une ligne complète
+//     struct s_client *next;
+// } t_client;
+//
+// + une variable globale pour :
+//     - la liste des clients (t_client *g_clients)
+//     - le prochain id à distribuer (int g_next_id)
+//     - fd_set global à jour à chaque tour de boucle (max_fd aussi)
+
+
+// ============================================================
+// 2. FONCTIONS UTILITAIRES MEMOIRE (interdiction de leak)
+// ============================================================
+// - une fonction pour créer/ajouter un client à la liste (malloc, si échec -> err("Fatal error"))
+// - une fonction pour retirer un client de la liste + close(fd) + free(tout ce qui a été malloc pour lui)
+// - une fonction genre str_join / extract_message équivalente à celles fournies
+//   par le sujet officiel 42 (souvent on a le droit de s'inspirer de la libft
+//   fournie dans les sujets de mini_serv : extract_message(), str_join())
+//   -> gère la concaténation du buffer reçu + détection des '\n'
+
+
+// ============================================================
+// 3. BOUCLE PRINCIPALE (remplace ton "return 0;" actuel)
+// ============================================================
+// while (1)
+// {
+//     // (a) construire les fd_set à chaque itération (obligatoire, select() les modifie)
+//     fd_set read_fds, write_fds;
+//     FD_ZERO(&read_fds);
+//     FD_ZERO(&write_fds);
+//
+//     FD_SET(server_fd, &read_fds);   // on écoute toujours les nouvelles connexions
+//     max_fd = server_fd;
+//
+//     // pour chaque client dans g_clients :
+//     //   - toujours FD_SET(client->fd, &read_fds)  (on veut toujours pouvoir lire)
+//     //   - FD_SET(client->fd, &write_fds) SEULEMENT si client->msg_to_send non vide
+//     //     (pas la peine de checker en écriture si on n'a rien à envoyer)
+//     //   - mettre à jour max_fd si besoin
+//
+//     // (b) appeler select()
+//     if (select(max_fd + 1, &read_fds, &write_fds, NULL, NULL) == -1)
+//         err("Fatal error"); // attention: EINTR peut arriver, à voir si le sujet l'exige,
+//                              // en général sur mini_serv on considère que ça n'arrive pas
+//
+//     // (c) nouvelle connexion ?
+//     if (FD_ISSET(server_fd, &read_fds))
+//     {
+//         // accept() -> nouveau fd client
+//         // fcntl(new_fd, F_SETFL, O_NONBLOCK)  <- IMPORTANT, sinon le nouveau fd
+//         //                                        hérité peut bloquer
+//         // créer un t_client, lui donner g_next_id++, l'ajouter à la liste
+//         // construire le message "server: client %d just arrived\n"
+//         // -> l'ajouter au buffer d'envoi (msg_to_send) de TOUS LES AUTRES clients
+//         //    (pas au nouveau lui-même)
+//     }
+//
+//     // (d) pour chaque client, dans une boucle sécurisée (attention aux
+//     //     suppressions pendant l'itération si liste chaînée -> sauvegarder "next" avant)
+//     // {
+//     //     // --- LECTURE ---
+//     //     if (FD_ISSET(client->fd, &read_fds))
+//     //     {
+//     //         ret = recv(client->fd, buf, BUFSIZE, 0);
+//     //         if (ret <= 0)
+//     //         {
+//     //             // ret == 0  -> déconnexion propre
+//     //             // ret == -1 -> erreur -> traiter comme une déconnexion aussi
+//     //             //   (ne PAS err("Fatal error") ici, ce n'est pas une erreur
+//     //             //    fatale du serveur, juste un client qui part)
+//     //             // -> construire "server: client %d just left\n"
+//     //             // -> l'ajouter au buffer d'envoi de tous les AUTRES clients restants
+//     //             // -> retirer ce client de la liste, close(fd), free() ses buffers
+//     //             continue; // ou goto next, selon ta structure de boucle
+//     //         }
+//     //         // sinon : on a reçu des données
+//     //         // -> les concaténer à client->pending_read (str_join / realloc)
+//     //         // -> extraire toutes les lignes complètes (séparées par '\n')
+//     //         //    tant qu'il y a un '\n' dans pending_read :
+//     //         //        extraire la ligne
+//     //         //        construire "client %d: <ligne>\n"
+//     //         //        l'ajouter au buffer d'envoi de TOUS LES AUTRES clients
+//     //         //        (pas à l'expéditeur lui-même)
+//     //         // -> ce qui reste après le dernier '\n' reste dans pending_read
+//     //         //    (message incomplet, en attente de la suite)
+//     //     }
+//     //
+//     //     // --- ECRITURE ---
+//     //     if (FD_ISSET(client->fd, &write_fds) && client->msg_to_send non vide)
+//     //     {
+//     //         ret = send(client->fd, client->msg_to_send, strlen(...), 0);
+//     //         if (ret == -1)
+//     //         {
+//     //             // même traitement qu'une déconnexion (voir ci-dessus)
+//     //             continue;
+//     //         }
+//     //         // IMPORTANT : send() peut envoyer PARTIELLEMENT le buffer
+//     //         // (tout n'est pas forcément écrit d'un coup)
+//     //         // -> il faut retirer seulement les `ret` premiers octets
+//     //         //    envoyés de client->msg_to_send, garder le reste pour le
+//     //         //    prochain tour de boucle (c'est exactement ça qui permet
+//     //         //    de gérer un client lent sans le déconnecter)
+//     //     }
+//     // }
+// }
+
+
+// ============================================================
+// 4. POINTS DE VIGILANCE / RAPPELS DU SUJET
+// ============================================================
+// - JAMAIS checker errno == EAGAIN après recv/send : select() garantit déjà
+//   que le fd est prêt, donc si erreur -> vraie erreur -> traiter comme déconnexion
+//   (sauf pour le process lui-même : pas de err("Fatal error") pour un recv/send
+//   qui échoue sur UN client après le démarrage, "Fatal error" ne concerne QUE
+//   les erreurs AVANT que le serveur accepte des connexions)
+// - Ne jamais envoyer immédiatement dans recv() -> TOUJOURS passer par le
+//   buffer msg_to_send de chaque destinataire, et le vider via send() dans
+//   la boucle select (sinon tu bloquerais potentiellement le programme)
+// - "Don't do un-necessary buffer" : ne fais PAS un time-out artificiel ou un
+//   batch de plusieurs messages avant d'envoyer, envoie dès que le fd est
+//   writable, tour de boucle par tour de boucle
+// - Fermeture propre à la fin : si tu prévois un cas de sortie propre (pas
+//   demandé explicitement ici mais bonne pratique), il faudrait fermer tous
+//   les fd clients + server_fd + free() toute la liste
+// - fcntl(server_fd, ...) : tu dois le faire APRES avoir vérifié que
+//   create_socket n'a pas échoué (chez toi il est fait avant le check de -1,
+//   à corriger dans l'ordre, même si en pratique create_socket ne "return -1"
+//   jamais puisqu'il appelle err() en interne -> ton check `if (server_fd == -1)`
+//   est en fait mort/inutile, à nettoyer)
