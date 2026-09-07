@@ -6,7 +6,7 @@
 /*   By: salman <alamjada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 11:02:23 by salman            #+#    #+#             */
-/*   Updated: 2026/09/06 15:39:39 by salman           ###   ########.fr       */
+/*   Updated: 2026/09/07 16:08:44 by salman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_client {
 } t_client;
 
 t_client *g_clients = NULL;
-int g_next_id = -1;
+int g_next_id = 0;
 int g_max_fd = 0;
 
 // ============================================================
@@ -209,7 +209,11 @@ int main(int ac, char **av) {
         // --- NOUVELLE CONNEXION ---
         if (FD_ISSET(server_fd, &read_fds)) {
             int new_fd = accept(server_fd, NULL, NULL);
-            if (new_fd >= 0) {
+            // FD_SET sur un fd >= FD_SETSIZE ecrit hors du fd_set : on refuse
+            // la connexion plutot que de corrompre la pile.
+            if (new_fd >= FD_SETSIZE) {
+                close(new_fd);
+            } else if (new_fd >= 0) {
                 t_client *new_client = add_client(new_fd);
                 sprintf(msg, "server: client %d just arrived\n", new_client->id);
                 send_to_all(new_client, msg);
