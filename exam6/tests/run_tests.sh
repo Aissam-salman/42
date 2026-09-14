@@ -25,6 +25,11 @@ warn() { echo "  ${YEL}WARN${RST} $*"; }
 title(){ echo; echo "${BLD}=== $* ===${RST}"; }
 
 SERVER_PID=""
+next_port() {   # la section 5 fait fermer des sockets par le serveur : le port
+                # reste en TIME_WAIT et bind() echouerait (pas de SO_REUSEADDR,
+                # interdit par le sujet). On repart donc sur un port neuf.
+    PORT=$((PORT + 10)); export MS_PORT="$PORT"
+}
 cleanup() {
     [ -n "$SERVER_PID" ] && kill -9 "$SERVER_PID" 2>/dev/null
     return 0
@@ -196,6 +201,7 @@ stop_server
 
 # ---------------------------------------------------------------- 6. charge
 title "6. Test de charge"
+next_port
 start_server || exit 1
 if MS_LOAD_CLIENTS=${MS_LOAD_CLIENTS:-150} MS_LOAD_MSGS=${MS_LOAD_MSGS:-50} \
    python3 "$DIR/driver.py" load; then ok "charge encaissee"; else ko "echec sous charge"; fi
@@ -203,6 +209,7 @@ stop_server
 
 # ---------------------------------------------------------------- 7. valgrind
 title "7. Fuites memoire et fd (valgrind)"
+next_port
 if ! command -v valgrind >/dev/null; then
     warn "valgrind absent, section ignoree"
 else
