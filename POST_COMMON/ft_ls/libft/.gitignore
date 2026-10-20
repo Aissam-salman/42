@@ -1,0 +1,26 @@
+# Fichiers objets
+*.o
+*.a
+libft.a
+
+# Exécutables de test
+a.out
+test
+*.out
+
+# Fichiers système
+.DS_Store
+.vscode/
+.idea/
+
+# Fichiers temporaires
+*~
+*.swp
+*.swo
+.*.swp
+
+# Node modules (si Docsify local)
+node_modules/
+
+# Logs
+*.log

@@ -1,0 +1,19 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wextra",
+      "-Wall",
+      "-Werror",
+      "-Iincludes",
+      "-Ilibft/includes",
+      "-c",
+      "-o",
+      "src/main.o",
+      "src/main.c"
+    ],
+    "directory": "/home/salman/Work/LAB/42/POST_COMMON/ft_ls",
+    "file": "/home/salman/Work/LAB/42/POST_COMMON/ft_ls/src/main.c",
+    "output": "/home/salman/Work/LAB/42/POST_COMMON/ft_ls/src/main.o"
+  }
+]
