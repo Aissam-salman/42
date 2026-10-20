@@ -19,20 +19,35 @@ $(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CCFLAGS) $(CCIFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
-	make -C $(DIR_LIBFT)
+	$(MAKE) -C $(DIR_LIBFT)
 
 %.o: %.c
 	$(CC) $(CCFLAGS) $(CCIFLAGS) -o $@ -c $<
 
-debug:
-	$(CC) $(CCFLAGS) $(CCIFLAGS) $(DEBUG_FLAGS) $(OBJS) -o $(NAME)
+debug: $(LIBFT) $(OBJS)
+	$(CC) $(CCFLAGS) $(CCIFLAGS) $(DEBUG_FLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 clean:
-	@rm -f $(OBJS_ALL)
-	make clean -C $(DIR_LIBFT)
+	@rm -f $(OBJS)
+	$(MAKE) clean -C $(DIR_LIBFT)
 
 fclean: clean
 	@rm -f $(NAME)
-	make fclean -C $(DIR_LIBFT)
+	$(MAKE) fclean -C $(DIR_LIBFT)
 
 re: fclean all
+
+# DOCKER (Fedora, environnement de correction)
+DOCKER_IMAGE = ft_ls-fedora
+DOCKER_RUN = docker run --rm -v "$(CURDIR)":/ft_ls $(DOCKER_IMAGE)
+
+docker-image:
+	docker build -q -t $(DOCKER_IMAGE) .
+
+docker: docker-image
+	$(DOCKER_RUN) make re
+
+docker-shell: docker-image
+	docker run --rm -it -v "$(CURDIR)":/ft_ls $(DOCKER_IMAGE) bash
+
+.PHONY: all clean fclean re debug docker-image docker docker-shell
