@@ -50,4 +50,10 @@ docker: docker-image
 docker-shell: docker-image
 	docker run --rm -it -v "$(CURDIR)":/ft_ls $(DOCKER_IMAGE) bash
 
-.PHONY: all clean fclean re debug docker-image docker docker-shell
+test: $(NAME)
+	@bash tests/compare.sh -v
+
+docker-test: docker-image
+	$(DOCKER_RUN) sh -c "make re && make test"
+
+.PHONY: all clean fclean re debug docker-image docker docker-shell test docker-test
